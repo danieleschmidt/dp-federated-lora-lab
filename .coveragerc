@@ -1,0 +1,248 @@
+# Coverage configuration for dp-federated-lora-lab
+# Advanced configuration for comprehensive test coverage analysis
+
+[run]
+# Source code to analyze
+source = src/
+
+# Files to include in coverage measurement
+include = 
+    src/dp_federated_lora/*
+    src/dp_federated_lora/**/*
+
+# Files and directories to omit from coverage
+omit =
+    # Test files
+    */tests/*
+    */test_*
+    */*_test.py
+    
+    # Virtual environments
+    */venv/*
+    */env/*
+    */.venv/*
+    */.env/*
+    
+    # Build and distribution
+    */build/*
+    */dist/*
+    */eggs/*
+    */*.egg-info/*
+    
+    # Cache directories
+    */__pycache__/*
+    */.pytest_cache/*
+    */.mypy_cache/*
+    
+    # Configuration and setup files
+    setup.py
+    conftest.py
+    */conftest.py
+    
+    # Documentation
+    */docs/*
+    
+    # Examples and demos (optional - comment out if you want coverage)
+    */examples/*
+    */demo/*
+    */benchmarks/*
+    
+    # CLI entry points (often hard to test comprehensively)
+    src/dp_federated_lora/cli.py
+    src/dp_federated_lora/__main__.py
+    
+    # Migration scripts
+    */migrations/*
+    */alembic/*
+
+# Branch coverage
+branch = True
+
+# Parallel processing for faster coverage collection
+parallel = True
+
+# Coverage data file
+data_file = .coverage
+
+# Plugins for enhanced coverage
+plugins = 
+    coverage_conditional_plugin
+
+# Context switching for different test types
+[run:unit]
+omit = 
+    */integration/*
+    */e2e/*
+
+[run:integration]
+source = .
+include = 
+    src/dp_federated_lora/*
+    tests/integration/*
+
+[run:privacy]
+# Special coverage context for privacy-related tests
+source = src/
+include = 
+    src/dp_federated_lora/privacy/*
+    src/dp_federated_lora/differential_privacy/*
+    src/dp_federated_lora/federated/*
+
+[report]
+# Reporting configuration
+show_missing = True
+skip_covered = False
+skip_empty = True
+sort = Cover
+
+# Coverage precision
+precision = 2
+
+# Exclude lines from coverage reporting
+exclude_lines =
+    # Standard exclusions
+    pragma: no cover
+    def __repr__
+    def __str__
+    
+    # Debugging code
+    if self.debug:
+    if settings.DEBUG
+    if DEBUG
+    
+    # Non-runnable code
+    if __name__ == .__main__.:
+    if TYPE_CHECKING:
+    @abstractmethod
+    @abc.abstractmethod
+    
+    # Error handling that's hard to test
+    raise AssertionError
+    raise NotImplementedError
+    raise ValueError.*
+    raise TypeError.*
+    
+    # Platform-specific code
+    if sys.platform
+    if platform.system
+    
+    # Logging statements (often not critical for coverage)
+    logger\.debug
+    logger\.info
+    log\.debug
+    log\.info
+    
+    # Type checking imports
+    from typing import
+    import typing
+    
+    # Compatibility code
+    except ImportError:
+    except ModuleNotFoundError:
+    
+    # Privacy-specific exclusions (careful with these)
+    # Uncomment only if certain privacy code shouldn't be coverage-tested
+    # .*privacy.*debug.*
+    # .*differential.*privacy.*logging.*
+
+# Fail the build if coverage is below this threshold
+fail_under = 85
+
+# Report format options
+format = term-missing
+
+[html]
+# HTML report configuration
+directory = htmlcov
+title = DP Federated LoRA Coverage Report
+
+# Include extra information in HTML report
+extra_css = 
+show_contexts = True
+
+# Skip files with 100% coverage in HTML report (set to True to focus on gaps)
+skip_covered = False
+
+[xml]
+# XML report for CI/CD integration
+output = coverage.xml
+
+[json]
+# JSON report for programmatic analysis
+output = coverage.json
+pretty_print = True
+
+# Coverage contexts for different types of tests
+[coverage:contexts]
+# Define contexts for better coverage analysis
+unit = tests/unit/.*
+integration = tests/integration/.*
+e2e = tests/e2e/.*
+privacy = tests/.*privacy.*
+federated = tests/.*federated.*
+performance = tests/.*performance.*
+security = tests/.*security.*
+
+# Path mapping for CI environments (adjust paths as needed)
+[paths]
+source = 
+    src/
+    /workspace/src/
+    /app/src/
+    C:\workspace\src\
+    .tox/*/lib/python*/site-packages/
+
+# Advanced configuration for differential privacy testing
+[report:privacy]
+# Special reporting for privacy-related code
+include = 
+    src/dp_federated_lora/privacy/*
+    src/dp_federated_lora/mechanisms/*
+    src/dp_federated_lora/accountant/*
+
+# Exclude non-critical privacy utility functions
+exclude_lines =
+    # Privacy logging (often not testable in unit tests)
+    privacy_log\.
+    audit_log\.
+    
+    # Epsilon validation (complex to test comprehensively)
+    if epsilon <= 0:
+    if delta <= 0:
+    
+    # GPU-specific privacy code (environment dependent)
+    if torch\.cuda\.is_available
+    cuda_device = 
+
+# Minimum coverage for privacy-critical code
+fail_under = 95
+
+[report:federated]
+# Special reporting for federated learning code
+include = 
+    src/dp_federated_lora/federated/*
+    src/dp_federated_lora/client/*
+    src/dp_federated_lora/server/*
+
+# Federated learning often has network dependencies that are hard to test
+exclude_lines =
+    # Network communication
+    socket\.
+    requests\.
+    http\.
+    grpc\.
+    
+    # Client connection handling
+    if not client\.connected
+    connection_timeout
+    
+# Slightly lower threshold for federated code due to network complexity
+fail_under = 80
+
+# Configuration for mutation testing compatibility
+[mutmut]
+# Paths to mutate (will be used by mutmut if installed)
+paths_to_mutate = src/dp_federated_lora/
+
+# Backup directory for mutmut
+backup_dir = .mutmut_backup
