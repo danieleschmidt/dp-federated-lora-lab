@@ -1,0 +1,317 @@
+# Mutation Testing Configuration for dp-federated-lora-lab
+# Configuration file for mutmut - mutation testing tool
+
+[tool.mutmut]
+# Paths to mutate - focus on critical code components
+paths_to_mutate = [
+    "src/dp_federated_lora/privacy/",
+    "src/dp_federated_lora/mechanisms/",
+    "src/dp_federated_lora/accountant/",
+    "src/dp_federated_lora/federated/",
+    "src/dp_federated_lora/core/",
+    "src/dp_federated_lora/utils/",
+]
+
+# Backup directory for storing mutated versions
+backup_dir = ".mutmut_backup"
+
+# Runner command - how to run tests
+runner = "python -m pytest tests/ -x --tb=no -q"
+
+# Test command timeout (in seconds)
+test_command_timeout = 300
+
+# Number of parallel workers (adjust based on your system)
+workers = 4
+
+# Paths to exclude from mutation
+paths_to_exclude = [
+    # Test files
+    "tests/",
+    "**/test_*.py",
+    "**/*_test.py",
+    
+    # Configuration files
+    "conftest.py",
+    "**/conftest.py",
+    "setup.py",
+    
+    # CLI and entry points (often contain boilerplate)
+    "src/dp_federated_lora/cli.py",
+    "src/dp_federated_lora/__main__.py",
+    
+    # Documentation
+    "docs/",
+    "examples/",
+    
+    # Build and distribution
+    "build/",
+    "dist/",
+    "*.egg-info/",
+    
+    # Version files
+    "_version.py",
+    "version.py",
+]
+
+# Files to exclude based on patterns
+exclude_patterns = [
+    # Type stubs
+    "*.pyi",
+    
+    # Jupyter notebooks
+    "*.ipynb",
+    
+    # Configuration files
+    "*.ini",
+    "*.cfg",
+    "*.toml",
+    "*.yaml",
+    "*.yml",
+    "*.json",
+    
+    # Documentation
+    "*.md",
+    "*.rst",
+    "*.txt",
+]
+
+# Specific functions/methods to exclude from mutation
+# (these are often logging, debugging, or boilerplate functions)
+exclude_functions = [
+    "__repr__",
+    "__str__",
+    "__init__",
+    "debug",
+    "info", 
+    "warning",
+    "error",
+    "critical",
+    "log",
+    "print_debug",
+    "print_info",
+    "validate_config",
+    "setup_logging",
+]
+
+# Lines containing these patterns will not be mutated
+skip_patterns = [
+    # Logging statements
+    "logger\\.",
+    "log\\.",
+    "print\\(",
+    "pprint\\(",
+    
+    # Assertions and type checks
+    "assert ",
+    "isinstance\\(",
+    "type\\(",
+    
+    # Import statements
+    "^import ",
+    "^from .* import",
+    
+    # Exception handling
+    "raise ",
+    "except ",
+    
+    # Constants and configuration
+    "^[A-Z_][A-Z0-9_]*\\s*=",
+    
+    # Comments and docstrings
+    "^\\s*#",
+    '"""',
+    "'''",
+    
+    # Type annotations
+    "-> ",
+    ": List\\[",
+    ": Dict\\[",
+    ": Optional\\[",
+    ": Union\\[",
+    
+    # Privacy-specific patterns that should be carefully tested
+    # (uncomment cautiously - privacy code should generally be mutation tested)
+    # "epsilon",
+    # "delta", 
+    # "privacy_budget",
+    # "differential_privacy",
+]
+
+# Mutation operators to use
+# Available operators: ArithmeticOperatorReplacement, ComparisonOperatorReplacement,
+# LogicalOperatorReplacement, BooleanReplacementOperator, etc.
+operators = [
+    "ArithmeticOperatorReplacement",     # +, -, *, /, %
+    "ComparisonOperatorReplacement",     # ==, !=, <, >, <=, >=
+    "LogicalOperatorReplacement",        # and, or
+    "BooleanReplacementOperator",        # True, False
+    "NumberReplacementOperator",         # numeric literals
+    "StringReplacementOperator",         # string literals
+]
+
+# Operators to exclude (if certain mutations are too noisy)
+exclude_operators = [
+    # Uncomment if these create too many false positives
+    # "StringReplacementOperator",  # Often creates many irrelevant mutations
+    # "NumberReplacementOperator",  # Can be noisy for constants
+]
+
+# Priority testing - focus on high-priority files first
+priority_files = [
+    # Core privacy mechanisms (highest priority)
+    "src/dp_federated_lora/privacy/mechanisms.py",
+    "src/dp_federated_lora/privacy/accountant.py",
+    "src/dp_federated_lora/privacy/budget.py",
+    
+    # Differential privacy implementations
+    "src/dp_federated_lora/mechanisms/gaussian.py",
+    "src/dp_federated_lora/mechanisms/laplace.py",
+    "src/dp_federated_lora/mechanisms/exponential.py",
+    
+    # Federated learning core
+    "src/dp_federated_lora/federated/aggregation.py",
+    "src/dp_federated_lora/federated/client.py",
+    "src/dp_federated_lora/federated/server.py",
+    
+    # LoRA implementations
+    "src/dp_federated_lora/lora/adapter.py",
+    "src/dp_federated_lora/lora/utils.py",
+]
+
+# Test selection strategies
+test_selection = "auto"  # Options: auto, all, changed, priority
+
+# Minimum test coverage required before mutation testing
+min_coverage_threshold = 80.0
+
+# Maximum number of mutations to generate (0 = unlimited)
+max_mutations = 1000
+
+# Stop after this many surviving mutants (0 = test all)
+max_surviving_mutants = 50
+
+# Cache results to speed up repeated runs
+use_cache = true
+cache_dir = ".mutmut_cache"
+
+# Reporting configuration
+report_format = "html"  # Options: text, html, json, xml
+report_dir = "mutmut_reports"
+
+# HTML report customization
+html_report_title = "DP Federated LoRA Mutation Testing Report"
+html_report_description = """
+Mutation testing results for the Differential Privacy Federated LoRA laboratory.
+
+This report shows the effectiveness of our test suite in detecting introduced bugs
+(mutations) in critical privacy-preserving and federated learning code.
+
+Focus areas:
+- Privacy mechanisms and budget accounting
+- Differential privacy implementations  
+- Federated aggregation algorithms
+- LoRA adapter implementations
+
+A high mutation score indicates robust test coverage that can detect subtle bugs.
+"""
+
+# Advanced configuration
+[tool.mutmut.advanced]
+# Custom mutation filters
+custom_mutation_filters = [
+    # Privacy-specific filters
+    {
+        pattern = "epsilon\\s*[<>=!]+\\s*0",
+        replacement = "# SKIP: Privacy parameter validation",
+        reason = "Privacy parameter bounds are critical"
+    },
+    
+    {
+        pattern = "delta\\s*[<>=!]+\\s*0", 
+        replacement = "# SKIP: Privacy parameter validation",
+        reason = "Privacy parameter bounds are critical"
+    },
+    
+    # Federated learning filters
+    {
+        pattern = "num_clients\\s*[<>=!]+\\s*[0-9]+",
+        replacement = "# SKIP: Client count validation", 
+        reason = "Client validation logic is environment-dependent"
+    },
+]
+
+# Specialized test commands for different components
+component_test_commands = {
+    "privacy" = "python -m pytest tests/test_privacy/ -x --tb=no -q",
+    "federated" = "python -m pytest tests/test_federated/ -x --tb=no -q", 
+    "mechanisms" = "python -m pytest tests/test_mechanisms/ -x --tb=no -q",
+    "lora" = "python -m pytest tests/test_lora/ -x --tb=no -q",
+}
+
+# Performance optimization
+[tool.mutmut.performance]
+# Skip mutations that are likely to timeout
+skip_slow_mutations = true
+
+# Skip mutations in files that rarely change
+skip_stable_files = true
+
+# Parallel execution settings
+max_parallel_workers = 4
+worker_memory_limit = "2GB"
+worker_timeout = 300
+
+# Integration with other tools
+[tool.mutmut.integration]
+# Coverage integration
+coverage_file = ".coverage"
+min_line_coverage = 85.0
+min_branch_coverage = 80.0
+
+# CI/CD integration
+ci_mode = false  # Set to true in CI environments
+ci_max_time = 1800  # Maximum time for CI runs (30 minutes)
+ci_fail_fast = true  # Stop on first failure in CI
+
+# Reporting integration
+upload_results = false  # Set to true to upload results to external service
+results_api_endpoint = ""  # API endpoint for results upload
+
+# Quality gates
+[tool.mutmut.quality_gates]
+# Minimum mutation score to pass
+min_mutation_score = 75.0
+
+# Maximum number of surviving mutants allowed
+max_surviving_mutants_allowed = 20
+
+# Component-specific thresholds
+component_thresholds = {
+    "privacy" = 90.0,      # Privacy code should have very high mutation score
+    "mechanisms" = 90.0,   # DP mechanisms are critical
+    "federated" = 80.0,    # Federated code has network complexity
+    "lora" = 75.0,         # LoRA adapters can be more flexible
+    "utils" = 70.0,        # Utility code is less critical
+}
+
+# Exclude patterns for quality gates
+exclude_from_quality_gates = [
+    "*/cli.py",
+    "*/examples/*", 
+    "*/benchmarks/*",
+    "*/_version.py",
+]
+
+# Documentation and examples
+[tool.mutmut.docs]
+# Generate documentation for mutations
+generate_mutation_docs = true
+docs_output_dir = "docs/mutation_testing"
+
+# Include examples of mutations in documentation
+include_mutation_examples = true
+
+# Generate summary statistics
+generate_statistics = true
+statistics_output = "mutation_statistics.json"

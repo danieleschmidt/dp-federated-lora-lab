@@ -1,0 +1,432 @@
+version: '3.8'
+
+# Docker Compose configuration for dp-federated-lora-lab
+# Supports development, testing, and production environments
+
+services:
+  # Main application service
+  dp-federated-lora:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        PYTHON_VERSION: 3.10
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VCS_REF: ${VCS_REF:-$(git rev-parse HEAD)}
+        VERSION: ${VERSION:-dev}
+    image: dp-federated-lora:dev
+    container_name: dp-federated-lora-dev
+    hostname: dp-federated-lora-dev
+    restart: unless-stopped
+    
+    # Environment variables
+    environment:
+      - PYTHONPATH=/workspace
+      - APP_ENV=development
+      - LOG_LEVEL=DEBUG
+      - CUDA_VISIBLE_DEVICES=all
+      - WANDB_MODE=${WANDB_MODE:-online}
+      - WANDB_API_KEY=${WANDB_API_KEY}
+      
+    # Volume mounts
+    volumes:
+      # Source code (for development)
+      - .:/workspace:cached
+      # Data persistence
+      - dp_data:/workspace/data
+      - dp_models:/workspace/models
+      - dp_outputs:/workspace/outputs
+      - dp_logs:/workspace/logs
+      # Jupyter notebooks
+      - dp_notebooks:/workspace/notebooks
+      # Cache directories
+      - dp_cache:/root/.cache
+      - dp_pip_cache:/root/.cache/pip
+      # GPU access
+      - /dev/shm:/dev/shm
+    
+    # Port mappings
+    ports:
+      - "8000:8000"    # FastAPI/web service
+      - "8888:8888"    # Jupyter Lab
+      - "6006:6006"    # TensorBoard
+      - "8050:8050"    # Dash/Plotly apps
+    
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+        reservations:
+          memory: 8G
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python", "-c", "import dp_federated_lora; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    # Dependencies
+    depends_on:
+      - redis
+      - postgres
+      - monitoring
+    
+    # Networks
+    networks:
+      - dp_network
+      - monitoring_network
+    
+    # Command override for development
+    command: >
+      bash -c "
+        echo 'Starting development environment...' &&
+        pip install -e '.[dev,docs,benchmark]' &&
+        echo 'Development environment ready!' &&
+        tail -f /dev/null
+      "
+
+  # Redis for caching and task queues
+  redis:
+    image: redis:7-alpine
+    container_name: dp-redis
+    hostname: dp-redis
+    restart: unless-stopped
+    
+    command: redis-server --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+    
+    volumes:
+      - dp_redis:/data
+    
+    ports:
+      - "6379:6379"
+    
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    
+    networks:
+      - dp_network
+
+  # PostgreSQL for metadata and experiment tracking
+  postgres:
+    image: postgres:15-alpine
+    container_name: dp-postgres
+    hostname: dp-postgres
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_DB: dp_federated_lora
+      POSTGRES_USER: ${POSTGRES_USER:-dpuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dppassword}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    
+    volumes:
+      - dp_postgres:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    
+    ports:
+      - "5432:5432"
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dpuser} -d dp_federated_lora"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    
+    networks:
+      - dp_network
+
+  # Jupyter Lab service
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: dp-federated-lora:dev
+    container_name: dp-jupyter
+    hostname: dp-jupyter
+    restart: unless-stopped
+    
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN:-dp-federated-lora}
+      
+    volumes:
+      - .:/workspace:cached
+      - dp_notebooks:/workspace/notebooks
+      - dp_data:/workspace/data
+      - dp_models:/workspace/models
+    
+    ports:
+      - "8888:8888"
+    
+    command: >
+      bash -c "
+        pip install -e '.[dev,docs,benchmark]' &&
+        jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+        --NotebookApp.token='${JUPYTER_TOKEN:-dp-federated-lora}'
+        --NotebookApp.password=''
+      "
+    
+    depends_on:
+      - dp-federated-lora
+    
+    networks:
+      - dp_network
+      - monitoring_network
+
+  # TensorBoard for experiment visualization
+  tensorboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: dp-federated-lora:dev
+    container_name: dp-tensorboard
+    hostname: dp-tensorboard
+    restart: unless-stopped
+    
+    volumes:
+      - dp_logs:/workspace/logs
+      - dp_outputs:/workspace/outputs
+    
+    ports:
+      - "6006:6006"
+    
+    command: tensorboard --logdir=/workspace/logs --host=0.0.0.0 --port=6006
+    
+    networks:
+      - dp_network
+      - monitoring_network
+
+  # Monitoring stack
+  monitoring:
+    image: prom/prometheus:latest
+    container_name: dp-prometheus
+    hostname: dp-prometheus
+    restart: unless-stopped
+    
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - dp_prometheus:/prometheus
+    
+    ports:
+      - "9090:9090"
+    
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    
+    networks:
+      - monitoring_network
+
+  # Grafana for dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: dp-grafana
+    hostname: dp-grafana
+    restart: unless-stopped
+    
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: false
+    
+    volumes:
+      - dp_grafana:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    
+    ports:
+      - "3000:3000"
+    
+    depends_on:
+      - monitoring
+    
+    networks:
+      - monitoring_network
+
+  # Node exporter for system metrics
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: dp-node-exporter
+    hostname: dp-node-exporter
+    restart: unless-stopped
+    
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    
+    ports:
+      - "9100:9100"
+    
+    networks:
+      - monitoring_network
+
+  # GPU monitoring (if NVIDIA GPUs available)
+  gpu-exporter:
+    image: mindprince/nvidia_gpu_prometheus_exporter:0.1
+    container_name: dp-gpu-exporter
+    hostname: dp-gpu-exporter
+    restart: unless-stopped
+    
+    volumes:
+      - /usr/lib/nvidia-384:/usr/lib/nvidia-384:ro
+      - /usr/lib/nvidia-390:/usr/lib/nvidia-390:ro
+      - /usr/lib/nvidia-410:/usr/lib/nvidia-410:ro
+    
+    ports:
+      - "9445:9445"
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    networks:
+      - monitoring_network
+    
+    profiles:
+      - gpu
+
+  # Testing service
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: dp-federated-lora:dev
+    container_name: dp-test-runner
+    hostname: dp-test-runner
+    
+    environment:
+      - PYTHONPATH=/workspace
+      - APP_ENV=testing
+      - LOG_LEVEL=DEBUG
+    
+    volumes:
+      - .:/workspace:cached
+      - dp_test_cache:/workspace/.pytest_cache
+    
+    command: >
+      bash -c "
+        pip install -e '.[dev]' &&
+        pytest tests/ -v --cov=src --cov-report=html --cov-report=term-missing
+      "
+    
+    depends_on:
+      - redis
+      - postgres
+    
+    networks:
+      - dp_network
+    
+    profiles:
+      - testing
+
+  # Security scanning service
+  security-scanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    image: dp-federated-lora:dev
+    container_name: dp-security-scanner
+    hostname: dp-security-scanner
+    
+    volumes:
+      - .:/workspace:cached
+      - dp_security_reports:/workspace/security-reports
+    
+    command: >
+      bash -c "
+        pip install -e '.[dev]' &&
+        mkdir -p security-reports &&
+        echo 'Running security scans...' &&
+        bandit -r src/ -f json -o security-reports/bandit-report.json &&
+        safety check --json --output security-reports/safety-report.json &&
+        echo 'Security scans completed. Reports saved to security-reports/'
+      "
+    
+    networks:
+      - dp_network
+    
+    profiles:
+      - security
+
+# Named volumes for data persistence
+volumes:
+  dp_data:
+    driver: local
+  dp_models:
+    driver: local
+  dp_outputs:
+    driver: local
+  dp_logs:
+    driver: local
+  dp_notebooks:
+    driver: local
+  dp_cache:
+    driver: local
+  dp_pip_cache:
+    driver: local
+  dp_redis:
+    driver: local
+  dp_postgres:
+    driver: local
+  dp_prometheus:
+    driver: local
+  dp_grafana:
+    driver: local
+  dp_test_cache:
+    driver: local
+  dp_security_reports:
+    driver: local
+
+# Networks
+networks:
+  dp_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+  
+  monitoring_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+# Docker Compose profiles for different use cases:
+# - Default: dp-federated-lora, redis, postgres, monitoring stack
+# - GPU: Include GPU monitoring
+# - Testing: Include test runner
+# - Security: Include security scanner
+# 
+# Usage examples:
+# docker-compose up -d                          # Default development environment
+# docker-compose --profile gpu up -d            # With GPU monitoring
+# docker-compose --profile testing up test-runner  # Run tests
+# docker-compose --profile security up security-scanner  # Security scan

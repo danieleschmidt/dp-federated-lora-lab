@@ -1,0 +1,421 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  PYTHON_VERSION: "3.10"
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write  # For OIDC signing
+
+jobs:
+  # Validate release conditions
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      is_prerelease: ${{ steps.version.outputs.is_prerelease }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Determine version
+      id: version
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          VERSION="${{ github.event.inputs.version }}"
+          IS_PRERELEASE="${{ github.event.inputs.prerelease }}"
+        else
+          VERSION="${GITHUB_REF#refs/tags/}"
+          # Check if it's a pre-release (contains alpha, beta, rc)
+          if [[ "$VERSION" =~ (alpha|beta|rc) ]]; then
+            IS_PRERELEASE="true"
+          else
+            IS_PRERELEASE="false"
+          fi
+        fi
+        
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "is_prerelease=$IS_PRERELEASE" >> $GITHUB_OUTPUT
+        echo "Release version: $VERSION (prerelease: $IS_PRERELEASE)"
+    
+    - name: Validate version format
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+(\.[0-9]+)?)?$ ]]; then
+          echo "❌ Invalid version format: $VERSION"
+          echo "Expected format: v1.2.3, v1.2.3-alpha.1, v1.2.3-beta.2, v1.2.3-rc.1"
+          exit 1
+        fi
+        echo "✅ Version format is valid: $VERSION"
+    
+    - name: Check if tag exists (for manual releases)
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        VERSION="${{ steps.version.outputs.version }}"
+        if git rev-parse "$VERSION" >/dev/null 2>&1; then
+          echo "❌ Tag $VERSION already exists"
+          exit 1
+        fi
+        echo "✅ Tag $VERSION does not exist"
+
+  # Run comprehensive tests before release
+  test:
+    name: Pre-Release Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: validate
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev,benchmark]"
+    
+    - name: Run full test suite
+      run: |
+        pytest tests/ -v \
+          --cov=src \
+          --cov-report=xml \
+          --cov-report=term-missing \
+          --junitxml=test-results.xml \
+          --timeout=300
+    
+    - name: Check test coverage threshold
+      run: |
+        COVERAGE=$(python -c "
+        import xml.etree.ElementTree as ET
+        tree = ET.parse('coverage.xml')
+        root = tree.getroot()
+        coverage = float(root.attrib['line-rate']) * 100
+        print(f'{coverage:.1f}')
+        ")
+        
+        echo "Test coverage: ${COVERAGE}%"
+        
+        if (( $(echo "$COVERAGE < 80.0" | bc -l) )); then
+          echo "❌ Test coverage ($COVERAGE%) is below required threshold (80%)"
+          exit 1
+        fi
+        echo "✅ Test coverage ($COVERAGE%) meets threshold"
+    
+    - name: Run security checks
+      run: |
+        bandit -r src/ -f json -o bandit-report.json
+        safety check
+    
+    - name: Validate package build
+      run: |
+        python -m build
+        twine check dist/*
+
+  # Build and publish Python package
+  build-python:
+    name: Build & Publish Python Package
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [validate, test]
+    environment: release
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+    
+    - name: Update version in pyproject.toml
+      run: |
+        VERSION="${{ needs.validate.outputs.version }}"
+        # Remove 'v' prefix for Python version
+        PYTHON_VERSION=${VERSION#v}
+        
+        # Update version in pyproject.toml
+        sed -i "s/version = \".*\"/version = \"$PYTHON_VERSION\"/" pyproject.toml
+        
+        echo "Updated version to: $PYTHON_VERSION"
+        grep "version = " pyproject.toml
+    
+    - name: Build package
+      run: |
+        python -m build
+        ls -la dist/
+    
+    - name: Publish to Test PyPI
+      if: needs.validate.outputs.is_prerelease == 'true'
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
+      run: |
+        twine upload --repository testpypi dist/* --verbose
+    
+    - name: Publish to PyPI
+      if: needs.validate.outputs.is_prerelease == 'false'
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        twine upload dist/* --verbose
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-package
+        path: dist/
+        retention-days: 90
+
+  # Build and publish Docker image
+  build-docker:
+    name: Build & Publish Docker Image
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [validate, test]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        tags: |
+          type=ref,event=tag
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
+          type=raw,value=latest,enable={{is_default_branch}}
+    
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        platforms: linux/amd64,linux/arm64
+        build-args: |
+          VERSION=${{ needs.validate.outputs.version }}
+          BUILD_DATE=${{ github.event.head_commit.timestamp }}
+          VCS_REF=${{ github.sha }}
+
+  # Generate release notes and changelog
+  changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: validate
+    outputs:
+      changelog: ${{ steps.changelog.outputs.changelog }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Generate changelog
+      id: changelog
+      run: |
+        VERSION="${{ needs.validate.outputs.version }}"
+        
+        # Get previous tag
+        PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        
+        if [[ -z "$PREVIOUS_TAG" ]]; then
+          echo "No previous tag found, generating full changelog"
+          COMMIT_RANGE="HEAD"
+        else
+          echo "Previous tag: $PREVIOUS_TAG"
+          COMMIT_RANGE="${PREVIOUS_TAG}..HEAD"
+        fi
+        
+        # Generate changelog
+        CHANGELOG=$(cat <<EOF
+        ## What's Changed
+        
+        $(git log $COMMIT_RANGE --pretty=format:"- %s (%h)" --reverse | grep -E "(feat|fix|docs|style|refactor|perf|test|chore|ci|build)" | head -50)
+        
+        ## 🔒 Security & Privacy
+        
+        $(git log $COMMIT_RANGE --pretty=format:"- %s (%h)" --reverse | grep -iE "(security|privacy|vulnerability|audit)" | head -10)
+        
+        ## 🚀 ML/DP Features
+        
+        $(git log $COMMIT_RANGE --pretty=format:"- %s (%h)" --reverse | grep -iE "(differential|privacy|federated|model|training|lora)" | head -10)
+        
+        ## Contributors
+        
+        $(git log $COMMIT_RANGE --pretty=format:"- @%an" | sort | uniq | head -10)
+        
+        **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREVIOUS_TAG}...${VERSION}
+        EOF
+        )
+        
+        # Save changelog to file and output
+        echo "$CHANGELOG" > changelog.md
+        
+        # Escape newlines for GitHub output
+        CHANGELOG_ESCAPED=$(echo "$CHANGELOG" | sed ':a;N;$!ba;s/\n/%0A/g')
+        echo "changelog=$CHANGELOG_ESCAPED" >> $GITHUB_OUTPUT
+
+  # Create GitHub release
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [validate, test, build-python, build-docker, changelog]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: python-package
+        path: dist/
+    
+    - name: Create/Update tag (for manual releases)
+      if: github.event_name == 'workflow_dispatch'
+      run: |
+        VERSION="${{ needs.validate.outputs.version }}"
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git tag -a "$VERSION" -m "Release $VERSION"
+        git push origin "$VERSION"
+    
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      id: create_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ needs.validate.outputs.version }}
+        release_name: Release ${{ needs.validate.outputs.version }}
+        body: ${{ needs.changelog.outputs.changelog }}
+        draft: false
+        prerelease: ${{ needs.validate.outputs.is_prerelease == 'true' }}
+    
+    - name: Upload Python package to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/dp_federated_lora_lab-${{ needs.validate.outputs.version }}.tar.gz
+        asset_name: dp_federated_lora_lab-${{ needs.validate.outputs.version }}.tar.gz
+        asset_content_type: application/gzip
+      continue-on-error: true
+    
+    - name: Upload wheel to release
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/dp_federated_lora_lab-${{ needs.validate.outputs.version }}-py3-none-any.whl
+        asset_name: dp_federated_lora_lab-${{ needs.validate.outputs.version }}-py3-none-any.whl
+        asset_content_type: application/octet-stream
+      continue-on-error: true
+
+  # Post-release notifications and cleanup
+  post-release:
+    name: Post-Release Tasks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [validate, release]
+    if: always() && needs.release.result == 'success'
+    
+    steps:
+    - name: Notify on success
+      run: |
+        echo "🎉 Release ${{ needs.validate.outputs.version }} completed successfully!"
+        echo "📦 Python package published"
+        echo "🐳 Docker image published"
+        echo "📝 GitHub release created"
+    
+    - name: Create follow-up issue for documentation update
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const version = '${{ needs.validate.outputs.version }}';
+          const issue = await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: `📚 Update documentation for ${version}`,
+            body: `
+            ## Post-Release Documentation Update
+            
+            Release ${version} has been published. Please update:
+            
+            - [ ] Update README.md with new version
+            - [ ] Update documentation examples
+            - [ ] Verify all links work correctly
+            - [ ] Update Docker usage examples
+            - [ ] Check API documentation is current
+            - [ ] Update changelog formatting if needed
+            
+            **Release Details:**
+            - Version: ${version}
+            - Type: ${{ needs.validate.outputs.is_prerelease == 'true' && 'Pre-release' || 'Stable' }}
+            - Published: ${new Date().toISOString()}
+            `,
+            labels: ['documentation', 'post-release']
+          });
+          
+          console.log(`Created documentation update issue: #${issue.data.number}`);
+      continue-on-error: true

@@ -1,0 +1,368 @@
+# Prometheus configuration for dp-federated-lora-lab
+# Monitoring configuration for ML privacy applications
+
+global:
+  # How frequently to scrape targets by default
+  scrape_interval: 15s
+  
+  # How long until a scrape request times out
+  scrape_timeout: 10s
+  
+  # How frequently to evaluate rules
+  evaluation_interval: 15s
+  
+  # External labels to add to all metrics
+  external_labels:
+    monitor: 'dp-federated-lora-monitor'
+    environment: 'development'
+    project: 'dp-federated-lora-lab'
+
+# Rule files specifies a list of rule files to load
+rule_files:
+  - "rules/*.yml"
+  - "alerts/*.yml"
+
+# Alerting configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Scrape configuration for different services
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+    scrape_interval: 5s
+    metrics_path: /metrics
+
+  # Main application metrics
+  - job_name: 'dp-federated-lora-app'
+    static_configs:
+      - targets: ['dp-federated-lora:8000']
+    scrape_interval: 10s
+    metrics_path: /metrics
+    honor_labels: true
+    
+    # Custom ML/Privacy metrics
+    metric_relabel_configs:
+      # Privacy budget tracking
+      - source_labels: [__name__]
+        regex: 'privacy_budget_.*'
+        target_label: 'metric_type'
+        replacement: 'privacy'
+      
+      # Federated learning metrics
+      - source_labels: [__name__]
+        regex: 'federated_.*'
+        target_label: 'metric_type'
+        replacement: 'federated'
+      
+      # Model training metrics
+      - source_labels: [__name__]
+        regex: 'training_.*'
+        target_label: 'metric_type'
+        replacement: 'training'
+
+  # Node exporter for system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 15s
+    metrics_path: /metrics
+
+  # GPU metrics (NVIDIA)
+  - job_name: 'gpu-exporter'
+    static_configs:
+      - targets: ['gpu-exporter:9445']
+    scrape_interval: 10s
+    metrics_path: /metrics
+    
+    # Only scrape if GPU monitoring is enabled
+    honor_labels: true
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'nvidia_gpu_.*'
+        target_label: 'device_type'
+        replacement: 'gpu'
+
+  # Redis metrics
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 15s
+    metrics_path: /metrics
+    
+    # Redis exporter configuration
+    params:
+      'module': ['redis']
+
+  # PostgreSQL metrics
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+    scrape_interval: 30s
+    metrics_path: /metrics
+    
+    # PostgreSQL exporter configuration
+    params:
+      'module': ['postgres']
+
+  # Docker container metrics
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['localhost:9323']
+    scrape_interval: 15s
+    metrics_path: /metrics
+
+  # Jupyter notebook metrics (if instrumented)
+  - job_name: 'jupyter'
+    static_configs:
+      - targets: ['jupyter:8888']
+    scrape_interval: 30s
+    metrics_path: /metrics
+    
+    # Optional - only if Jupyter has metrics endpoint
+    honor_labels: true
+
+  # TensorBoard metrics (custom instrumentation)
+  - job_name: 'tensorboard'
+    static_configs:
+      - targets: ['tensorboard:6006']
+    scrape_interval: 30s
+    metrics_path: /metrics
+    
+    # Custom configuration for ML metrics
+    honor_labels: true
+
+  # Privacy-specific monitoring
+  - job_name: 'privacy-monitor'
+    static_configs:
+      - targets: ['dp-federated-lora:8001']  # Custom privacy monitoring endpoint
+    scrape_interval: 5s  # More frequent for privacy metrics
+    metrics_path: /privacy/metrics
+    
+    # Privacy-specific labeling
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 'privacy-monitor:8001'
+    
+    metric_relabel_configs:
+      # Epsilon consumption tracking
+      - source_labels: [__name__]
+        regex: 'epsilon_.*'
+        target_label: 'privacy_parameter'
+        replacement: 'epsilon'
+      
+      # Delta consumption tracking
+      - source_labels: [__name__]
+        regex: 'delta_.*'
+        target_label: 'privacy_parameter'
+        replacement: 'delta'
+      
+      # Noise mechanism metrics
+      - source_labels: [__name__]
+        regex: 'noise_.*'
+        target_label: 'mechanism_type'
+        replacement: 'noise'
+
+  # Federated learning specific monitoring
+  - job_name: 'federated-monitor'
+    static_configs:
+      - targets: ['dp-federated-lora:8002']  # Custom federated monitoring endpoint
+    scrape_interval: 10s
+    metrics_path: /federated/metrics
+    
+    # Federated learning labeling
+    relabel_configs:
+      - source_labels: [client_id]
+        target_label: 'federated_client'
+      - source_labels: [round_number]
+        target_label: 'training_round'
+    
+    metric_relabel_configs:
+      # Client participation metrics
+      - source_labels: [__name__]
+        regex: 'client_.*'
+        target_label: 'component'
+        replacement: 'client'
+      
+      # Server aggregation metrics  
+      - source_labels: [__name__]
+        regex: 'server_.*'
+        target_label: 'component'
+        replacement: 'server'
+      
+      # Round-based metrics
+      - source_labels: [__name__]
+        regex: 'round_.*'
+        target_label: 'component'
+        replacement: 'round'
+
+  # Health check endpoints
+  - job_name: 'health-checks'
+    static_configs:
+      - targets: 
+          - 'dp-federated-lora:8000/health'
+          - 'redis:6379/health'
+          - 'postgres:5432/health'
+    scrape_interval: 10s
+    metrics_path: /health
+    
+    # Health check specific configuration
+    honor_labels: true
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'health_.*'
+        target_label: 'check_type'
+        replacement: 'health'
+
+# Remote write configuration (for long-term storage)
+remote_write:
+  # Configure if using remote storage like Grafana Cloud, AWS, etc.
+  # - url: "https://your-remote-write-endpoint/api/v1/write"
+  #   basic_auth:
+  #     username: "your-username" 
+  #     password: "your-password"
+  #   write_relabel_configs:
+  #     - source_labels: [metric_type]
+  #       regex: 'privacy|federated'
+  #       action: keep
+
+# Storage configuration
+storage:
+  tsdb:
+    # How long to retain raw samples
+    retention.time: 30d
+    
+    # Maximum size of storage
+    retention.size: 10GB
+    
+    # Block ranges for different retention periods
+    min-block-duration: 2h
+    max-block-duration: 25h
+
+# ML/Privacy specific recording rules
+# These create aggregated metrics for common queries
+recording_rules:
+  - name: privacy_budget_rules
+    rules:
+      # Total epsilon consumed across all operations
+      - record: privacy:epsilon_total_consumed
+        expr: sum(epsilon_consumed) by (instance, operation)
+      
+      # Privacy budget remaining
+      - record: privacy:epsilon_remaining
+        expr: privacy_budget_total - privacy:epsilon_total_consumed
+      
+      # Privacy budget utilization rate
+      - record: privacy:budget_utilization_rate
+        expr: (privacy:epsilon_total_consumed / privacy_budget_total) * 100
+
+  - name: federated_learning_rules
+    rules:
+      # Average client participation rate
+      - record: federated:client_participation_rate
+        expr: (sum(clients_active) / sum(clients_total)) * 100
+      
+      # Model convergence rate
+      - record: federated:convergence_rate
+        expr: rate(model_loss_decrease[5m])
+      
+      # Communication efficiency
+      - record: federated:communication_efficiency
+        expr: sum(model_updates_successful) / sum(model_updates_attempted)
+
+  - name: model_training_rules
+    rules:
+      # Training throughput
+      - record: training:samples_per_second
+        expr: rate(training_samples_processed[1m])
+      
+      # GPU utilization
+      - record: training:gpu_utilization_avg
+        expr: avg(nvidia_gpu_utilization_gpu) by (instance)
+      
+      # Memory efficiency
+      - record: training:memory_efficiency
+        expr: (memory_used / memory_total) * 100
+
+# Alert rule configuration
+alerting_rules:
+  - name: privacy_alerts
+    rules:
+      # Privacy budget exhaustion warning
+      - alert: PrivacyBudgetLow
+        expr: privacy:epsilon_remaining < 0.1
+        for: 1m
+        labels:
+          severity: warning
+          component: privacy
+        annotations:
+          summary: "Privacy budget running low"
+          description: "Epsilon remaining: {{ $value }}"
+      
+      # Privacy budget exhausted
+      - alert: PrivacyBudgetExhausted
+        expr: privacy:epsilon_remaining <= 0
+        for: 0m
+        labels:
+          severity: critical
+          component: privacy
+        annotations:
+          summary: "Privacy budget exhausted"
+          description: "No privacy budget remaining for operations"
+
+  - name: federated_alerts
+    rules:
+      # Low client participation
+      - alert: LowClientParticipation
+        expr: federated:client_participation_rate < 50
+        for: 2m
+        labels:
+          severity: warning
+          component: federated
+        annotations:
+          summary: "Low client participation in federated training"
+          description: "Only {{ $value }}% of clients participating"
+      
+      # Model not converging
+      - alert: ModelNotConverging
+        expr: federated:convergence_rate < 0.001
+        for: 10m
+        labels:
+          severity: warning
+          component: training
+        annotations:
+          summary: "Model convergence has stalled"
+          description: "Convergence rate: {{ $value }}"
+
+  - name: system_alerts
+    rules:
+      # High GPU temperature
+      - alert: GPUTemperatureHigh
+        expr: nvidia_gpu_temperature_celsius > 80
+        for: 2m
+        labels:
+          severity: warning
+          component: hardware
+        annotations:
+          summary: "GPU temperature high"
+          description: "GPU temperature: {{ $value }}°C"
+      
+      # Out of memory
+      - alert: HighMemoryUsage
+        expr: training:memory_efficiency > 90
+        for: 1m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Memory usage critical"
+          description: "Memory usage: {{ $value }}%"
