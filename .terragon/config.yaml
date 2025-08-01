@@ -1,0 +1,77 @@
+name: dp-federated-lora-lab
+version: 0.1.0
+type: python-ml-research
+maturity_level: maturing
+created_at: "2025-01-15T10:30:00Z"
+
+# Repository classification
+classification:
+  primary_language: python
+  framework: pytorch
+  domain: ml-privacy-research
+  architecture: federated-learning
+
+# SDLC maturity assessment (0-100)
+maturity_scores:
+  structure: 85
+  testing: 70
+  cicd: 30  # Documentation exists but no actual workflows
+  security: 90
+  documentation: 95
+  monitoring: 60
+  governance: 80
+  automation: 40
+  overall: 65
+
+# Value discovery configuration
+scoring:
+  weights:
+    wsjf: 0.6
+    ice: 0.1
+    technicalDebt: 0.2
+    security: 0.1
+  
+  thresholds:
+    minScore: 10
+    maxRisk: 0.8
+    securityBoost: 2.0
+    complianceBoost: 1.8
+
+discovery:
+  sources:
+    - gitHistory
+    - staticAnalysis
+    - issueTrackers
+    - vulnerabilityDatabases
+    - performanceMonitoring
+  
+  tools:
+    staticAnalysis:
+      - ruff
+      - mypy
+      - bandit
+    security:
+      - safety
+      - bandit
+    testing:
+      - pytest
+      - pytest-cov
+      - mutmut
+
+execution:
+  maxConcurrentTasks: 1
+  testRequirements:
+    minCoverage: 80
+    performanceRegression: 5
+  rollbackTriggers:
+    - testFailure
+    - buildFailure
+    - securityViolation
+
+# Enhancement priorities based on maturity
+enhancement_priorities:
+  - mutation_testing_setup
+  - github_actions_implementation
+  - advanced_security_scanning
+  - value_discovery_automation
+  - performance_benchmarking
