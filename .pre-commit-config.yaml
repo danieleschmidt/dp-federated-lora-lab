@@ -76,6 +76,25 @@ repos:
         types_or: [yaml, json, markdown]
         exclude: ^(\.github/|docs/_build/)
 
+  # Local autonomous hooks
+  - repo: local
+    hooks:
+      - id: terragon-value-discovery
+        name: Terragon Value Discovery
+        entry: python .terragon/value-discovery.py
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+        verbose: true
+      
+      - id: pytest-fast
+        name: Fast Tests
+        entry: python -m pytest tests/ -x --tb=short -q --maxfail=3
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+        verbose: true
+
 ci:
   autofix_commit_msg: |
     [pre-commit.ci] auto fixes from pre-commit.com hooks
@@ -85,5 +104,5 @@ ci:
   autoupdate_branch: ''
   autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
   autoupdate_schedule: weekly
-  skip: [mypy, bandit]  # Skip expensive checks in CI
+  skip: [mypy, bandit, terragon-value-discovery, pytest-fast]  # Skip expensive checks in CI
   submodules: false
