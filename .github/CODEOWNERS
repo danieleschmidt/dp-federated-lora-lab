@@ -1,0 +1,83 @@
+# CODEOWNERS file for dp-federated-lora-lab
+# This file defines individuals or teams that are responsible for code in this repository
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners - these users will be requested for review when any file is changed
+* @danieleschmidt
+
+# Documentation
+*.md @danieleschmidt
+docs/ @danieleschmidt
+README.* @danieleschmidt
+
+# Core source code
+src/ @danieleschmidt
+src/dp_federated_lora/ @danieleschmidt
+
+# Tests
+tests/ @danieleschmidt
+test_*.py @danieleschmidt
+*_test.py @danieleschmidt
+
+# Configuration files
+*.yml @danieleschmidt
+*.yaml @danieleschmidt
+*.json @danieleschmidt
+*.toml @danieleschmidt
+*.ini @danieleschmidt
+*.cfg @danieleschmidt
+
+# CI/CD and automation
+.github/ @danieleschmidt
+.github/workflows/ @danieleschmidt
+scripts/ @danieleschmidt
+Makefile @danieleschmidt
+Dockerfile @danieleschmidt
+docker-compose.yml @danieleschmidt
+
+# Security sensitive files
+SECURITY.md @danieleschmidt
+requirements*.txt @danieleschmidt
+pyproject.toml @danieleschmidt
+setup.py @danieleschmidt
+
+# Privacy and ML specific code
+src/dp_federated_lora/privacy/ @danieleschmidt
+src/dp_federated_lora/federated/ @danieleschmidt
+src/dp_federated_lora/lora/ @danieleschmidt
+
+# Monitoring and observability
+monitoring/ @danieleschmidt
+scripts/health-check.py @danieleschmidt
+scripts/*metrics*.py @danieleschmidt
+
+# Kubernetes and deployment
+kubernetes/ @danieleschmidt
+k8s/ @danieleschmidt
+deployment/ @danieleschmidt
+
+# Dependencies and package management
+requirements.txt @danieleschmidt
+requirements-dev.txt @danieleschmidt
+pyproject.toml @danieleschmidt
+setup.py @danieleschmidt
+poetry.lock @danieleschmidt
+Pipfile @danieleschmidt
+Pipfile.lock @danieleschmidt
+
+# License and legal
+LICENSE @danieleschmidt
+NOTICE @danieleschmidt
+COPYING @danieleschmidt
+COPYRIGHT @danieleschmidt
+
+# Project governance
+CODE_OF_CONDUCT.md @danieleschmidt
+CONTRIBUTING.md @danieleschmidt
+GOVERNANCE.md @danieleschmidt
+
+# Examples and benchmarks
+examples/ @danieleschmidt
+benchmarks/ @danieleschmidt
+notebooks/ @danieleschmidt
+*.ipynb @danieleschmidt

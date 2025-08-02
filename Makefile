@@ -1,4 +1,4 @@
-.PHONY: help install install-dev test test-cov test-fast lint format type-check security clean docs serve-docs build publish
+.PHONY: help install install-dev test test-cov test-fast lint format type-check security clean docs serve-docs build publish metrics-collect metrics-update metrics-report
 
 # Default target
 help:  ## Show this help message
@@ -148,3 +148,24 @@ freeze-deps:  ## Freeze current dependency versions
 profile:  ## Run performance profiling
 	python -m cProfile -o profile.stats examples/profile_training.py
 	python -c "import pstats; pstats.Stats('profile.stats').sort_stats('cumulative').print_stats(20)"
+
+# Metrics and Automation
+metrics-collect:  ## Collect comprehensive metrics
+	python scripts/collect_metrics.py --update-file --verbose
+
+metrics-update:  ## Update metrics with new values
+	python scripts/update_metrics.py --visualize
+
+metrics-report:  ## Generate comprehensive reports
+	python scripts/generate_reports.py
+
+metrics-all:  ## Run complete metrics pipeline
+	@echo "🔄 Running complete metrics pipeline..."
+	$(MAKE) metrics-collect
+	$(MAKE) metrics-update
+	$(MAKE) metrics-report
+	@echo "✅ Metrics pipeline completed!"
+
+metrics-dashboard:  ## Open metrics dashboard (requires reports)
+	@echo "📊 Metrics dashboard files:"
+	@ls -la reports/ 2>/dev/null || echo "No reports found. Run 'make metrics-all' first."
