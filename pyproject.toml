@@ -186,3 +186,71 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
 "tests/*" = ["B011"]
+
+# Development Scripts (equivalent to package.json scripts)
+[tool.poe.tasks]
+# Core development tasks
+test = "pytest tests/ -v --tb=short"
+test-cov = "pytest tests/ --cov=src --cov-report=html --cov-report=term-missing"
+test-fast = "pytest tests/ -x --tb=line"
+test-parallel = "pytest tests/ -n auto"
+
+# Code quality tasks  
+lint = "ruff check src/ tests/ --fix"
+format = "black src/ tests/ scripts/"
+format-check = "black --check src/ tests/ scripts/"
+sort-imports = "isort src/ tests/ scripts/"
+type-check = "mypy src/"
+security-check = "bandit -r src/ --severity-level medium"
+
+# Combined quality checks
+quality = ["format", "sort-imports", "lint", "type-check"]
+quality-check = ["format-check", "lint", "type-check"]
+
+# Development environment
+install-dev = "pip install -e .[dev,docs,benchmark]"
+pre-commit-install = "pre-commit install"
+pre-commit-run = "pre-commit run --all-files"
+
+# Build and distribution
+build = "python -m build"
+build-clean = ["clean", "build"]
+clean = "rm -rf build/ dist/ *.egg-info/ htmlcov/ .coverage .pytest_cache/ .mypy_cache/ .tox/"
+
+# Documentation
+docs-build = "sphinx-build -b html docs/ docs/_build/html"
+docs-clean = "rm -rf docs/_build/"
+docs-serve = "python -m http.server 8000 -d docs/_build/html"
+docs-live = "sphinx-autobuild docs/ docs/_build/html --host 0.0.0.0 --port 8000"
+
+# Server and client management
+server = "python -m dp_federated_lora.server"
+server-dev = "python -m dp_federated_lora.server --debug --reload"
+client-mock = "python -m dp_federated_lora.client --mock-data"
+dashboard = "streamlit run scripts/dashboard.py"
+
+# Privacy and security validation
+privacy-check = "python scripts/privacy_validator.py"
+epsilon-audit = "python scripts/epsilon_auditor.py"
+security-audit = ["security-check", "privacy-check"]
+
+# Benchmarking and evaluation
+benchmark = "python scripts/run_benchmarks.py"
+benchmark-privacy = "python scripts/benchmark_privacy.py"
+benchmark-performance = "python scripts/benchmark_performance.py"
+
+# Utilities
+health-check = "python scripts/health-check.py"
+reset-db = "python scripts/reset_database.py"
+generate-certs = "python scripts/generate_certificates.py"
+
+# Docker tasks
+docker-build = "docker build -t dp-federated-lora:latest ."
+docker-run = "docker-compose up -d"
+docker-down = "docker-compose down"
+docker-logs = "docker-compose logs -f"
+
+# Comprehensive development workflow
+dev-setup = ["install-dev", "pre-commit-install", "generate-certs", "reset-db"]
+dev-test = ["quality-check", "test-cov", "security-audit"]
+dev-all = ["dev-setup", "dev-test"]

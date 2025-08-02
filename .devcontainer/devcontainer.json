@@ -1,286 +1,88 @@
 {
-    // Development Container configuration for dp-federated-lora-lab
-    // Provides a complete, reproducible development environment
-    
-    "name": "DP Federated LoRA Lab Dev Container",
-    "dockerComposeFile": "../docker-compose.yml",
-    "service": "dp-federated-lora",
-    "workspaceFolder": "/workspace",
-    
-    // Development container features
+    "name": "DP-Federated-LoRA Development",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11",
     "features": {
-        // Git configuration
-        "ghcr.io/devcontainers/features/git:1": {
-            "version": "latest",
-            "ppa": true
-        },
-        
-        // GitHub CLI
-        "ghcr.io/devcontainers/features/github-cli:1": {
-            "version": "latest"
-        },
-        
-        // Docker-in-Docker for container development
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {
-            "version": "latest",
-            "moby": true,
-            "dockerDashComposeVersion": "v2"
-        },
-        
-        // Common utilities
-        "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": true,
-            "configureZshAsDefaultShell": true,
-            "installOhMyZsh": true,
-            "upgradePackages": true,
-            "username": "vscode",
-            "uid": "1000",
-            "gid": "1000"
-        },
-        
-        // NVIDIA CUDA support (for GPU development)
-        "ghcr.io/devcontainers/features/nvidia-cuda:1": {
-            "installCudnn": true,
-            "installNvtx": true
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "18"
         }
     },
-    
-    // Container configuration
-    "containerEnv": {
-        "PYTHONPATH": "/workspace/src",
-        "PYTHONUNBUFFERED": "1",
-        "PIP_NO_CACHE_DIR": "1",
-        "CUDA_VISIBLE_DEVICES": "all",
-        "WANDB_MODE": "online",
-        "LOG_LEVEL": "DEBUG",
-        "APP_ENV": "development"
-    },
-    
-    // Development user
-    "remoteUser": "vscode",
-    "containerUser": "vscode",
-    "updateRemoteUserUID": true,
-    
-    // VS Code customizations
     "customizations": {
         "vscode": {
-            // Extensions to install
             "extensions": [
-                // Python development
                 "ms-python.python",
-                "ms-python.flake8",
                 "ms-python.black-formatter",
                 "ms-python.isort",
+                "ms-python.flake8",
                 "ms-python.mypy-type-checker",
                 "ms-toolsai.jupyter",
-                "ms-toolsai.vscode-jupyter-cell-tags",
-                "ms-toolsai.vscode-jupyter-slideshow",
-                
-                // Code quality and security
-                "ms-python.bandit",
-                "github.vscode-github-actions",
                 "redhat.vscode-yaml",
-                "tamasfe.even-better-toml",
-                
-                // Docker and containers
-                "ms-azuretools.vscode-docker",
-                "ms-vscode-remote.remote-containers",
-                
-                // Git and version control
-                "eamodio.gitlens",
-                "github.vscode-pull-request-github",
-                "donjayamanne.githistory",
-                
-                // General productivity
-                "gruntfuggly.todo-tree",
-                "aaron-bond.better-comments",
-                "streetsidesoftware.code-spell-checker",
-                "ms-vscode.vscode-json",
-                "esbenp.prettier-vscode",
-                
-                // Markdown and documentation
-                "yzhang.markdown-all-in-one",
-                "davidanson.vscode-markdownlint",
-                "bierner.markdown-mermaid",
-                
-                // AI and ML specific
-                "ms-toolsai.tensorboard",
-                "ms-toolsai.vscode-ai",
-                
-                // Theme and UI
-                "github.github-vscode-theme",
-                "pkief.material-icon-theme",
-                
-                // Testing
-                "littlefoxteam.vscode-python-test-adapter",
-                "hbenl.vscode-test-explorer",
-                
-                // Performance and profiling
-                "ms-vscode.vscode-python-profiler"
+                "ms-vscode.docker",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "ms-vscode.makefile-tools",
+                "ms-python.debugpy",
+                "charliermarsh.ruff"
             ],
-            
-            // VS Code settings for dev container
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
                 "python.terminal.activateEnvironment": true,
+                "python.formatting.provider": "black",
                 "python.linting.enabled": true,
                 "python.linting.flake8Enabled": true,
                 "python.linting.mypyEnabled": true,
-                "python.linting.banditEnabled": true,
-                "python.formatting.provider": "black",
                 "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
                 "editor.formatOnSave": true,
-                "editor.rulers": [88],
-                "terminal.integrated.defaultProfile.linux": "zsh",
-                "workbench.colorTheme": "GitHub Dark",
-                "workbench.iconTheme": "material-icon-theme"
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": true
+                },
+                "files.associations": {
+                    "*.yml": "yaml",
+                    "*.yaml": "yaml"
+                },
+                "yaml.validate": true,
+                "yaml.format.enable": true
             }
         }
     },
-    
-    // Port forwarding for development services
-    "forwardPorts": [
-        8000,   // FastAPI/web service
-        8888,   // Jupyter Lab
-        6006,   // TensorBoard
-        8050,   // Dash/Plotly apps
-        3000,   // Grafana
-        9090,   // Prometheus
-        5432,   // PostgreSQL
-        6379    // Redis
+    "postCreateCommand": "pip install -e .[dev,docs,benchmark] && pre-commit install",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
     ],
-    
-    // Port attributes
+    "forwardPorts": [
+        8080,
+        8443,
+        8888,
+        3000
+    ],
     "portsAttributes": {
-        "8000": {
-            "label": "Web API",
-            "protocol": "http"
+        "8080": {
+            "label": "Federation Server HTTP",
+            "onAutoForward": "notify"
+        },
+        "8443": {
+            "label": "Federation Server HTTPS",
+            "onAutoForward": "notify"
         },
         "8888": {
             "label": "Jupyter Lab",
-            "protocol": "http",
-            "requireLocalPort": true
-        },
-        "6006": {
-            "label": "TensorBoard",
-            "protocol": "http"
-        },
-        "8050": {
-            "label": "Dash Apps",
-            "protocol": "http"
+            "onAutoForward": "openPreview"
         },
         "3000": {
-            "label": "Grafana",
-            "protocol": "http"
-        },
-        "9090": {
-            "label": "Prometheus",
-            "protocol": "http"
+            "label": "Streamlit Dashboard",
+            "onAutoForward": "openPreview"
         }
     },
-    
-    // Volume mounts
-    "mounts": [
-        // Source code (cached for performance)
-        "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-        
-        // Git configuration
-        "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
-        
-        // SSH keys (if available)
-        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached",
-        
-        // Docker socket for docker-in-docker
-        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
-        
-        // Persistent volumes for data
-        "source=dp_data,target=/workspace/data,type=volume",
-        "source=dp_models,target=/workspace/models,type=volume",
-        "source=dp_outputs,target=/workspace/outputs,type=volume",
-        "source=dp_logs,target=/workspace/logs,type=volume",
-        
-        // Cache volumes for performance
-        "source=dp_cache,target=/home/vscode/.cache,type=volume",
-        "source=dp_pip_cache,target=/home/vscode/.cache/pip,type=volume"
-    ],
-    
-    // Container capabilities
-    "capAdd": [
-        "SYS_PTRACE"  // For debugging
-    ],
-    
-    // Security options
-    "securityOpt": [
-        "seccomp:unconfined"  // For debugging and profiling
-    ],
-    
-    // Init process
-    "init": true,
-    
-    // Privileged mode (needed for Docker-in-Docker)
-    "privileged": true,
-    
-    // GPU support (uncomment if you have NVIDIA GPUs)
-    // "runArgs": [
-    //     "--gpus", "all",
-    //     "--device", "/dev/nvidia0:/dev/nvidia0",
-    //     "--device", "/dev/nvidiactl:/dev/nvidiactl",
-    //     "--device", "/dev/nvidia-uvm:/dev/nvidia-uvm"
-    // ],
-    
-    // Lifecycle scripts
-    "onCreateCommand": [
-        "bash",
-        "-c",
-        "echo 'Setting up development environment...' && pip install -e '.[dev,docs,benchmark]' && pre-commit install && echo 'Development environment ready!'"
-    ],
-    
-    "updateContentCommand": [
-        "bash", 
-        "-c",
-        "echo 'Updating dependencies...' && pip install -e '.[dev,docs,benchmark]' --upgrade && echo 'Dependencies updated!'"
-    ],
-    
-    "postCreateCommand": [
-        "bash",
-        "-c",
-        "echo 'Running post-create setup...' && python -c 'import dp_federated_lora; print(\"Package import successful!\")' && echo 'Post-create setup completed!'"
-    ],
-    
-    "postStartCommand": [
-        "bash",
-        "-c", 
-        "echo 'Container started successfully!' && echo 'Available services:' && echo '  - Jupyter Lab: http://localhost:8888' && echo '  - TensorBoard: http://localhost:6006' && echo '  - Web API: http://localhost:8000' && echo '  - Grafana: http://localhost:3000'"
-    ],
-    
-    // Wait for services to be ready
-    "waitFor": "onCreateCommand",
-    
-    // Shutdown behavior
-    "shutdownAction": "stopCompose",
-    
-    // Override default command
-    "overrideCommand": false,
-    
-    // Additional dev container configuration
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-    
-    // Remote environment variables
-    "remoteEnv": {
-        "PATH": "${containerEnv:PATH}:/workspace/.local/bin",
-        "PYTHONPATH": "/workspace/src",
-        "JUPYTER_CONFIG_DIR": "/workspace/.jupyter",
-        "IPYTHONDIR": "/workspace/.ipython"
-    },
-    
-    // Development workflow customization
-    "customizations": {
-        "codespaces": {
-            "openFiles": [
-                "README.md",
-                "src/dp_federated_lora/__init__.py",
-                "notebooks/getting_started.ipynb"
-            ]
-        }
+    "remoteUser": "vscode",
+    "containerEnv": {
+        "PYTHONPATH": "/workspaces/dp-federated-lora-lab/src",
+        "CUDA_VISIBLE_DEVICES": "0"
     }
 }
