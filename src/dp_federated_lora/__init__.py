@@ -25,32 +25,89 @@ __email__ = "daniel@terragonlabs.com"
 __license__ = "MIT"
 
 # Core components
-from .client import DPLoRAClient
-from .server import FederatedServer
+try:
+    from .client import DPLoRAClient
+    from .server import FederatedServer, TrainingHistory
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import core components: {e}")
+    DPLoRAClient = None
+    FederatedServer = None
+    TrainingHistory = None
 
-# Privacy components
-from .privacy import PrivacyEngine, PrivacyAccountant
+# Privacy components  
+try:
+    from .privacy import PrivacyEngine, PrivacyAccountant
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import privacy components: {e}")
+    PrivacyEngine = None
+    PrivacyAccountant = None
 
 # Aggregation protocols
-from .aggregation import SecureAggregator, ByzantineRobustAggregator
+try:
+    from .aggregation import SecureAggregator, ByzantineRobustAggregator, create_aggregator
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import aggregation components: {e}")
+    SecureAggregator = None
+    ByzantineRobustAggregator = None
+    create_aggregator = None
 
 # Monitoring and utilities
-from .monitoring import UtilityMonitor
-from .config import FederatedConfig, PrivacyConfig, LoRAConfig
+try:
+    from .monitoring import UtilityMonitor, LocalMetricsCollector, ServerMetricsCollector
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import monitoring components: {e}")
+    UtilityMonitor = None
+    LocalMetricsCollector = None
+    ServerMetricsCollector = None
+
+# Configuration
+try:
+    from .config import (
+        FederatedConfig, 
+        PrivacyConfig, 
+        LoRAConfig, 
+        SecurityConfig,
+        ClientConfig,
+        create_default_config,
+        create_high_privacy_config,
+        create_performance_config
+    )
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import configuration components: {e}")
+    FederatedConfig = None
+    PrivacyConfig = None
+    LoRAConfig = None
+    SecurityConfig = None
+    ClientConfig = None
 
 __all__ = [
     # Core
     "FederatedServer",
-    "DPLoRAClient",
+    "DPLoRAClient", 
+    "TrainingHistory",
     # Privacy
     "PrivacyEngine", 
     "PrivacyAccountant",
     # Aggregation
     "SecureAggregator",
     "ByzantineRobustAggregator",
-    # Utilities
+    "create_aggregator",
+    # Monitoring
     "UtilityMonitor",
+    "LocalMetricsCollector",
+    "ServerMetricsCollector",
+    # Configuration
     "FederatedConfig",
     "PrivacyConfig", 
     "LoRAConfig",
+    "SecurityConfig",
+    "ClientConfig",
+    "create_default_config",
+    "create_high_privacy_config", 
+    "create_performance_config",
 ]
