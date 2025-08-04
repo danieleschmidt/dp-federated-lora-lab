@@ -510,7 +510,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ```bibtex
 @article{dp_federated_lora,
   title={Differentially Private Federated LoRA: Efficient Fine-tuning with Privacy},
-  author={Your Name},
+  author={Daniel Schmidt},
   journal={arXiv preprint arXiv:2507.09990},
   year={2025}
 }
