@@ -30,6 +30,7 @@ import numpy as np
 from .config import FederatedConfig, ClientConfig, PrivacyConfig, LoRAConfig
 from .privacy import PrivacyEngine, PrivacyAccountant
 from .monitoring import LocalMetricsCollector
+from .network_client import FederatedNetworkClient, NetworkClientError
 
 
 logger = logging.getLogger(__name__)
@@ -48,7 +49,8 @@ class DPLoRAClient:
         client_id: str,
         data_path: str,
         config: Optional[FederatedConfig] = None,
-        client_config: Optional[ClientConfig] = None
+        client_config: Optional[ClientConfig] = None,
+        server_url: Optional[str] = None
     ):
         """
         Initialize DP LoRA client.
@@ -58,6 +60,7 @@ class DPLoRAClient:
             data_path: Path to local training data
             config: Federated learning configuration
             client_config: Client-specific configuration
+            server_url: URL of the federated learning server
         """
         self.client_id = client_id
         self.data_path = data_path
@@ -66,6 +69,12 @@ class DPLoRAClient:
             client_id=client_id,
             data_path=data_path
         )
+        
+        # Network communication
+        self.server_url = server_url
+        self.network_client: Optional[FederatedNetworkClient] = None
+        if server_url:
+            self.network_client = FederatedNetworkClient(server_url, client_id)
         
         # Initialize components
         self.tokenizer: Optional[AutoTokenizer] = None
@@ -275,6 +284,137 @@ class DPLoRAClient:
         except Exception as e:
             logger.error(f"Error loading global model for client {self.client_id}: {e}")
             raise
+    
+    async def register_with_server(self) -> bool:
+        """
+        Register client with the federated server.
+        
+        Returns:
+            True if registration successful
+            
+        Raises:
+            NetworkClientError: If registration fails
+        """
+        if not self.network_client:
+            raise NetworkClientError("No network client configured")
+        
+        # Prepare client capabilities
+        capabilities = {
+            "model_name": self.config.model_name,
+            "num_examples": len(self.local_dataset) if self.local_dataset else 0,
+            "compute_capability": "gpu" if torch.cuda.is_available() else "cpu",
+            "memory_gb": torch.cuda.get_device_properties(0).total_memory / 1e9 if torch.cuda.is_available() else 8,
+            "supported_tasks": ["causal_lm"],
+            "privacy_requirements": {
+                "epsilon": self.config.privacy.epsilon,
+                "delta": self.config.privacy.delta
+            }
+        }
+        
+        success = await self.network_client.register(capabilities)
+        
+        if success:
+            # Update client config with server configuration
+            server_config = self.network_client.get_server_config()
+            
+            # Override local config with server settings if needed
+            if "lora_config" in server_config:
+                server_lora = server_config["lora_config"]
+                self.config.lora.r = server_lora.get("r", self.config.lora.r)
+                self.config.lora.lora_alpha = server_lora.get("lora_alpha", self.config.lora.lora_alpha)
+                self.config.lora.target_modules = server_lora.get("target_modules", self.config.lora.target_modules)
+            
+            logger.info(f"Successfully registered client {self.client_id} with server")
+        
+        return success
+    
+    async def participate_in_round(self, round_num: int) -> bool:
+        """
+        Participate in a federated training round.
+        
+        Args:
+            round_num: Training round number
+            
+        Returns:
+            True if participation successful
+        """
+        if not self.network_client:
+            raise NetworkClientError("No network client configured")
+        
+        try:
+            # Get global parameters from server
+            round_data = await self.network_client.get_round_parameters(round_num)
+            
+            # Update local model with global parameters
+            self.receive_global_model(round_data["global_parameters"])
+            
+            # Perform local training
+            local_updates = self.train_local()
+            
+            # Collect training metrics
+            metrics = self.get_training_metrics()
+            
+            # Submit updates to server
+            success = await self.network_client.submit_client_update(
+                round_num=round_num,
+                parameters=self._serialize_parameters(local_updates),
+                metrics=metrics,
+                num_examples=len(self.local_dataset) if self.local_dataset else 0,
+                privacy_spent=self.privacy_spent
+            )
+            
+            if success:
+                self.current_round = round_num
+                logger.info(f"Successfully completed round {round_num}")
+            
+            return success
+            
+        except Exception as e:
+            logger.error(f"Error participating in round {round_num}: {e}")
+            return False
+    
+    def _serialize_parameters(self, parameters: Dict[str, torch.Tensor]) -> Dict[str, Any]:
+        """
+        Serialize model parameters for network transmission.
+        
+        Args:
+            parameters: Model parameters
+            
+        Returns:
+            Serialized parameters
+        """
+        serialized = {}
+        for name, param in parameters.items():
+            if param is not None:
+                serialized[name] = {
+                    "data": param.detach().cpu().numpy().tolist(),
+                    "shape": list(param.shape),
+                    "dtype": str(param.dtype)
+                }
+        return serialized
+    
+    def _deserialize_parameters(self, serialized: Dict[str, Any]) -> Dict[str, torch.Tensor]:
+        """
+        Deserialize parameters from network transmission.
+        
+        Args:
+            serialized: Serialized parameters
+            
+        Returns:
+            Model parameters
+        """
+        parameters = {}
+        for name, param_data in serialized.items():
+            if param_data and "data" in param_data:
+                data = torch.tensor(param_data["data"])
+                shape = param_data["shape"]
+                parameters[name] = data.reshape(shape)
+        return parameters
+    
+    async def close_network_connection(self):
+        """Close network connection to server."""
+        if self.network_client:
+            await self.network_client.close()
     
     def train_local(self, num_epochs: Optional[int] = None) -> Dict[str, torch.Tensor]:
         """
