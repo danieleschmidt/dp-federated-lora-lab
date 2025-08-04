@@ -121,10 +121,12 @@ def server(
         config.server_host = host
         config.server_port = port
         
-        # Initialize server
+        # Initialize server with network support
         server = FederatedServer(
             model_name=model_name,
-            config=config
+            config=config,
+            host=host,
+            port=port
         )
         
         # Initialize global model
@@ -132,20 +134,18 @@ def server(
             server.initialize_global_model()
         
         console.print(f"[green]✓[/green] Server initialized successfully")
+        console.print(f"[green]Server starting at http://{host}:{port}[/green]")
         console.print(f"[yellow]Waiting for clients to connect...[/yellow]")
-        
-        # In a real implementation, this would start the server
-        # For now, we'll simulate server operation
-        console.print(f"[green]Server ready at {host}:{port}[/green]")
         console.print(f"[dim]Press Ctrl+C to stop the server[/dim]")
         
-        # Keep server running
+        # Start network server
         try:
-            while True:
-                import time
-                time.sleep(1)
+            asyncio.run(server.train_federated())
         except KeyboardInterrupt:
             console.print(f"\n[yellow]Server shutting down...[/yellow]")
+        except Exception as e:
+            console.print(f"[red]Server error: {e}[/red]")
+            raise
             
     except Exception as e:
         console.print(f"[red]Error starting server: {e}[/red]")
@@ -208,17 +208,24 @@ def client(
         fed_config.server_host = server_host
         fed_config.server_port = server_port
         
-        # Create client
+        # Create server URL
+        server_url = f"http://{server_host}:{server_port}"
+        
+        # Create client with network support
         if mock_data:
             console.print("[yellow]Using mock data for testing[/yellow]")
             client = create_mock_client(client_id, num_examples=1000, config=fed_config)
+            # Add network client to mock client
+            client.server_url = server_url
+            client.network_client = FederatedNetworkClient(server_url, client_id)
         else:
             client_config = ClientConfig(client_id=client_id, data_path=data_path)
             client = DPLoRAClient(
                 client_id=client_id,
                 data_path=data_path,
                 config=fed_config,
-                client_config=client_config
+                client_config=client_config,
+                server_url=server_url
             )
         
         # Setup client
@@ -226,15 +233,57 @@ def client(
             client.setup()
         
         console.print(f"[green]✓[/green] Client initialized successfully")
-        console.print(f"[green]Client ready for federated training[/green]")
+        console.print(f"[green]Connecting to server at {server_url}[/green]")
         
-        # In a real implementation, this would connect to server
-        console.print(f"[dim]Press Ctrl+C to stop the client[/dim]")
+        # Run client with network communication
+        async def run_network_client():
+            try:
+                # Register with server
+                with console.status("[bold yellow]Registering with server..."):
+                    success = await client.register_with_server()
+                
+                if not success:
+                    console.print("[red]Failed to register with server[/red]")
+                    return
+                
+                console.print("[green]✓ Successfully registered with server[/green]")
+                console.print("[yellow]Waiting for training rounds...[/yellow]")
+                console.print("[dim]Press Ctrl+C to disconnect[/dim]")
+                
+                # Participate in training rounds
+                round_num = 1
+                while True:
+                    try:
+                        # Check server status
+                        status = await client.network_client.get_server_status()
+                        if status["current_round"] >= round_num:
+                            console.print(f"[cyan]Participating in round {round_num}[/cyan]")
+                            success = await client.participate_in_round(round_num)
+                            if success:
+                                console.print(f"[green]✓ Completed round {round_num}[/green]")
+                                round_num += 1
+                            else:
+                                console.print(f"[red]Failed round {round_num}[/red]")
+                        
+                        await asyncio.sleep(2)  # Check every 2 seconds
+                        
+                    except KeyboardInterrupt:
+                        break
+                    except Exception as e:
+                        console.print(f"[red]Error during training: {e}[/red]")
+                        await asyncio.sleep(5)  # Wait before retrying
+                
+            except Exception as e:
+                console.print(f"[red]Client error: {e}[/red]")
+            finally:
+                await client.close_network_connection()
+                console.print("[yellow]Client disconnected[/yellow]")
+        
+        # Import here to avoid circular import
+        from .network_client import FederatedNetworkClient
         
         try:
-            while True:
-                import time
-                time.sleep(1)
+            asyncio.run(run_network_client())
         except KeyboardInterrupt:
             console.print(f"\n[yellow]Client shutting down...[/yellow]")
             

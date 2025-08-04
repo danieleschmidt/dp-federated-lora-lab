@@ -13,21 +13,116 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, List, Optional, Tuple, Any, Set
 from dataclasses import asdict
 import json
+import hashlib
+import hmac
+import ssl
+from contextlib import asynccontextmanager
 
 import torch
 import torch.nn as nn
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import LoraConfig, get_peft_model, TaskType
 import numpy as np
+from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
+import uvicorn
 
 from .config import FederatedConfig, SecurityConfig, AggregationMethod
 from .aggregation import create_aggregator, BaseAggregator
 from .privacy import PrivacyAccountant
 from .monitoring import ServerMetricsCollector
 from .client import DPLoRAClient
+from .performance import performance_monitor, cache_manager, resource_manager, optimize_for_scale
+from .concurrent import parallel_aggregator, ConcurrentModelTrainer
 
 
 logger = logging.getLogger(__name__)
+
+
+# API Models for network communication
+class ClientRegistrationRequest(BaseModel):
+    """Client registration request model."""
+    client_id: str = Field(..., description="Unique client identifier")
+    capabilities: Dict[str, Any] = Field(..., description="Client capabilities and metadata")
+    public_key: Optional[str] = Field(None, description="Client public key for secure communication")
+
+
+class ClientRegistrationResponse(BaseModel):
+    """Client registration response model."""
+    success: bool = Field(..., description="Registration success status")
+    message: str = Field(..., description="Registration result message")
+    server_config: Optional[Dict[str, Any]] = Field(None, description="Server configuration for client")
+
+
+class TrainingRoundRequest(BaseModel):
+    """Training round request model."""
+    round_num: int = Field(..., description="Current training round number")
+    global_parameters: Dict[str, Any] = Field(..., description="Global model parameters")
+    privacy_budget: Dict[str, float] = Field(..., description="Privacy budget allocation")
+
+
+class ClientUpdateSubmission(BaseModel):
+    """Client update submission model."""
+    client_id: str = Field(..., description="Client identifier")
+    round_num: int = Field(..., description="Training round number")
+    parameters: Dict[str, Any] = Field(..., description="Updated model parameters")
+    metrics: Dict[str, float] = Field(..., description="Training metrics")
+    num_examples: int = Field(..., description="Number of training examples used")
+    privacy_spent: Dict[str, float] = Field(..., description="Privacy budget consumed")
+
+
+class ServerStatusResponse(BaseModel):
+    """Server status response model."""
+    status: str = Field(..., description="Server status")
+    current_round: int = Field(..., description="Current training round")
+    total_rounds: int = Field(..., description="Total planned rounds")
+    active_clients: int = Field(..., description="Number of active clients")
+    privacy_budget_remaining: Dict[str, float] = Field(..., description="Remaining privacy budget")
+
+
+class AuthenticationError(Exception):
+    """Authentication error exception."""
+    pass
+
+
+class AuthenticationManager:
+    """Manages client authentication and security."""
+    
+    def __init__(self, secret_key: str):
+        """Initialize authentication manager."""
+        self.secret_key = secret_key
+        self.authenticated_clients: Set[str] = set()
+        self.client_tokens: Dict[str, str] = {}
+    
+    def generate_token(self, client_id: str) -> str:
+        """Generate authentication token for client."""
+        message = f"{client_id}:{int(time.time())}"
+        token = hmac.new(
+            self.secret_key.encode(),
+            message.encode(),
+            hashlib.sha256
+        ).hexdigest()
+        self.client_tokens[client_id] = token
+        return token
+    
+    def verify_token(self, client_id: str, token: str) -> bool:
+        """Verify client authentication token."""
+        expected_token = self.client_tokens.get(client_id)
+        if not expected_token:
+            return False
+        return hmac.compare_digest(expected_token, token)
+    
+    def authenticate_client(self, client_id: str, token: str) -> None:
+        """Authenticate client and add to authenticated set."""
+        if not self.verify_token(client_id, token):
+            raise AuthenticationError(f"Invalid token for client {client_id}")
+        self.authenticated_clients.add(client_id)
+    
+    def is_authenticated(self, client_id: str) -> bool:
+        """Check if client is authenticated."""
+        return client_id in self.authenticated_clients
 
 
 class ClientInfo:
@@ -64,7 +159,10 @@ class FederatedServer:
         config: Optional[FederatedConfig] = None,
         num_clients: int = 10,
         rounds: int = 50,
-        privacy_budget: Optional[Dict[str, float]] = None
+        privacy_budget: Optional[Dict[str, float]] = None,
+        host: str = "0.0.0.0",
+        port: int = 8080,
+        secret_key: Optional[str] = None
     ):
         """
         Initialize federated server.
@@ -75,6 +173,9 @@ class FederatedServer:
             num_clients: Expected number of clients
             rounds: Number of training rounds
             privacy_budget: Privacy budget parameters
+            host: Server host address
+            port: Server port number
+            secret_key: Secret key for client authentication
         """
         self.model_name = model_name
         self.config = config or FederatedConfig(model_name=model_name)
@@ -89,11 +190,23 @@ class FederatedServer:
             if "delta" in privacy_budget:
                 self.config.privacy.delta = privacy_budget["delta"]
         
+        # Network configuration
+        self.host = host
+        self.port = port
+        self.secret_key = secret_key or hashlib.sha256(f"federated_server_{model_name}".encode()).hexdigest()
+        
+        # Authentication and security
+        self.auth_manager = AuthenticationManager(self.secret_key)
+        self.app: Optional[FastAPI] = None
+        self.server_task: Optional[asyncio.Task] = None
+        
         # Server state
         self.current_round = 0
-        self.registered_clients: Dict[str, ClientInfo] = {}\n        self.selected_clients: Set[str] = set()
+        self.registered_clients: Dict[str, ClientInfo] = {}
+        self.selected_clients: Set[str] = set()
         self.client_updates: Dict[str, Dict[str, torch.Tensor]] = {}
         self.client_weights: Dict[str, float] = {}
+        self.waiting_for_updates: Set[str] = set()
         
         # Components
         self.global_model: Optional[nn.Module] = None
@@ -114,6 +227,16 @@ class FederatedServer:
         self.executor = ThreadPoolExecutor(max_workers=self.config.security.max_clients)
         
         logger.info(f"Initialized federated server for {model_name}")
+        
+        # Optimize for scale based on expected client count
+        optimize_for_scale(
+            cache_size=max(1000, num_clients * 10),
+            max_connections=max(50, num_clients * 2),
+            enable_profiling=True
+        )
+        
+        # Initialize FastAPI app
+        self._setup_fastapi_app()
     
     def initialize_global_model(self) -> None:
         """Initialize the global model with LoRA adaptation."""
@@ -175,6 +298,214 @@ class FederatedServer:
         except Exception as e:
             logger.error(f"Error initializing global model: {e}")
             raise
+    
+    def _setup_fastapi_app(self) -> None:
+        """Setup FastAPI application with endpoints."""
+        self.app = FastAPI(
+            title="DP-Federated LoRA Server",
+            description="Federated learning server for differentially private LoRA training",
+            version="0.1.0"
+        )
+        
+        # Add CORS middleware
+        self.app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],  # Configure appropriately for production
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+        
+        # Security dependency
+        security = HTTPBearer()
+        
+        async def verify_auth(credentials: HTTPAuthorizationCredentials = Depends(security)):
+            """Verify client authentication."""
+            try:
+                client_id = credentials.credentials.split(":")[0]
+                token = credentials.credentials.split(":", 1)[1]
+                
+                if not self.auth_manager.is_authenticated(client_id):
+                    self.auth_manager.authenticate_client(client_id, token)
+                
+                return client_id
+            except (IndexError, AuthenticationError):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid authentication credentials"
+                )
+        
+        # API Endpoints
+        @self.app.post("/register", response_model=ClientRegistrationResponse)
+        async def register_client_endpoint(request: ClientRegistrationRequest):
+            """Register a new client for federated training."""
+            try:
+                # Register client
+                client_info = ClientInfo(request.client_id, request.capabilities)
+                self.registered_clients[request.client_id] = client_info
+                
+                # Generate authentication token
+                token = self.auth_manager.generate_token(request.client_id)
+                
+                # Prepare server configuration
+                server_config = {
+                    "model_name": self.model_name,
+                    "lora_config": asdict(self.config.lora),
+                    "privacy_config": asdict(self.config.privacy),
+                    "security_config": asdict(self.config.security),
+                    "token": token
+                }
+                
+                logger.info(f"Registered client {request.client_id}")
+                
+                return ClientRegistrationResponse(
+                    success=True,
+                    message=f"Client {request.client_id} registered successfully",
+                    server_config=server_config
+                )
+                
+            except Exception as e:
+                logger.error(f"Client registration failed: {e}")
+                return ClientRegistrationResponse(
+                    success=False,
+                    message=f"Registration failed: {str(e)}"
+                )
+        
+        @self.app.get("/status", response_model=ServerStatusResponse)
+        async def get_server_status():
+            """Get current server status."""
+            privacy_remaining = {
+                "epsilon": max(0, self.config.privacy.epsilon - self.privacy_accountant.get_epsilon(self.config.privacy.delta)),
+                "delta": self.config.privacy.delta
+            }
+            
+            return ServerStatusResponse(
+                status="training" if self.is_training else "ready",
+                current_round=self.current_round,
+                total_rounds=self.config.num_rounds,
+                active_clients=len([c for c in self.registered_clients.values() if c.is_active]),
+                privacy_budget_remaining=privacy_remaining
+            )
+        
+        @self.app.get("/round/{round_num}/parameters")
+        async def get_round_parameters(round_num: int, client_id: str = Depends(verify_auth)):
+            """Get global parameters for a specific training round."""
+            if round_num != self.current_round:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Invalid round number. Current round: {self.current_round}"
+                )
+            
+            if client_id not in self.selected_clients:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Client not selected for this round"
+                )
+            
+            global_params = self.get_global_parameters()
+            privacy_budget = self.privacy_accountant.get_round_budget()
+            
+            return TrainingRoundRequest(
+                round_num=round_num,
+                global_parameters=global_params,
+                privacy_budget=privacy_budget
+            )
+        
+        @self.app.post("/round/{round_num}/submit")
+        async def submit_client_update(
+            round_num: int,
+            update: ClientUpdateSubmission,
+            client_id: str = Depends(verify_auth)
+        ):
+            """Submit client updates for aggregation."""
+            if round_num != self.current_round:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Invalid round number. Current round: {self.current_round}"
+                )
+            
+            if client_id != update.client_id:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Client ID mismatch"
+                )
+            
+            if client_id not in self.waiting_for_updates:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Client not expected to submit updates"
+                )
+            
+            # Store client update
+            self.client_updates[client_id] = update.parameters
+            self.client_weights[client_id] = update.num_examples
+            self.waiting_for_updates.remove(client_id)
+            
+            # Update client metrics
+            if client_id in self.registered_clients:
+                client_info = self.registered_clients[client_id]
+                client_info.performance_history.append(update.metrics)
+                client_info.rounds_participated += 1
+            
+            # Track privacy consumption
+            self.privacy_accountant.step(update.privacy_spent)
+            
+            logger.info(f"Received update from client {client_id} for round {round_num}")
+            
+            return {"status": "success", "message": "Update received"}
+        
+        @self.app.get("/health")
+        async def health_check():
+            """Health check endpoint."""
+            return {"status": "healthy", "timestamp": time.time()}
+        
+        @self.app.get("/metrics")
+        async def get_metrics():
+            """Get performance metrics endpoint."""
+            from .performance import get_performance_report
+            return get_performance_report()
+        
+        @self.app.get("/stats")
+        async def get_server_stats():
+            """Get comprehensive server statistics."""
+            resource_status = resource_manager.check_resource_limits()
+            
+            return {
+                "server_status": {
+                    "current_round": self.current_round,
+                    "total_rounds": self.config.num_rounds,
+                    "is_training": self.is_training,
+                    "registered_clients": len(self.registered_clients),
+                    "active_clients": len([c for c in self.registered_clients.values() if c.is_active])
+                },
+                "resource_status": resource_status,
+                "performance_metrics": performance_monitor.get_stats(),
+                "cache_stats": cache_manager.get_stats(),
+                "aggregation_stats": parallel_aggregator.get_stats() if hasattr(parallel_aggregator, 'get_stats') else {}
+            }
+    
+    async def start_server(self) -> None:
+        """Start the FastAPI server."""
+        config = uvicorn.Config(
+            self.app,
+            host=self.host,
+            port=self.port,
+            log_level="info",
+            access_log=True
+        )
+        server = uvicorn.Server(config)
+        self.server_task = asyncio.create_task(server.serve())
+        logger.info(f"Federated server started on {self.host}:{self.port}")
+    
+    async def stop_server(self) -> None:
+        """Stop the FastAPI server."""
+        if self.server_task:
+            self.server_task.cancel()
+            try:
+                await self.server_task
+            except asyncio.CancelledError:
+                pass
+            logger.info("Federated server stopped")
     
     def register_client(
         self,
@@ -349,9 +680,10 @@ class FederatedServer:
         
         logger.info(f"Collected updates from client {client_id} ({len(self.client_updates)}/{len(self.selected_clients)})")
     
-    def aggregate_updates(self) -> Dict[str, torch.Tensor]:
+    @performance_monitor.monitor_operation("server_aggregation")
+    async def aggregate_updates(self) -> Dict[str, torch.Tensor]:
         """
-        Aggregate client updates using configured method.
+        Aggregate client updates using configured method with performance optimization.
         
         Returns:
             Aggregated parameter updates
@@ -361,18 +693,49 @@ class FederatedServer:
         
         logger.info(f"Aggregating updates from {len(self.client_updates)} clients")
         
-        # Perform aggregation
-        aggregated = self.aggregator.aggregate(
-            client_updates=self.client_updates,
-            client_weights=self.client_weights
-        )
+        # Check if we should use parallel aggregation for large number of clients
+        use_parallel = len(self.client_updates) >= 4 and len(self.client_updates) > 0
+        
+        if use_parallel:
+            # Use parallel aggregation for better performance
+            logger.info("Using parallel aggregation for performance optimization")
+            
+            # Convert client updates to list format expected by parallel aggregator
+            parameter_updates = list(self.client_updates.values())
+            weights = [self.client_weights.get(client_id, 1.0) for client_id in self.client_updates.keys()]
+            
+            # Map aggregation method names
+            method_mapping = {
+                AggregationMethod.FEDAVG: "fedavg",
+                AggregationMethod.WEIGHTED_AVERAGE: "weighted_average",
+                AggregationMethod.MEDIAN: "median",
+                AggregationMethod.TRIMMED_MEAN: "trimmed_mean"
+            }
+            
+            aggregation_method = method_mapping.get(
+                self.config.security.aggregation_method, 
+                "weighted_average"
+            )
+            
+            aggregated = await parallel_aggregator.aggregate_parallel(
+                parameter_updates=parameter_updates,
+                weights=weights,
+                aggregation_method=aggregation_method
+            )
+        else:
+            # Use traditional aggregation for small client counts
+            aggregated = self.aggregator.aggregate(
+                client_updates=self.client_updates,
+                client_weights=self.client_weights
+            )
         
         # Record aggregation metrics
         self.metrics_collector.record_aggregation({
             "round": self.current_round,
             "num_clients": len(self.client_updates),
             "aggregation_method": self.config.security.aggregation_method.value,
-            "total_weight": sum(self.client_weights.values())
+            "total_weight": sum(self.client_weights.values()),
+            "used_parallel": use_parallel
         })
         
         return aggregated
@@ -437,7 +800,7 @@ class FederatedServer:
             )
         
         # Aggregate client updates
-        aggregated_updates = self.aggregate_updates()
+        aggregated_updates = await self.aggregate_updates()
         
         # Update global model
         self.update_global_model(aggregated_updates)
@@ -463,6 +826,167 @@ class FederatedServer:
         )
         
         return round_results
+    
+    async def train_federated(
+        self,
+        aggregation: Optional[str] = None,
+        client_sampling_rate: Optional[float] = None,
+        local_epochs: Optional[int] = None
+    ) -> "TrainingHistory":
+        """
+        Run complete federated training using network communication.
+        
+        Args:
+            aggregation: Aggregation method override
+            client_sampling_rate: Client sampling rate override
+            local_epochs: Local epochs override
+            
+        Returns:
+            Training history object
+        """
+        # Update configuration with overrides
+        if aggregation:
+            try:
+                self.config.security.aggregation_method = AggregationMethod(aggregation)
+                self.aggregator = create_aggregator(self.config.security)
+            except ValueError:
+                logger.warning(f"Unknown aggregation method: {aggregation}")
+        
+        if client_sampling_rate is not None:
+            self.config.security.client_sampling_rate = client_sampling_rate
+        
+        if local_epochs is not None:
+            self.config.local_epochs = local_epochs
+        
+        # Initialize global model if not done
+        if self.global_model is None:
+            self.initialize_global_model()
+        
+        # Start the server
+        await self.start_server()
+        
+        self.is_training = True
+        training_start_time = time.time()
+        
+        try:
+            logger.info(f"Starting network-based federated training for {self.config.num_rounds} rounds")
+            
+            # Wait for minimum clients to register
+            min_clients = self.config.security.min_clients
+            while len(self.registered_clients) < min_clients:
+                logger.info(f"Waiting for clients to register: {len(self.registered_clients)}/{min_clients}")
+                await asyncio.sleep(2)
+            
+            # Run training rounds
+            for round_num in range(1, self.config.num_rounds + 1):
+                logger.info(f"Starting round {round_num}/{self.config.num_rounds}")
+                
+                # Start training round
+                await self._run_training_round_network(round_num)
+                
+                # Collect and log metrics
+                round_metrics = self.metrics_collector.get_round_summary(round_num)
+                logger.info(f"Round {round_num} completed: {round_metrics}")
+                
+                # Check privacy budget
+                current_epsilon = self.privacy_accountant.get_epsilon(self.config.privacy.delta)
+                if current_epsilon >= self.config.privacy.epsilon * 0.9:
+                    logger.warning(f"Privacy budget nearly exhausted: ε={current_epsilon:.2f}")
+                
+                # Early stopping check
+                if self._should_early_stop():
+                    logger.info(f"Early stopping triggered at round {round_num}")
+                    break
+            
+            training_time = time.time() - training_start_time
+            
+            # Create training history
+            history = TrainingHistory(
+                rounds=self.current_round,
+                training_time=training_time,
+                final_accuracy=self._compute_global_accuracy(),
+                total_epsilon=self.privacy_accountant.get_epsilon(self.config.privacy.delta),
+                participating_clients=len(self.registered_clients),
+                history=self.training_history
+            )
+            
+            logger.info(f"Federated training completed in {training_time:.2f}s")
+            return history
+            
+        except Exception as e:
+            logger.error(f"Training failed: {e}")
+            raise
+        finally:
+            self.is_training = False
+            await self.stop_server()
+    
+    async def _run_training_round_network(self, round_num: int) -> None:
+        """
+        Run a single training round with network communication.
+        
+        Args:
+            round_num: Current training round number
+        """
+        self.current_round = round_num
+        self.round_start_time = time.time()
+        
+        logger.info(f"Starting federated learning round {round_num}")
+        
+        # Check privacy budget feasibility
+        rounds_remaining = self.config.num_rounds - round_num + 1
+        if not self.privacy_accountant.check_budget_feasible(rounds_remaining):
+            logger.warning("Privacy budget may be exhausted before training completion")
+        
+        # Select clients for this round
+        try:
+            selected_clients = self.select_clients(round_num)
+        except ValueError as e:
+            logger.error(f"Client selection failed: {e}")
+            raise
+        
+        # Reset round state
+        self.client_updates.clear()
+        self.client_weights.clear()
+        self.waiting_for_updates = set(selected_clients)
+        
+        # Clients will fetch parameters via API when they call get_round_parameters
+        logger.info(f"Round {round_num}: Selected {len(selected_clients)} clients, waiting for updates...")
+        
+        # Wait for client updates with timeout
+        timeout = self.config.server_timeout if hasattr(self.config, 'server_timeout') else 300
+        start_time = time.time()
+        
+        while self.waiting_for_updates and (time.time() - start_time) < timeout:
+            await asyncio.sleep(1)  # Check every second
+        
+        # Check if we have minimum clients
+        if len(self.client_updates) < self.config.security.min_clients:
+            raise ValueError(
+                f"Insufficient client responses: {len(self.client_updates)} < "
+                f"{self.config.security.min_clients} required"
+            )
+        
+        # Aggregate client updates
+        aggregated_updates = await self.aggregate_updates()
+        
+        # Apply aggregated updates to global model
+        self.apply_global_update(aggregated_updates)
+        
+        # Record round metrics
+        round_time = time.time() - self.round_start_time
+        round_metrics = {
+            "round": round_num,
+            "clients_selected": len(selected_clients),
+            "clients_responded": len(self.client_updates),
+            "round_time": round_time,
+            "privacy_spent": self.privacy_accountant.get_epsilon(self.config.privacy.delta),
+            "aggregation_method": self.config.security.aggregation_method.value
+        }
+        
+        self.training_history.append(round_metrics)
+        self.metrics_collector.record_round_metrics(round_metrics)
+        
+        logger.info(f"Round {round_num} completed in {round_time:.2f}s")
     
     def train(
         self,

@@ -64,6 +64,91 @@ except ImportError as e:
     LocalMetricsCollector = None
     ServerMetricsCollector = None
 
+# Network communication
+try:
+    from .network_client import FederatedNetworkClient, NetworkClientManager
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import network components: {e}")
+    FederatedNetworkClient = None
+    NetworkClientManager = None
+
+# Error handling and fault tolerance
+try:
+    from .exceptions import (
+        DPFederatedLoRAError,
+        NetworkError,
+        AuthenticationError,
+        ConfigurationError,
+        PrivacyBudgetError,
+        ModelError,
+        DataError,
+        AggregationError,
+        ClientError,
+        ServerError,
+        TrainingError,
+        SecurityError,
+        ResourceError,
+        TimeoutError,
+        ValidationError,
+        ByzantineError,
+        CommunicationError,
+        RegistrationError,
+        SynchronizationError,
+        MonitoringError,
+        ErrorContext,
+        ErrorSeverity
+    )
+    from .error_handler import (
+        ErrorHandler,
+        CircuitBreaker,
+        CircuitBreakerConfig,
+        RetryConfig,
+        with_error_handling,
+        error_boundary,
+        error_handler
+    )
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import error handling components: {e}")
+    # Set error classes to None for graceful degradation
+
+# Performance and scaling
+try:
+    from .performance import (
+        PerformanceMonitor,
+        PerformanceMetrics,
+        CacheManager,
+        ConnectionPool,
+        BatchProcessor,
+        ResourceManager,
+        performance_monitor,
+        cache_manager,
+        connection_pool,
+        resource_manager,
+        optimize_for_scale,
+        get_performance_report
+    )
+    from .concurrent import (
+        WorkerPool,
+        ThreadWorkerPool,
+        ProcessWorkerPool,
+        ConcurrentModelTrainer,
+        DistributedTrainingManager,
+        ParallelAggregator,
+        WorkerTask,
+        WorkerResult,
+        thread_pool,
+        process_pool,
+        concurrent_trainer,
+        parallel_aggregator,
+        cleanup_concurrent_resources
+    )
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import performance/concurrency components: {e}")
+    # Set performance classes to None for graceful degradation
+
 # Configuration
 try:
     from .config import (
@@ -101,6 +186,65 @@ __all__ = [
     "UtilityMonitor",
     "LocalMetricsCollector",
     "ServerMetricsCollector",
+    # Network
+    "FederatedNetworkClient",
+    "NetworkClientManager",
+    # Error Handling
+    "DPFederatedLoRAError",
+    "NetworkError",
+    "AuthenticationError",
+    "ConfigurationError",
+    "PrivacyBudgetError",
+    "ModelError",
+    "DataError",
+    "AggregationError",
+    "ClientError",
+    "ServerError",
+    "TrainingError",
+    "SecurityError",
+    "ResourceError",
+    "TimeoutError",
+    "ValidationError",
+    "ByzantineError",
+    "CommunicationError",
+    "RegistrationError",
+    "SynchronizationError",
+    "MonitoringError",
+    "ErrorContext",
+    "ErrorSeverity",
+    "ErrorHandler",
+    "CircuitBreaker",
+    "CircuitBreakerConfig",
+    "RetryConfig",
+    "with_error_handling",
+    "error_boundary",
+    "error_handler",
+    # Performance and Scaling
+    "PerformanceMonitor",
+    "PerformanceMetrics",
+    "CacheManager",
+    "ConnectionPool",
+    "BatchProcessor",
+    "ResourceManager",
+    "performance_monitor",
+    "cache_manager",
+    "connection_pool",
+    "resource_manager",
+    "optimize_for_scale",
+    "get_performance_report",
+    "WorkerPool",
+    "ThreadWorkerPool",
+    "ProcessWorkerPool",
+    "ConcurrentModelTrainer",
+    "DistributedTrainingManager",
+    "ParallelAggregator",
+    "WorkerTask",
+    "WorkerResult",
+    "thread_pool",
+    "process_pool",
+    "concurrent_trainer",
+    "parallel_aggregator",
+    "cleanup_concurrent_resources",
     # Configuration
     "FederatedConfig",
     "PrivacyConfig", 
