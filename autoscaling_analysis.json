@@ -1,0 +1,118 @@
+{
+  "timestamp": 1754450739.0940127,
+  "monitoring_duration_seconds": 30.84182906150818,
+  "metrics_samples_collected": 28,
+  "scaling_recommendation": {
+    "action": "no_action",
+    "reason": "All metrics within normal range",
+    "urgency": "low",
+    "suggested_scale_factor": 1.0,
+    "triggering_metrics": []
+  },
+  "current_metrics": {
+    "cpu_percent": 0.0,
+    "memory_percent": 15.5,
+    "memory_available_mb": 3329.88671875,
+    "disk_percent": 25.7,
+    "network_bytes_sent": 33178626,
+    "network_bytes_recv": 1311030460,
+    "concurrent_clients": 23.45449635503944,
+    "response_time_ms": 258.37662632542674,
+    "throughput_ops_sec": 40.59008275787427,
+    "privacy_budget_used_percent": 11.168846298567534,
+    "model_accuracy": 0.8563969252414226,
+    "aggregation_time_ms": 119.41726298496347,
+    "timestamp": 1754450738.093686
+  },
+  "metrics_summary": {
+    "cpu_percent": {
+      "avg": 0.17857142857142858,
+      "min": 0.0,
+      "max": 5.0,
+      "trend": -0.0150519978106185
+    },
+    "memory_percent": {
+      "avg": 15.5,
+      "min": 15.5,
+      "max": 15.5,
+      "trend": 0.0
+    },
+    "concurrent_clients": {
+      "avg": 21.797629878080638,
+      "min": 16.770482398281963,
+      "max": 28.680599096636833,
+      "trend": -0.03122270560154894
+    },
+    "response_time_ms": {
+      "avg": 176.26615384073267,
+      "min": 77.52726229056464,
+      "max": 335.46983482250295,
+      "trend": 0.4710985241916627
+    }
+  },
+  "scaling_config": {
+    "apiVersion": "autoscaling/v2",
+    "kind": "HorizontalPodAutoscaler",
+    "metadata": {
+      "name": "dp-federated-lora-hpa",
+      "namespace": "default"
+    },
+    "spec": {
+      "scaleTargetRef": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "dp-federated-lora-server"
+      },
+      "minReplicas": 1,
+      "maxReplicas": 10,
+      "metrics": [
+        {
+          "type": "Resource",
+          "resource": {
+            "name": "cpu",
+            "target": {
+              "type": "Utilization",
+              "averageUtilization": 70
+            }
+          }
+        },
+        {
+          "type": "Resource",
+          "resource": {
+            "name": "memory",
+            "target": {
+              "type": "Utilization",
+              "averageUtilization": 80
+            }
+          }
+        }
+      ],
+      "behavior": {
+        "scaleUp": {
+          "stabilizationWindowSeconds": 60,
+          "policies": [
+            {
+              "type": "Percent",
+              "value": 50,
+              "periodSeconds": 60
+            }
+          ]
+        },
+        "scaleDown": {
+          "stabilizationWindowSeconds": 300,
+          "policies": [
+            {
+              "type": "Percent",
+              "value": 10,
+              "periodSeconds": 60
+            }
+          ]
+        }
+      }
+    }
+  },
+  "recommendations": [
+    "System operating within normal parameters",
+    "Set up continuous monitoring with alerting for production deployment"
+  ]
+}

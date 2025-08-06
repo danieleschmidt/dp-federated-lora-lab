@@ -1,0 +1,29 @@
+{
+  "timestamp": 1754450245.2274249,
+  "total_audits": 4,
+  "passed_audits": 3,
+  "audit_success_rate": 75.0,
+  "duration_seconds": 0.00013113021850585938,
+  "audit_details": {
+    "federated_scenario": {
+      "success": false,
+      "message": "Budget exceeded at round 0, client 4: \u03b5=7.499, \u03b4=5.00e-06"
+    },
+    "privacy_amplification": {
+      "success": true,
+      "message": "Privacy amplification by sampling: 100.0x improvement (\u03b5: 1.0\u21920.010)"
+    },
+    "rdp_conversion": {
+      "success": true,
+      "message": "RDP conversion: RDP(\u03b1=2.0, \u03b5=0.5) \u2192 (\u03b5=12.013, \u03b4=1.00e-05)"
+    },
+    "gradient_clipping": {
+      "success": true,
+      "message": "Gradient clipping analysis: C=0.1 \u2192 SNR=0.91, C=1.0 \u2192 SNR=0.91, C=5.0 \u2192 SNR=0.91, C=10.0 \u2192 SNR=0.91"
+    }
+  },
+  "privacy_recommendations": [
+    "Review federated training privacy budget allocation",
+    "Consider privacy amplification by subsampling to improve privacy-utility tradeoff"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "timestamp": 1754450707.3419564,
+  "total_privacy_checks": 7,
+  "passed_privacy_checks": 4,
+  "privacy_compliance_rate": 57.14285714285714,
+  "duration_seconds": 0.11930346488952637,
+  "privacy_details": {
+    "epsilon_delta_validation": {
+      "success": true,
+      "message": "DP parameters valid: \u03b5=1.0, \u03b4=1e-05 (high privacy)"
+    },
+    "rdp_accounting": {
+      "success": false,
+      "message": "Opacus not available: No module named 'opacus'"
+    },
+    "privacy_engine": {
+      "success": false,
+      "message": "Privacy engine module not available"
+    },
+    "secure_aggregation": {
+      "success": false,
+      "message": "Aggregation modules not available"
+    },
+    "gradient_clipping": {
+      "success": true,
+      "message": "Gradient clipping: max_norm=1.0 \u2705"
+    },
+    "data_privacy_safeguards": {
+      "success": true,
+      "message": "Privacy safeguards: encryption_available \u2705"
+    },
+    "privacy_budget_tracking": {
+      "success": true,
+      "message": "Privacy budget tracking (basic composition) \u2705"
+    }
+  },
+  "recommendations": [
+    "Address failed privacy checks before production deployment",
+    "Install and configure Opacus for RDP accounting"
+  ]
+}
