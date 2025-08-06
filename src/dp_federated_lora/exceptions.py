@@ -196,3 +196,19 @@ def create_error_with_context(
         details["cause_type"] = type(cause).__name__
     
     return error_class(message, details)
+
+
+# Quantum-inspired component exceptions
+class QuantumSchedulingError(DPFederatedLoRAError):
+    """Error in quantum-inspired task scheduling."""
+    pass
+
+
+class QuantumPrivacyError(DPFederatedLoRAError):
+    """Error in quantum-enhanced privacy mechanisms."""
+    pass
+
+
+class QuantumOptimizationError(DPFederatedLoRAError):
+    """Error in quantum-inspired optimization algorithms."""
+    pass

@@ -1,5 +1,5 @@
 {
-  "timestamp": 1754284733.2931015,
+  "timestamp": 1754486192.655342,
   "overall_score": 96.26168224299066,
   "overall_status": "EXCELLENT",
   "total_score": 103,
@@ -12,7 +12,7 @@
       "details": [
         "Core modules present: 12/12",
         "__init__.py properly configured with exports",
-        "Examples directory with 4 files"
+        "Examples directory with 5 files"
       ],
       "status": "PASS"
     },
@@ -34,7 +34,7 @@
       "max_score": 12,
       "success_rate": 100.0,
       "details": [
-        "Comprehensive exception hierarchy: 21 classes",
+        "Comprehensive exception hierarchy: 24 classes",
         "Circuit breaker pattern implemented",
         "Retry mechanisms implemented",
         "Async error handling implemented",
@@ -93,7 +93,7 @@
       "details": [
         "Comprehensive README.md (>5000 chars)",
         "Module documentation: 3/3 well-documented",
-        "Comprehensive examples: 4 files",
+        "Comprehensive examples: 5 files",
         "Architecture documentation present"
       ],
       "status": "PASS"
@@ -137,7 +137,7 @@
         "Health check endpoint",
         "Statistics endpoint",
         "Production-ready CLI interface",
-        "Comprehensive logging: 8 modules"
+        "Comprehensive logging: 14 modules"
       ],
       "status": "PASS"
     }
