@@ -1,0 +1,91 @@
+{
+  "timestamp": 1754450739.6373394,
+  "environment": "demo",
+  "deployment_summary": {
+    "total_stages": 8,
+    "successful_stages": 5,
+    "failed_stages": 3,
+    "success_rate_percent": 62.5,
+    "total_duration_seconds": 38.531522274017334,
+    "deployment_status": "PARTIAL"
+  },
+  "stage_results": [
+    {
+      "stage": "validate_prerequisites",
+      "success": false,
+      "duration_seconds": 4.464547872543335,
+      "output": "Missing tools: kubectl, terraform, aws-cli, helm, aws-credentials, docker-daemon",
+      "error_message": "Please install missing tools: ['kubectl', 'terraform', 'aws-cli', 'helm', 'aws-credentials', 'docker-daemon']"
+    },
+    {
+      "stage": "build_containers",
+      "success": false,
+      "duration_seconds": 0.17154359817504883,
+      "output": "",
+      "error_message": "ERROR: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?\n"
+    },
+    {
+      "stage": "deploy_infrastructure",
+      "success": false,
+      "duration_seconds": 0.002059459686279297,
+      "output": "",
+      "error_message": "Terraform init failed: /bin/sh: 1: terraform: not found\n"
+    },
+    {
+      "stage": "deploy_kubernetes",
+      "success": true,
+      "duration_seconds": 3.8623809814453125e-05,
+      "output": "Kubernetes deployment simulated for 3 manifests",
+      "error_message": null
+    },
+    {
+      "stage": "configure_monitoring",
+      "success": true,
+      "duration_seconds": 1.2044050693511963,
+      "output": "Monitoring configured: 7 components, 5 privacy monitors",
+      "error_message": null
+    },
+    {
+      "stage": "run_health_checks",
+      "success": true,
+      "duration_seconds": 0.42328643798828125,
+      "output": "Health checks: \u2705, Privacy validation: \u2705",
+      "error_message": null
+    },
+    {
+      "stage": "configure_global_dns",
+      "success": true,
+      "duration_seconds": 0.802635908126831,
+      "output": "Global DNS configured: 4 endpoints, 4 edge regions",
+      "error_message": null
+    },
+    {
+      "stage": "enable_auto_scaling",
+      "success": true,
+      "duration_seconds": 31.463005304336548,
+      "output": "Auto-scaling configured: 5 policies",
+      "error_message": null
+    }
+  ],
+  "global_deployment_config": {
+    "regions": [
+      "us-east-1",
+      "eu-west-1",
+      "ap-southeast-1"
+    ],
+    "multi_region_enabled": true,
+    "gdpr_compliant": true,
+    "ccpa_compliant": true,
+    "privacy_budget_limit": 10.0,
+    "auto_scaling_enabled": true,
+    "monitoring_enabled": true,
+    "high_availability": true
+  },
+  "next_steps": [
+    "Deployment failed - investigate and resolve critical issues",
+    "Do not direct production traffic until issues are resolved"
+  ],
+  "recommendations": [
+    "Address critical stage failures: validate_prerequisites, build_containers, deploy_infrastructure"
+  ]
+}

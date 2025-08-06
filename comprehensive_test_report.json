@@ -1,0 +1,107 @@
+{
+  "timestamp": 1754450508.8268385,
+  "summary": {
+    "total_tests": 7,
+    "passed_tests": 4,
+    "failed_tests": 3,
+    "success_rate_percent": 57.14285714285714,
+    "total_duration_seconds": 1.8567273616790771,
+    "average_test_duration": 0.26524676595415386
+  },
+  "categories": {
+    "unit": {
+      "total": 3,
+      "passed": 1,
+      "failed": 2
+    },
+    "security": {
+      "total": 1,
+      "passed": 0,
+      "failed": 1
+    },
+    "integration": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "performance": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "test_results": [
+    {
+      "category": "unit",
+      "test_name": "package_imports",
+      "success": true,
+      "duration_seconds": 0.20756316184997559,
+      "error_message": null,
+      "coverage_percent": null
+    },
+    {
+      "category": "unit",
+      "test_name": "configuration_loading",
+      "success": false,
+      "duration_seconds": 0.023236751556396484,
+      "error_message": "  File \"<string>\", line 6\n    print(Configuration\n         ^\nSyntaxError: '(' was never closed\n",
+      "coverage_percent": null
+    },
+    {
+      "category": "unit",
+      "test_name": "privacy_calculations",
+      "success": false,
+      "duration_seconds": 0.002733469009399414,
+      "error_message": "/bin/sh: 34: Syntax error: \"(\" unexpected\n",
+      "coverage_percent": null
+    },
+    {
+      "category": "security",
+      "test_name": "security_features",
+      "success": false,
+      "duration_seconds": 0.02344036102294922,
+      "error_message": "  File \"<string>\", line 11\n    test_data = bsensitive\n                          ^\nSyntaxError: expected 'except' or 'finally' block\n",
+      "coverage_percent": null
+    },
+    {
+      "category": "integration",
+      "test_name": "health_checks",
+      "success": true,
+      "duration_seconds": 0.29096436500549316,
+      "error_message": null,
+      "coverage_percent": null
+    },
+    {
+      "category": "integration",
+      "test_name": "privacy_validation",
+      "success": true,
+      "duration_seconds": 0.21793127059936523,
+      "error_message": null,
+      "coverage_percent": null
+    },
+    {
+      "category": "performance",
+      "test_name": "performance_benchmarks",
+      "success": true,
+      "duration_seconds": 1.090857982635498,
+      "error_message": null,
+      "coverage_percent": null
+    }
+  ],
+  "quality_gates": {
+    "minimum_success_rate": 85,
+    "gate_passed": false,
+    "critical_tests": [
+      "package_imports",
+      "security_features",
+      "privacy_calculations"
+    ],
+    "critical_tests_passed": false
+  },
+  "recommendations": [
+    "Insufficient test coverage - major issues need resolution",
+    "Critical tests failed - system not ready for deployment",
+    "Address 2 failing unit test(s)",
+    "Address 1 failing security test(s)"
+  ]
+}
