@@ -36,6 +36,8 @@ from .monitoring import ServerMetricsCollector
 from .client import DPLoRAClient
 from .performance import performance_monitor, cache_manager, resource_manager, optimize_for_scale
 from .concurrent import parallel_aggregator, ConcurrentModelTrainer
+from .quantum_scheduler import QuantumTaskScheduler, QuantumTask, QuantumClient, get_quantum_scheduler
+from .quantum_privacy import QuantumPrivacyEngine, QuantumPrivacyConfig, create_quantum_privacy_engine
 
 
 logger = logging.getLogger(__name__)
@@ -217,6 +219,11 @@ class FederatedServer:
             total_delta=self.config.privacy.delta
         )
         self.metrics_collector = ServerMetricsCollector()
+        
+        # Quantum components
+        self.quantum_scheduler = get_quantum_scheduler(self.config, self.metrics_collector)
+        self.quantum_privacy_engine: Optional[QuantumPrivacyEngine] = None
+        self.quantum_enabled = config.quantum_enabled if config and hasattr(config, 'quantum_enabled') else True
         
         # Training state
         self.training_history: List[Dict[str, Any]] = []

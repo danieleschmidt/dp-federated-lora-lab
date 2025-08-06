@@ -19,7 +19,7 @@ Example:
     >>> history = server.train(clients=[client], rounds=10)
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Daniel Schmidt"
 __email__ = "daniel@terragonlabs.com"
 __license__ = "MIT"
@@ -170,6 +170,95 @@ except ImportError as e:
     SecurityConfig = None
     ClientConfig = None
 
+# Quantum-inspired components
+try:
+    from .quantum_scheduler import (
+        QuantumTaskScheduler,
+        QuantumTask,
+        QuantumClient,
+        get_quantum_scheduler,
+        initialize_quantum_scheduling,
+    )
+    from .quantum_privacy import (
+        QuantumPrivacyEngine,
+        QuantumPrivacyConfig,
+        QuantumNoiseGenerator,
+        QuantumSecureAggregator,
+        create_quantum_privacy_engine,
+    )
+    from .quantum_optimizer import (
+        QuantumInspiredOptimizer,
+        VariationalQuantumOptimizer,
+        QuantumAnnealingScheduler,
+        get_quantum_optimizer,
+    )
+    from .quantum_monitoring import (
+        QuantumMetricsCollector,
+        QuantumMetricType,
+        QuantumAnomalyDetector,
+        QuantumHealthCheck,
+        get_quantum_metrics_collector,
+        create_quantum_health_checker,
+    )
+    from .quantum_resilience import (
+        QuantumResilienceManager,
+        QuantumCircuitBreaker,
+        QuantumRetryStrategy,
+        get_global_resilience_manager,
+        quantum_circuit_breaker,
+        quantum_retry,
+        quantum_resilient,
+    )
+    from .quantum_scaling import (
+        QuantumAutoScaler,
+        QuantumResourcePredictor,
+        get_quantum_auto_scaler,
+        initialize_quantum_auto_scaling,
+    )
+    from .exceptions import (
+        QuantumSchedulingError,
+        QuantumPrivacyError,
+        QuantumOptimizationError,
+    )
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Could not import quantum components: {e}")
+    # Set quantum classes to None for graceful degradation
+    QuantumTaskScheduler = None
+    QuantumTask = None
+    QuantumClient = None
+    get_quantum_scheduler = None
+    initialize_quantum_scheduling = None
+    QuantumPrivacyEngine = None
+    QuantumPrivacyConfig = None
+    QuantumNoiseGenerator = None
+    QuantumSecureAggregator = None
+    create_quantum_privacy_engine = None
+    QuantumInspiredOptimizer = None
+    VariationalQuantumOptimizer = None
+    QuantumAnnealingScheduler = None
+    get_quantum_optimizer = None
+    QuantumMetricsCollector = None
+    QuantumMetricType = None
+    QuantumAnomalyDetector = None
+    QuantumHealthCheck = None
+    get_quantum_metrics_collector = None
+    create_quantum_health_checker = None
+    QuantumResilienceManager = None
+    QuantumCircuitBreaker = None
+    QuantumRetryStrategy = None
+    get_global_resilience_manager = None
+    quantum_circuit_breaker = None
+    quantum_retry = None
+    quantum_resilient = None
+    QuantumAutoScaler = None
+    QuantumResourcePredictor = None
+    get_quantum_auto_scaler = None
+    initialize_quantum_auto_scaling = None
+    QuantumSchedulingError = None
+    QuantumPrivacyError = None
+    QuantumOptimizationError = None
+
 __all__ = [
     # Core
     "FederatedServer",
@@ -254,4 +343,39 @@ __all__ = [
     "create_default_config",
     "create_high_privacy_config", 
     "create_performance_config",
+    # Quantum-inspired components
+    "QuantumTaskScheduler",
+    "QuantumTask",
+    "QuantumClient",
+    "get_quantum_scheduler",
+    "initialize_quantum_scheduling",
+    "QuantumPrivacyEngine",
+    "QuantumPrivacyConfig",
+    "QuantumNoiseGenerator",
+    "QuantumSecureAggregator",
+    "create_quantum_privacy_engine",
+    "QuantumInspiredOptimizer",
+    "VariationalQuantumOptimizer",
+    "QuantumAnnealingScheduler",
+    "get_quantum_optimizer",
+    "QuantumMetricsCollector",
+    "QuantumMetricType",
+    "QuantumAnomalyDetector",
+    "QuantumHealthCheck",
+    "get_quantum_metrics_collector",
+    "create_quantum_health_checker",
+    "QuantumResilienceManager",
+    "QuantumCircuitBreaker",
+    "QuantumRetryStrategy",
+    "get_global_resilience_manager",
+    "quantum_circuit_breaker",
+    "quantum_retry",
+    "quantum_resilient",
+    "QuantumAutoScaler",
+    "QuantumResourcePredictor",
+    "get_quantum_auto_scaler",
+    "initialize_quantum_auto_scaling",
+    "QuantumSchedulingError",
+    "QuantumPrivacyError",
+    "QuantumOptimizationError",
 ]
