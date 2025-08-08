@@ -96,7 +96,7 @@ class ComprehensiveTestSuite:
         start_time = time.time()
         
         try:
-            test_script = """
+            test_script = '''
 import sys
 sys.path.append("src")
 try:
@@ -112,9 +112,9 @@ try:
 except Exception as e:
     print(f"Configuration test failed: {e}")
     print("TEST_FAILED")
-"""
+'''
             
-            success, stdout, stderr = self.run_command(f'python3 -c "{test_script}"')
+            success, stdout, stderr = self.run_command(f"python3 -c '{test_script}'")
             duration = time.time() - start_time
             
             if success and "TEST_PASSED" in stdout:
@@ -150,7 +150,7 @@ except Exception as e:
         start_time = time.time()
         
         try:
-            test_script = """
+            test_script = '''
 import sys
 sys.path.append("src")
 import math
@@ -194,9 +194,9 @@ else:
     print("Privacy calculations: FAILED")
     print(message)
     print("TEST_FAILED")
-"""
+'''
             
-            success, stdout, stderr = self.run_command(f'python3 -c "{test_script}"')
+            success, stdout, stderr = self.run_command(f"python3 -c '{test_script}'")
             duration = time.time() - start_time
             
             if success and "TEST_PASSED" in stdout:
@@ -232,7 +232,7 @@ else:
         start_time = time.time()
         
         try:
-            test_script = """
+            test_script = '''
 try:
     from cryptography.fernet import Fernet
     import hashlib
@@ -277,9 +277,9 @@ try:
 except Exception as e:
     print(f"Security test failed: {e}")
     print("TEST_FAILED")
-"""
+'''
             
-            success, stdout, stderr = self.run_command(f'python3 -c "{test_script}"')
+            success, stdout, stderr = self.run_command(f"python3 -c '{test_script}'")
             duration = time.time() - start_time
             
             if success and "TEST_PASSED" in stdout:
