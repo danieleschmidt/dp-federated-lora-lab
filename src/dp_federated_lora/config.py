@@ -91,6 +91,13 @@ class SecurityConfig:
     min_clients: int = 3
     max_clients: int = 100
     
+    # Enhanced security features
+    enable_authentication: bool = True
+    enable_encryption: bool = True
+    security_level: str = "high"
+    threat_detection: bool = True
+    audit_logging: bool = True
+    
     def __post_init__(self):
         """Validate security configuration."""
         if not 0 <= self.byzantine_fraction <= 1:
@@ -120,6 +127,13 @@ class FederatedConfig:
     privacy: PrivacyConfig = field(default_factory=PrivacyConfig)
     lora: LoRAConfig = field(default_factory=LoRAConfig)
     security: SecurityConfig = field(default_factory=SecurityConfig)
+    
+    # Advanced features
+    quantum_enabled: bool = True
+    auto_scaling_enabled: bool = True
+    resilience_enabled: bool = True
+    adaptive_learning_rate: bool = True
+    dynamic_client_selection: bool = True
     
     # Communication settings
     server_host: str = "localhost"
