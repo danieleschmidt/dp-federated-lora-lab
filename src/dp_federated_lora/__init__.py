@@ -220,6 +220,22 @@ try:
         QuantumPrivacyError,
         QuantumOptimizationError,
     )
+    # Advanced optimization and intelligence
+    from .adaptive_optimization import (
+        AdaptiveOptimizer,
+        OptimizationStrategy,
+        OptimizationMetrics,
+        AdaptationDecision,
+        create_adaptive_optimizer,
+    )
+    from .intelligence_engine import (
+        IntelligenceEngine,
+        IntelligenceLevel,
+        DecisionType,
+        IntelligenceDecision,
+        SystemState,
+        create_intelligence_engine,
+    )
 except ImportError as e:
     import warnings
     warnings.warn(f"Could not import quantum components: {e}")
@@ -258,6 +274,18 @@ except ImportError as e:
     QuantumSchedulingError = None
     QuantumPrivacyError = None
     QuantumOptimizationError = None
+    # Set adaptive optimization classes to None
+    AdaptiveOptimizer = None
+    OptimizationStrategy = None
+    OptimizationMetrics = None
+    AdaptationDecision = None
+    create_adaptive_optimizer = None
+    IntelligenceEngine = None
+    IntelligenceLevel = None
+    DecisionType = None
+    IntelligenceDecision = None
+    SystemState = None
+    create_intelligence_engine = None
 
 __all__ = [
     # Core
@@ -378,4 +406,16 @@ __all__ = [
     "QuantumSchedulingError",
     "QuantumPrivacyError",
     "QuantumOptimizationError",
+    # Advanced optimization and intelligence
+    "AdaptiveOptimizer",
+    "OptimizationStrategy",
+    "OptimizationMetrics",
+    "AdaptationDecision",
+    "create_adaptive_optimizer",
+    "IntelligenceEngine",
+    "IntelligenceLevel",
+    "DecisionType",
+    "IntelligenceDecision",
+    "SystemState",
+    "create_intelligence_engine",
 ]

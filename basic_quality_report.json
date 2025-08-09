@@ -1,0 +1,54 @@
+{
+  "overall_status": "PASSED_WITH_WARNINGS",
+  "overall_score": 0.9081372958643957,
+  "total_gates": 6,
+  "passed": 5,
+  "failed": 0,
+  "warnings": 1,
+  "gate_results": [
+    {
+      "name": "Project Structure",
+      "result": "passed",
+      "score": 1.0,
+      "message": "All essential files and directories present",
+      "execution_time": 0.0002613067626953125
+    },
+    {
+      "name": "Code Organization",
+      "result": "passed",
+      "score": 0.8,
+      "message": "Code organization is good",
+      "execution_time": 0.004091024398803711
+    },
+    {
+      "name": "Basic Code Quality",
+      "result": "passed",
+      "score": 0.8488237751863745,
+      "message": "Code quality is excellent",
+      "execution_time": 0.014770984649658203
+    },
+    {
+      "name": "Configuration Files",
+      "result": "passed",
+      "score": 1.0,
+      "message": "Configuration files are complete and valid",
+      "execution_time": 0.0004456043243408203
+    },
+    {
+      "name": "Documentation",
+      "result": "passed",
+      "score": 1.0,
+      "message": "Documentation is comprehensive",
+      "execution_time": 0.0007693767547607422
+    },
+    {
+      "name": "Security Patterns",
+      "result": "warning",
+      "score": 0.8,
+      "message": "Found 1 potential security issues",
+      "execution_time": 0.0057985782623291016
+    }
+  ],
+  "failed_gates": [],
+  "total_execution_time": 0.02732086181640625
+}
