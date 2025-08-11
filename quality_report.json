@@ -1,0 +1,192 @@
+{
+  "timestamp": 1754901745.6812258,
+  "quality_level": "research_grade",
+  "overall_score": 36.9608890633834,
+  "gates_passed": 5,
+  "gates_failed": 6,
+  "gate_results": [
+    {
+      "gate_name": "Code Complexity",
+      "category": "unit",
+      "passed": false,
+      "score": 0,
+      "message": "Found 2010 complexity issues",
+      "execution_time": 0.5942988395690918,
+      "recommendations": [
+        "Refactor deeply nested code",
+        "Break down large functions"
+      ]
+    },
+    {
+      "gate_name": "Code Style",
+      "category": "unit",
+      "passed": false,
+      "score": 0,
+      "message": "Found 5819 style issues",
+      "execution_time": 0.5942988395690918,
+      "recommendations": [
+        "Fix long lines",
+        "Remove trailing whitespace"
+      ]
+    },
+    {
+      "gate_name": "Documentation Coverage",
+      "category": "unit",
+      "passed": false,
+      "score": 0.0,
+      "message": "Documentation coverage: 0.0%",
+      "execution_time": 0.5942988395690918,
+      "recommendations": [
+        "Add docstrings to functions and classes"
+      ]
+    },
+    {
+      "gate_name": "Security Vulnerability Scan",
+      "category": "security",
+      "passed": false,
+      "score": 0,
+      "message": "Security analysis completed with score 0",
+      "execution_time": 0.5600745677947998,
+      "recommendations": [
+        "Validate and sanitize command inputs",
+        "Replace unsafe functions with secure alternatives",
+        "Use strong cryptographic algorithms"
+      ]
+    },
+    {
+      "gate_name": "Startup Performance",
+      "category": "performance",
+      "passed": true,
+      "score": 99.25689220428467,
+      "message": "Startup time: 0.037s",
+      "execution_time": 0.0,
+      "recommendations": []
+    },
+    {
+      "gate_name": "Performance Hotspots",
+      "category": "performance",
+      "passed": false,
+      "score": 40,
+      "message": "Found 6 potential performance issues",
+      "execution_time": 0.0,
+      "recommendations": [
+        "Optimize loops",
+        "Reduce string concatenation"
+      ]
+    },
+    {
+      "gate_name": "Privacy Compliance",
+      "category": "privacy",
+      "passed": false,
+      "score": 24.999999999999996,
+      "message": "Privacy compliance score: 25.0%",
+      "execution_time": 0.12972712516784668,
+      "recommendations": [
+        "Apply data minimization principles"
+      ]
+    },
+    {
+      "gate_name": "Integration Tests",
+      "category": "integration",
+      "passed": true,
+      "score": 85,
+      "message": "Integration tests passed",
+      "execution_time": 1.0,
+      "recommendations": []
+    },
+    {
+      "gate_name": "Chaos Resilience",
+      "category": "chaos",
+      "passed": true,
+      "score": 78,
+      "message": "System resilience under chaos: 78%",
+      "execution_time": 0.5,
+      "recommendations": []
+    },
+    {
+      "gate_name": "Reproducibility",
+      "category": "compliance",
+      "passed": true,
+      "score": 92,
+      "message": "Reproducibility score: 92%",
+      "execution_time": 0.1,
+      "recommendations": []
+    },
+    {
+      "gate_name": "Benchmark Quality",
+      "category": "performance",
+      "passed": true,
+      "score": 88,
+      "message": "Benchmark quality score: 88%",
+      "execution_time": 0.1,
+      "recommendations": []
+    }
+  ],
+  "summary": {
+    "categories": {
+      "unit": {
+        "passed": 0,
+        "failed": 3,
+        "avg_score": 0.0,
+        "scores": [
+          0,
+          0,
+          0.0
+        ]
+      },
+      "security": {
+        "passed": 0,
+        "failed": 1,
+        "avg_score": 0.0,
+        "scores": [
+          0
+        ]
+      },
+      "performance": {
+        "passed": 2,
+        "failed": 1,
+        "avg_score": 75.75229740142822,
+        "scores": [
+          99.25689220428467,
+          40,
+          88
+        ]
+      },
+      "privacy": {
+        "passed": 0,
+        "failed": 1,
+        "avg_score": 24.999999999999996,
+        "scores": [
+          24.999999999999996
+        ]
+      },
+      "integration": {
+        "passed": 1,
+        "failed": 0,
+        "avg_score": 85.0,
+        "scores": [
+          85
+        ]
+      },
+      "chaos": {
+        "passed": 1,
+        "failed": 0,
+        "avg_score": 78.0,
+        "scores": [
+          78
+        ]
+      },
+      "compliance": {
+        "passed": 1,
+        "failed": 0,
+        "avg_score": 92.0,
+        "scores": [
+          92
+        ]
+      }
+    },
+    "total_gates": 11,
+    "execution_time": 4.172698211669922,
+    "recommendations_count": 11
+  }
+}

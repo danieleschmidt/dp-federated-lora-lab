@@ -1,0 +1,9 @@
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dp-federated-lora-staging
+  labels:
+    environment: staging
+    project: dp-federated-lora
+---

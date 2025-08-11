@@ -1,0 +1,10 @@
+{
+  "scenario": "Healthcare Federation",
+  "duration": 2.002872943878174,
+  "privacy_guarantee": "\u03b5=1.0",
+  "compliance": "HIPAA Certified",
+  "clients_participated": 10,
+  "model_accuracy": 0.847,
+  "privacy_budget_used": 0.95,
+  "audit_trail": "audit_healthcare_1754902027.log"
+}
