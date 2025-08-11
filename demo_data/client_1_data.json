@@ -1,0 +1,610 @@
+{
+  "client_id": "demo_client_1",
+  "data_samples": [
+    {
+      "text": "Sample medical record 0 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 1 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 2 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 3 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 4 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 5 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 6 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 7 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 8 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 9 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 10 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 11 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 12 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 13 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 14 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 15 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 16 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 17 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 18 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 19 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 20 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 21 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 22 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 23 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 24 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 25 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 26 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 27 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 28 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 29 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 30 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 31 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 32 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 33 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 34 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 35 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 36 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 37 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 38 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 39 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 40 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 41 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 42 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 43 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 44 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 45 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 46 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 47 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 48 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 49 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 50 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 51 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 52 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 53 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 54 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 55 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 56 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 57 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 58 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 59 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 60 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 61 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 62 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 63 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 64 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 65 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 66 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 67 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 68 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 69 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 70 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 71 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 72 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 73 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 74 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 75 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 76 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 77 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 78 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 79 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 80 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 81 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 82 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 83 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 84 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 85 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 86 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 87 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 88 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 89 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 90 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 91 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 92 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 93 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 94 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 95 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 96 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 97 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 98 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 99 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 100 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 101 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 102 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 103 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 104 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 105 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 106 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 107 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 108 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 109 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 110 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 111 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 112 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 113 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 114 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 115 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 116 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 117 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 118 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 119 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 120 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 121 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 122 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 123 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 124 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 125 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 126 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 127 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 128 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 129 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 130 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 131 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 132 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 133 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 134 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 135 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 136 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 137 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 138 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 139 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 140 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 141 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 142 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 143 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 144 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 145 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 146 for client 1",
+      "label": 2
+    },
+    {
+      "text": "Sample medical record 147 for client 1",
+      "label": 0
+    },
+    {
+      "text": "Sample medical record 148 for client 1",
+      "label": 1
+    },
+    {
+      "text": "Sample medical record 149 for client 1",
+      "label": 2
+    }
+  ],
+  "metadata": {
+    "data_type": "synthetic_medical",
+    "privacy_level": "high",
+    "num_samples": 150
+  }
+}
