@@ -1,0 +1,221 @@
+{
+  "timestamp": 1755034487.5091946,
+  "overall_score": 84.94643001864009,
+  "pass_rate": 83.33333333333334,
+  "gates_passed": 5,
+  "total_gates": 6,
+  "individual_results": [
+    {
+      "gate_name": "project_structure",
+      "passed": true,
+      "score": 100,
+      "details": {
+        "existing_directories": [
+          "src",
+          "tests",
+          "docs",
+          "scripts"
+        ],
+        "total_directories_checked": 4,
+        "existing_config_files": [
+          "pyproject.toml",
+          "requirements.txt",
+          "README.md",
+          "LICENSE"
+        ],
+        "config_score": 100.0,
+        "final_score": 100
+      },
+      "recommendations": [],
+      "execution_time": 0.00031828880310058594,
+      "timestamp": 1755034487.4838674
+    },
+    {
+      "gate_name": "code_organization",
+      "passed": true,
+      "score": 100.0,
+      "details": {
+        "python_files_count": 36,
+        "init_files_count": 1,
+        "main_package_exists": true,
+        "main_package_modules": 36,
+        "existing_key_modules": [
+          "server.py",
+          "client.py",
+          "privacy.py",
+          "aggregation.py",
+          "monitoring.py",
+          "exceptions.py",
+          "config.py"
+        ],
+        "key_modules_ratio": 1.0,
+        "calculated_score": 100.0
+      },
+      "recommendations": [],
+      "execution_time": 0.0012733936309814453,
+      "timestamp": 1755034487.485178
+    },
+    {
+      "gate_name": "documentation_quality",
+      "passed": true,
+      "score": 80.34524677850717,
+      "details": {
+        "readme_length": 15216,
+        "readme_lines": 560,
+        "found_readme_sections": [
+          "installation",
+          "api",
+          "contributing",
+          "license",
+          "overview",
+          "features",
+          "setup"
+        ],
+        "readme_completeness": 0.7777777777777778,
+        "doc_files_count": 9,
+        "doc_file_names": [
+          "IMPLEMENTATION_SUMMARY.md",
+          "ROADMAP.md",
+          "SETUP_REQUIRED.md",
+          "0001-lora-parameter-efficient-finetuning.md",
+          "0002-differential-privacy-opacus.md",
+          "README.md",
+          "template.md",
+          "README.md",
+          "ci-cd.md"
+        ],
+        "files_with_docstrings": 20,
+        "total_python_files_checked": 20,
+        "total_functions": 457,
+        "functions_with_docstrings": 334,
+        "docstring_coverage": 73.08533916849015,
+        "calculated_score": 80.34524677850717
+      },
+      "recommendations": [],
+      "execution_time": 0.011352062225341797,
+      "timestamp": 1755034487.4965625
+    },
+    {
+      "gate_name": "test_structure",
+      "passed": true,
+      "score": 115,
+      "details": {
+        "test_files_count": 6,
+        "unit_test_files": 2,
+        "integration_test_files": 2,
+        "e2e_test_files": 1,
+        "existing_test_categories": [
+          "unit",
+          "integration",
+          "e2e"
+        ],
+        "existing_test_configs": [
+          "conftest.py",
+          "__init__.py"
+        ],
+        "total_test_functions": 88,
+        "calculated_score": 115
+      },
+      "recommendations": [],
+      "execution_time": 0.0011715888977050781,
+      "timestamp": 1755034487.4978132
+    },
+    {
+      "gate_name": "security_practices",
+      "passed": false,
+      "score": 23.33333333333333,
+      "details": {
+        "existing_security_files": [
+          ".gitignore",
+          "SECURITY.md",
+          ".pre-commit-config.yaml"
+        ],
+        "gitignore_sensitive_patterns": [
+          "__pycache__",
+          ".venv",
+          "venv/",
+          "*.log"
+        ],
+        "gitignore_completeness": 0.4444444444444444,
+        "security_issues_found": 7,
+        "security_issues": [
+          {
+            "file": "src/dp_federated_lora/advanced_security.py",
+            "line": 89,
+            "issue": "Potential hardcoded private_key"
+          },
+          {
+            "file": "src/dp_federated_lora/advanced_security.py",
+            "line": 101,
+            "issue": "Potential hardcoded private_key"
+          },
+          {
+            "file": "src/dp_federated_lora/aggregation.py",
+            "line": 221,
+            "issue": "Potential hardcoded secret"
+          },
+          {
+            "file": "src/dp_federated_lora/client.py",
+            "line": 165,
+            "issue": "Potential hardcoded token"
+          },
+          {
+            "file": "src/dp_federated_lora/comprehensive_monitoring.py",
+            "issue": "Potentially insecure import: pickle"
+          }
+        ],
+        "calculated_score": 23.33333333333333
+      },
+      "recommendations": [
+        "Add security files: .github/workflows/security.yml, bandit.yaml",
+        "Improve .gitignore to include more sensitive file patterns",
+        "Review and fix 7 potential security issues",
+        "Add security scanning to CI/CD pipeline"
+      ],
+      "execution_time": 0.010955810546875,
+      "timestamp": 1755034487.5088038
+    },
+    {
+      "gate_name": "configuration_quality",
+      "passed": true,
+      "score": 91.0,
+      "details": {
+        "pyproject_exists": true,
+        "pyproject_size": 6884,
+        "pyproject_sections": [
+          "[build-system]",
+          "[project]",
+          "[tool.black]",
+          "[tool.mypy]"
+        ],
+        "pyproject_completeness": 0.8,
+        "requirements_count": 19,
+        "requirements_sample": [
+          "torch>=2.0.0",
+          "transformers>=4.30.0",
+          "datasets>=2.10.0",
+          "accelerate>=0.20.0",
+          "peft>=0.4.0"
+        ],
+        "pinned_requirements_ratio": 1.0,
+        "existing_dev_configs": [
+          ".pre-commit-config.yaml",
+          "tox.ini",
+          "pytest.ini"
+        ],
+        "dev_config_ratio": 0.5,
+        "calculated_score": 91.0
+      },
+      "recommendations": [],
+      "execution_time": 0.00030541419982910156,
+      "timestamp": 1755034487.5091827
+    }
+  ],
+  "top_recommendations": [
+    "Add security files: .github/workflows/security.yml, bandit.yaml",
+    "Improve .gitignore to include more sensitive file patterns",
+    "Review and fix 7 potential security issues",
+    "Add security scanning to CI/CD pipeline"
+  ],
+  "quality_level": "GOOD"
+}
