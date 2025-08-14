@@ -747,7 +747,7 @@ class FederatedServer:
         
         return aggregated
     
-    def run_round(self, round_num: int) -> Dict[str, Any]:
+    async def run_round(self, round_num: int) -> Dict[str, Any]:
         """
         Execute a single federated learning round.
         
@@ -995,7 +995,7 @@ class FederatedServer:
         
         logger.info(f"Round {round_num} completed in {round_time:.2f}s")
     
-    def train(
+    async def train(
         self,
         clients: Optional[List[DPLoRAClient]] = None,
         aggregation: Optional[str] = None,
@@ -1048,7 +1048,7 @@ class FederatedServer:
             
             for round_num in range(1, self.config.num_rounds + 1):
                 # Run training round
-                round_results = self.run_round(round_num)
+                round_results = await self.run_round(round_num)
                 
                 # Simulate client training if clients provided
                 if clients:
