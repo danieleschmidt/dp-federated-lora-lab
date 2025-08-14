@@ -1,147 +1,202 @@
 {
-  "timestamp": 1754669624.1668785,
-  "overall_score": 96.26168224299066,
-  "overall_status": "EXCELLENT",
-  "total_score": 103,
-  "max_score": 107,
-  "results": {
-    "Code Structure": {
-      "score": 15,
-      "max_score": 15,
-      "success_rate": 100.0,
-      "details": [
-        "Core modules present: 12/12",
-        "__init__.py properly configured with exports",
-        "Examples directory with 5 files"
-      ],
-      "status": "PASS"
-    },
-    "Import System": {
-      "score": 7,
-      "max_score": 10,
-      "success_rate": 70.0,
-      "details": [
-        "Core configuration classes import successfully",
-        "Error handling system imports successfully",
-        "Network components missing dependencies (expected)",
-        "Performance components missing dependencies (expected)",
-        "Concurrent components missing dependencies (expected)"
-      ],
-      "status": "WARN"
-    },
-    "Error Handling": {
-      "score": 12,
-      "max_score": 12,
-      "success_rate": 100.0,
-      "details": [
-        "Comprehensive exception hierarchy: 24 classes",
-        "Circuit breaker pattern implemented",
-        "Retry mechanisms implemented",
-        "Async error handling implemented",
-        "Error monitoring integration",
-        "Network layer uses error handling decorators"
-      ],
-      "status": "PASS"
-    },
-    "Network Layer": {
-      "score": 9,
-      "max_score": 10,
-      "success_rate": 90.0,
-      "details": [
-        "HTTP client implementation using httpx",
-        "Authentication mechanisms implemented",
-        "Connection management features",
-        "Network retry logic implemented",
-        "FastAPI server implementation",
-        "Async server operation support"
-      ],
-      "status": "PASS"
-    },
-    "Performance": {
-      "score": 12,
-      "max_score": 12,
-      "success_rate": 100.0,
-      "details": [
-        "Performance monitoring system implemented",
-        "Advanced caching system with LRU eviction",
-        "Connection pooling implemented",
-        "Resource management and monitoring",
-        "Parallel aggregation implemented",
-        "Concurrent worker pools",
-        "Distributed training support"
-      ],
-      "status": "PASS"
-    },
-    "Security": {
-      "score": 10,
-      "max_score": 10,
-      "success_rate": 100.0,
-      "details": [
-        "Authentication manager implemented",
-        "Secure token generation with HMAC",
-        "Bearer token authentication",
-        "Differential privacy with Opacus",
-        "Privacy accounting system",
-        "Secure and Byzantine-robust aggregation"
-      ],
-      "status": "PASS"
-    },
-    "Documentation": {
-      "score": 8,
-      "max_score": 8,
-      "success_rate": 100.0,
-      "details": [
-        "Comprehensive README.md (>5000 chars)",
-        "Module documentation: 3/3 well-documented",
-        "Comprehensive examples: 5 files",
-        "Architecture documentation present"
-      ],
-      "status": "PASS"
-    },
-    "Configuration": {
-      "score": 8,
-      "max_score": 8,
-      "success_rate": 100.0,
-      "details": [
-        "Dataclass-based configuration",
-        "Configuration validation implemented",
-        "Comprehensive configuration: 8 classes",
-        "Configuration factory functions",
-        "Enum-based type safety"
-      ],
-      "status": "PASS"
-    },
-    "Scalability": {
-      "score": 10,
-      "max_score": 10,
-      "success_rate": 100.0,
-      "details": [
-        "Concurrent model training",
-        "Multi-processing and threading support",
-        "Distributed training capabilities",
-        "Scaling optimization functions",
-        "Batch processing capabilities",
-        "Parallel aggregation in server"
-      ],
-      "status": "PASS"
-    },
-    "Production Readiness": {
-      "score": 12,
-      "max_score": 12,
-      "success_rate": 100.0,
-      "details": [
-        "Docker containerization support",
-        "Docker Compose configuration",
-        "Comprehensive requirements specification",
-        "Metrics endpoint for monitoring",
-        "Health check endpoint",
-        "Statistics endpoint",
-        "Production-ready CLI interface",
-        "Comprehensive logging: 15 modules"
-      ],
-      "status": "PASS"
+  "metadata": {
+    "generated_at": "2025-08-14T03:35:18.112724",
+    "total_gates": 6,
+    "passed_gates": 5
+  },
+  "summary": {
+    "overall_score": 0.944001937984496,
+    "gate_scores": {
+      "Project Structure": 1.2000000000000002,
+      "Code Quality": 0.5700000000000001,
+      "Security": 1.0,
+      "Test Coverage": 0.9774999999999999,
+      "Documentation": 0.9165116279069767,
+      "Performance": 1.0
     }
   },
-  "critical_systems_ready": true,
-  "production_ready": true
+  "detailed_results": {
+    "Project Structure": {
+      "passed": true,
+      "score": 1.2000000000000002,
+      "details": {
+        "details": {
+          "required_directories": {
+            "present": [
+              "src",
+              "tests",
+              "scripts",
+              "docs"
+            ],
+            "missing": []
+          },
+          "required_files": {
+            "present": [
+              "pyproject.toml",
+              "requirements.txt",
+              "README.md",
+              "LICENSE"
+            ],
+            "missing": []
+          },
+          "source_files": [
+            "__init__.py",
+            "adaptive_optimization.py",
+            "advanced_monitoring.py",
+            "advanced_security.py",
+            "aggregation.py",
+            "auto_scaling_system.py",
+            "autonomous_sdlc_orchestrator.py",
+            "autonomous_validation_engine.py",
+            "cli.py",
+            "client.py",
+            "comprehensive_monitoring.py",
+            "comprehensive_testing.py",
+            "concurrent.py",
+            "config.py",
+            "error_handler.py",
+            "exceptions.py",
+            "global_compliance.py",
+            "global_deployment_orchestrator.py",
+            "high_performance_core.py",
+            "i18n.py",
+            "intelligence_engine.py",
+            "monitoring.py",
+            "multi_region_deployment.py",
+            "network_client.py",
+            "performance.py",
+            "privacy.py",
+            "quantum_monitoring.py",
+            "quantum_optimizer.py",
+            "quantum_privacy.py",
+            "quantum_resilience.py",
+            "quantum_scaled_optimization_engine.py",
+            "quantum_scaling.py",
+            "quantum_scaling_engine.py",
+            "quantum_scheduler.py",
+            "research_engine.py",
+            "resilient_federation.py",
+            "server.py",
+            "autonomous_evolution_engine.py",
+            "research_orchestrator.py",
+            "global_orchestration_engine.py",
+            "security_fortress.py",
+            "resilience_engine.py",
+            "quantum_performance_optimizer.py"
+          ]
+        },
+        "errors": []
+      },
+      "duration": 0.0008137226104736328
+    },
+    "Code Quality": {
+      "passed": false,
+      "score": 0.5700000000000001,
+      "details": {
+        "details": {
+          "syntax_check": "1 errors",
+          "import_check": "0 errors (acceptable)",
+          "code_quality_score": 0.9
+        },
+        "errors": [
+          "Syntax error in src/dp_federated_lora/server.py: 'await' outside async function (server.py, line 810)"
+        ]
+      },
+      "duration": 0.6917197704315186
+    },
+    "Security": {
+      "passed": true,
+      "score": 1.0,
+      "details": {
+        "details": {
+          "security_modules": [
+            "cryptography in advanced_security.py",
+            "hashlib in advanced_security.py",
+            "secrets in advanced_security.py",
+            "hmac in advanced_security.py",
+            "cryptography in aggregation.py",
+            "hashlib in autonomous_sdlc_orchestrator.py",
+            "hashlib in autonomous_validation_engine.py",
+            "hashlib in global_compliance.py",
+            "hashlib in global_deployment_orchestrator.py",
+            "hashlib in performance.py",
+            "hashlib in quantum_monitoring.py",
+            "cryptography in quantum_privacy.py",
+            "hashlib in quantum_scaled_optimization_engine.py",
+            "hashlib in quantum_scheduler.py",
+            "hashlib in research_engine.py",
+            "hashlib in server.py",
+            "hmac in server.py",
+            "cryptography in global_orchestration_engine.py",
+            "hashlib in global_orchestration_engine.py",
+            "secrets in global_orchestration_engine.py",
+            "cryptography in security_fortress.py",
+            "hashlib in security_fortress.py",
+            "secrets in security_fortress.py",
+            "hmac in security_fortress.py"
+          ],
+          "security_patterns": "25 files with security patterns",
+          "secret_check": "passed"
+        },
+        "errors": []
+      },
+      "duration": 0.04328489303588867
+    },
+    "Test Coverage": {
+      "passed": true,
+      "score": 0.9774999999999999,
+      "details": {
+        "details": {
+          "test_files": [
+            "test_quantum_components.py",
+            "test_advanced_components.py",
+            "test_basic_functionality.py",
+            "test_full_workflow.py",
+            "test_error_handling.py",
+            "test_federated_training.py",
+            "test_lora.py",
+            "test_privacy.py"
+          ],
+          "test_execution": {
+            "passed": 16,
+            "failed": 2,
+            "total": 18,
+            "output": "ts/../src/dp_federated_lora/__init__.py:52: UserWarning: Could not import aggregation components: No module named 'torch'\n  warnings.warn(f\"Could not import aggregation components: {e}\")\n/root/repo/tests/../src/dp_federated_lora/__init__.py:62: UserWarning: Could not import monitoring components: No module named 'torch'\n  warnings.warn(f\"Could not import monitoring components: {e}\")\n/root/repo/tests/../src/dp_federated_lora/__init__.py:72: UserWarning: Could not import network components: No module named 'httpx'\n  warnings.warn(f\"Could not import network components: {e}\")\n/root/repo/tests/../src/dp_federated_lora/__init__.py:149: UserWarning: Could not import performance/concurrency components: No module named 'psutil'\n  warnings.warn(f\"Could not import performance/concurrency components: {e}\")\n/root/repo/tests/../src/dp_federated_lora/__init__.py:241: UserWarning: Could not import quantum components: No module named 'numpy'\n  warnings.warn(f\"Could not import quantum components: {e}\")\n"
+          },
+          "test_quality": 0.775
+        },
+        "errors": []
+      },
+      "duration": 0.23109149932861328
+    },
+    "Documentation": {
+      "passed": true,
+      "score": 0.9165116279069767,
+      "details": {
+        "details": {
+          "readme_score": 0.84,
+          "code_documentation": 0.9883720930232557,
+          "additional_docs": 9
+        },
+        "errors": []
+      },
+      "duration": 0.01723957061767578
+    },
+    "Performance": {
+      "passed": true,
+      "score": 1.0,
+      "details": {
+        "details": {
+          "performance_features": "39 files with performance features",
+          "scalability_features": "34 files with scalability features",
+          "performance_test": 1.0
+        },
+        "errors": []
+      },
+      "duration": 0.1168069839477539
+    }
+  },
+  "recommendations": [
+    "Improve code quality with better formatting, type hints, and documentation"
+  ]
 }
