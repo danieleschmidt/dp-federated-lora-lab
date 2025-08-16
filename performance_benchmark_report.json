@@ -1,5 +1,5 @@
 {
-  "timestamp": 1754669623.958009,
+  "timestamp": 1755303654.2177234,
   "system_info": {
     "cpu_count": 2,
     "memory_gb": 0
@@ -7,8 +7,8 @@
   "benchmark_results": {
     "tensor_ops_small": {
       "operation": "tensor_operations",
-      "duration_seconds": 0.0008754730224609375,
-      "throughput_ops_per_sec": 114223.9651416122,
+      "duration_seconds": 0.0008647441864013672,
+      "throughput_ops_per_sec": 115641.13592500689,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -16,8 +16,8 @@
     },
     "tensor_ops_large": {
       "operation": "tensor_operations",
-      "duration_seconds": 0.06673789024353027,
-      "throughput_ops_per_sec": 1498.399179762717,
+      "duration_seconds": 0.06405758857727051,
+      "throughput_ops_per_sec": 1561.0952928609445,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -25,8 +25,8 @@
     },
     "concurrent_clients_5": {
       "operation": "concurrent_clients_5",
-      "duration_seconds": 0.004658937454223633,
-      "throughput_ops_per_sec": 1073.2060795251011,
+      "duration_seconds": 0.0050542354583740234,
+      "throughput_ops_per_sec": 989.2693051559036,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -34,8 +34,8 @@
     },
     "concurrent_clients_10": {
       "operation": "concurrent_clients_10",
-      "duration_seconds": 0.006713151931762695,
-      "throughput_ops_per_sec": 1489.61324004688,
+      "duration_seconds": 0.008200645446777344,
+      "throughput_ops_per_sec": 1219.4162111873475,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -43,8 +43,8 @@
     },
     "concurrent_clients_20": {
       "operation": "concurrent_clients_20",
-      "duration_seconds": 0.009797334671020508,
-      "throughput_ops_per_sec": 2041.3715231304602,
+      "duration_seconds": 0.012908220291137695,
+      "throughput_ops_per_sec": 1549.400269666242,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -61,8 +61,8 @@
     },
     "aggregation_5_models": {
       "operation": "aggregation_5_models",
-      "duration_seconds": 0.011947870254516602,
-      "throughput_ops_per_sec": 4184846.2474806937,
+      "duration_seconds": 0.0111846923828125,
+      "throughput_ops_per_sec": 4470395.634379263,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -70,8 +70,8 @@
     },
     "aggregation_10_models": {
       "operation": "aggregation_10_models",
-      "duration_seconds": 0.018325090408325195,
-      "throughput_ops_per_sec": 5456998.99819154,
+      "duration_seconds": 0.02019810676574707,
+      "throughput_ops_per_sec": 4950959.075510228,
       "peak_memory_mb": 0.0,
       "cpu_usage_percent": 50.0,
       "success": true,
@@ -82,12 +82,12 @@
     "total_benchmarks": 8,
     "successful_benchmarks": 7,
     "success_rate_percent": 87.5,
-    "total_duration_seconds": 0.12425875663757324
+    "total_duration_seconds": 0.12807965278625488
   },
   "scaling_analysis": {
-    "scaling_efficiency_10_clients": 0.6940014916361829,
-    "scaling_efficiency_20_clients": 0.47553111235490225,
-    "aggregation_scaling_factor": 0.6519951600941959
+    "scaling_efficiency_10_clients": 0.6163216653099198,
+    "scaling_efficiency_20_clients": 0.3915516891080697,
+    "aggregation_scaling_factor": 0.5537495425947567
   },
   "recommendations": [
     "Address failing benchmarks before production deployment",

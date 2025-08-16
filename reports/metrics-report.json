@@ -1,0 +1,541 @@
+{
+  "generated_at": "2025-08-16T00:21:38.756597+00:00",
+  "report_version": "1.0.0",
+  "project": {
+    "name": "dp-federated-lora-lab",
+    "description": "Differential Privacy Federated LoRA for Foundation Models",
+    "version": "1.0.0",
+    "repository": "danieleschmidt/dp-federated-lora-lab",
+    "created_date": "2025-01-01",
+    "license": "MIT",
+    "primary_language": "Python",
+    "domains": [
+      "machine-learning",
+      "differential-privacy",
+      "federated-learning",
+      "lora"
+    ]
+  },
+  "summary": {
+    "total_metrics": 31,
+    "healthy_metrics": 26,
+    "warning_metrics": 3,
+    "critical_metrics": 2,
+    "categories": [
+      "code_quality",
+      "security",
+      "privacy",
+      "federated_learning",
+      "development",
+      "repository_health",
+      "performance"
+    ]
+  },
+  "detailed_metrics": {
+    "code_quality": {
+      "name": "code_quality",
+      "description": "Code quality and maintainability metrics",
+      "metrics_count": 5,
+      "healthy": 3,
+      "warning": 1,
+      "critical": 1,
+      "metrics": {
+        "lines_of_code": {
+          "current": 0,
+          "target": 10000,
+          "unit": "count",
+          "trend": "increasing",
+          "health": "critical",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "test_coverage": {
+          "current": 85.0,
+          "target": 90.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "cyclomatic_complexity": {
+          "current": 8.5,
+          "target": 10.0,
+          "unit": "average",
+          "trend": "stable",
+          "health": "warning",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "technical_debt_ratio": {
+          "current": 0.12,
+          "target": 0.08,
+          "unit": "ratio",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "maintainability_index": {
+          "current": 78.2,
+          "target": 80.0,
+          "unit": "index",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "security": {
+      "name": "security",
+      "description": "Security posture and vulnerability metrics",
+      "metrics_count": 4,
+      "healthy": 4,
+      "warning": 0,
+      "critical": 0,
+      "metrics": {
+        "vulnerability_count": {
+          "current": 0,
+          "target": null,
+          "unit": "count",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "dependency_security_score": {
+          "current": 92.5,
+          "target": 95.0,
+          "unit": "percentage",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "secrets_detection": {
+          "current": 0,
+          "target": null,
+          "unit": "count",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": ""
+        },
+        "security_hotspots": {
+          "current": 8,
+          "target": 5,
+          "unit": "count",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "privacy": {
+      "name": "privacy",
+      "description": "Differential privacy specific metrics",
+      "metrics_count": 4,
+      "healthy": 4,
+      "warning": 0,
+      "critical": 0,
+      "metrics": {
+        "privacy_budget_efficiency": {
+          "current": 0.85,
+          "target": 0.9,
+          "unit": "ratio",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Utility preserved per unit epsilon consumed",
+          "last_updated": "2025-01-01"
+        },
+        "noise_calibration_accuracy": {
+          "current": 0.95,
+          "target": 0.98,
+          "unit": "accuracy",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Accuracy of noise parameter calibration",
+          "last_updated": "2025-01-01"
+        },
+        "privacy_accounting_precision": {
+          "current": 0.99,
+          "target": 0.995,
+          "unit": "precision",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Precision of privacy budget accounting",
+          "last_updated": "2025-01-01"
+        },
+        "dp_test_coverage": {
+          "current": 78.0,
+          "target": 85.0,
+          "unit": "percentage",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "Test coverage for DP mechanisms",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "federated_learning": {
+      "name": "federated_learning",
+      "description": "Federated learning performance metrics",
+      "metrics_count": 4,
+      "healthy": 4,
+      "warning": 0,
+      "critical": 0,
+      "metrics": {
+        "convergence_efficiency": {
+          "current": 0.82,
+          "target": 0.88,
+          "unit": "ratio",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Convergence speed vs centralized training",
+          "last_updated": "2025-01-01"
+        },
+        "client_participation_rate": {
+          "current": 75.0,
+          "target": 80.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Average client participation per round",
+          "last_updated": "2025-01-01"
+        },
+        "communication_efficiency": {
+          "current": 0.91,
+          "target": 0.93,
+          "unit": "ratio",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "Model compression vs accuracy retention",
+          "last_updated": "2025-01-01"
+        },
+        "Byzantine_robustness": {
+          "current": 0.88,
+          "target": 0.9,
+          "unit": "accuracy",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Accuracy under Byzantine attacks",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "development": {
+      "name": "development",
+      "description": "Development process and productivity metrics",
+      "metrics_count": 5,
+      "healthy": 4,
+      "warning": 1,
+      "critical": 0,
+      "metrics": {
+        "build_success_rate": {
+          "current": 94.2,
+          "target": 96.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "deployment_frequency": {
+          "current": 2.5,
+          "target": 3.0,
+          "unit": "per_week",
+          "trend": "increasing",
+          "health": "warning",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "lead_time": {
+          "current": 3.2,
+          "target": 2.5,
+          "unit": "days",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "mean_time_to_recovery": {
+          "current": 45,
+          "target": 30,
+          "unit": "minutes",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "change_failure_rate": {
+          "current": 8.5,
+          "target": 5.0,
+          "unit": "percentage",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "repository_health": {
+      "name": "repository_health",
+      "description": "Repository health and maintenance metrics",
+      "metrics_count": 5,
+      "healthy": 4,
+      "warning": 0,
+      "critical": 1,
+      "metrics": {
+        "issue_resolution_time": {
+          "current": 4.2,
+          "target": 3.0,
+          "unit": "days",
+          "trend": "decreasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "pr_merge_time": {
+          "current": 1.8,
+          "target": 1.5,
+          "unit": "days",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "documentation_coverage": {
+          "current": 72.0,
+          "target": 80.0,
+          "unit": "percentage",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "dependency_freshness": {
+          "current": 88.5,
+          "target": 92.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Percentage of dependencies up to date",
+          "last_updated": "2025-01-01"
+        },
+        "contributor_diversity": {
+          "current": 5,
+          "target": 8,
+          "unit": "count",
+          "trend": "increasing",
+          "health": "critical",
+          "description": "Number of active contributors",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "performance": {
+      "name": "performance",
+      "description": "Application performance metrics",
+      "metrics_count": 4,
+      "healthy": 3,
+      "warning": 1,
+      "critical": 0,
+      "metrics": {
+        "training_throughput": {
+          "current": 1250,
+          "target": 1500,
+          "unit": "samples_per_second",
+          "trend": "increasing",
+          "health": "warning",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "memory_efficiency": {
+          "current": 82.0,
+          "target": 85.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "Memory utilization efficiency",
+          "last_updated": "2025-01-01"
+        },
+        "gpu_utilization": {
+          "current": 87.5,
+          "target": 90.0,
+          "unit": "percentage",
+          "trend": "stable",
+          "health": "healthy",
+          "description": "",
+          "last_updated": "2025-01-01"
+        },
+        "model_accuracy": {
+          "current": 0.847,
+          "target": 0.86,
+          "unit": "accuracy",
+          "trend": "increasing",
+          "health": "healthy",
+          "description": "Average model accuracy across benchmarks",
+          "last_updated": "2025-01-01"
+        }
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "category": "critical_metrics",
+      "title": "Address Critical Metrics",
+      "description": "There are 2 critical metrics that need immediate attention.",
+      "action": "Review and improve critical metrics to meet targets"
+    },
+    {
+      "priority": "high",
+      "category": "code_quality",
+      "title": "Improve Code Quality",
+      "description": "1/5 metrics are critical in code_quality",
+      "action": "Focus on code_quality improvements"
+    },
+    {
+      "priority": "high",
+      "category": "repository_health",
+      "title": "Improve Repository Health",
+      "description": "1/5 metrics are critical in repository_health",
+      "action": "Focus on repository_health improvements"
+    }
+  ],
+  "automation_status": {
+    "ci_cd": {
+      "description": "CI/CD automation status",
+      "features": {
+        "automated_testing": {
+          "enabled": true,
+          "coverage": [
+            "unit",
+            "integration",
+            "privacy",
+            "federated"
+          ],
+          "last_updated": "2025-01-01"
+        },
+        "automated_security_scanning": {
+          "enabled": true,
+          "tools": [
+            "bandit",
+            "safety",
+            "trivy",
+            "codeql"
+          ],
+          "frequency": "on_push",
+          "last_updated": "2025-01-01"
+        },
+        "automated_dependency_updates": {
+          "enabled": true,
+          "frequency": "weekly",
+          "auto_merge_minor": true,
+          "last_updated": "2025-01-01"
+        },
+        "automated_release": {
+          "enabled": true,
+          "strategy": "semantic",
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "code_quality": {
+      "description": "Code quality automation",
+      "features": {
+        "pre_commit_hooks": {
+          "enabled": true,
+          "hooks": [
+            "black",
+            "isort",
+            "flake8",
+            "mypy",
+            "bandit"
+          ],
+          "last_updated": "2025-01-01"
+        },
+        "automated_formatting": {
+          "enabled": true,
+          "tools": [
+            "black",
+            "isort"
+          ],
+          "last_updated": "2025-01-01"
+        },
+        "automated_linting": {
+          "enabled": true,
+          "tools": [
+            "flake8",
+            "ruff",
+            "mypy"
+          ],
+          "last_updated": "2025-01-01"
+        }
+      }
+    },
+    "monitoring": {
+      "description": "Monitoring and observability automation",
+      "features": {
+        "health_checks": {
+          "enabled": true,
+          "frequency": "continuous",
+          "endpoints": [
+            "system",
+            "services",
+            "application",
+            "privacy"
+          ],
+          "last_updated": "2025-01-01"
+        },
+        "metrics_collection": {
+          "enabled": true,
+          "tools": [
+            "prometheus",
+            "grafana"
+          ],
+          "frequency": "real_time",
+          "last_updated": "2025-01-01"
+        },
+        "alerting": {
+          "enabled": true,
+          "channels": [
+            "email",
+            "slack"
+          ],
+          "coverage": [
+            "system",
+            "security",
+            "privacy",
+            "performance"
+          ],
+          "last_updated": "2025-01-01"
+        }
+      }
+    }
+  },
+  "goals": {
+    "short_term": {
+      "description": "Goals for next 3 months",
+      "targets": [
+        "Achieve 90% test coverage",
+        "Reduce technical debt ratio to 0.08",
+        "Implement automated privacy budget monitoring",
+        "Optimize federated learning convergence to 0.88 efficiency",
+        "Expand documentation coverage to 80%"
+      ]
+    },
+    "long_term": {
+      "description": "Goals for next year",
+      "targets": [
+        "Achieve industry-leading DP-FL performance benchmarks",
+        "Implement advanced Byzantine-robust aggregation",
+        "Develop adaptive privacy budget allocation",
+        "Create comprehensive privacy audit framework",
+        "Establish community of 50+ contributors"
+      ]
+    }
+  }
+}

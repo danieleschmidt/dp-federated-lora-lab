@@ -1,9 +1,9 @@
 {
-  "timestamp": 1754669623.720364,
+  "timestamp": 1755303655.2090266,
   "total_privacy_checks": 7,
   "passed_privacy_checks": 4,
   "privacy_compliance_rate": 57.14285714285714,
-  "duration_seconds": 0.11785244941711426,
+  "duration_seconds": 0.0982809066772461,
   "privacy_details": {
     "epsilon_delta_validation": {
       "success": true,

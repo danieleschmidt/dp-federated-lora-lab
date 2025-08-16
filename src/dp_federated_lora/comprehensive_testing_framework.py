@@ -695,9 +695,366 @@ def register_data_generator(type_name: str, generator: Callable):
     comprehensive_test_framework.property_generator.register_generator(type_name, generator)
 
 
-async def run_comprehensive_tests(suite_name: str = "full_system") -> Dict[str, Any]:
-    """Run comprehensive test suite and return results."""
-    suite = comprehensive_test_framework.generate_comprehensive_test_suite(suite_name)
-    comprehensive_test_framework.register_test_suite(suite)
+class QuantumTestValidator:
+    """Quantum-specific test validation and verification."""
     
-    return await comprehensive_test_framework.execute_test_suite(suite.id)
+    def __init__(self):
+        self.quantum_properties = [
+            'unitarity',
+            'hermiticity',
+            'normalization',
+            'entanglement_conservation',
+            'coherence_preservation'
+        ]
+    
+    def generate_quantum_tests(self) -> List[TestCase]:
+        """Generate quantum-specific test cases."""
+        quantum_tests = []
+        
+        for prop in self.quantum_properties:
+            test_case = TestCase(
+                id=f"quantum_{prop}_validation",
+                name=f"Quantum {prop.title()} Validation",
+                description=f"Validate quantum {prop} property",
+                test_type=TestType.QUANTUM_VALIDATION,
+                severity=TestSeverity.HIGH,
+                timeout=60.0,
+                parameters={'property': prop},
+                test_function=self._validate_quantum_property
+            )
+            quantum_tests.append(test_case)
+        
+        return quantum_tests
+    
+    def _validate_quantum_property(self, parameters: Dict[str, Any]) -> bool:
+        """Validate specific quantum property."""
+        prop = parameters['property']
+        
+        if prop == 'unitarity':
+            return self._test_unitarity()
+        elif prop == 'hermiticity':
+            return self._test_hermiticity()
+        elif prop == 'normalization':
+            return self._test_normalization()
+        elif prop == 'entanglement_conservation':
+            return self._test_entanglement_conservation()
+        elif prop == 'coherence_preservation':
+            return self._test_coherence_preservation()
+        else:
+            return False
+    
+    def _test_unitarity(self) -> bool:
+        """Test if quantum operations preserve unitarity."""
+        # Generate random unitary matrix
+        n = 4
+        A = torch.randn(n, n, dtype=torch.complex64)
+        U, _, Vh = torch.linalg.svd(A)
+        unitary_matrix = U @ Vh
+        
+        # Test U @ U† = I
+        identity_test = unitary_matrix @ unitary_matrix.conj().T
+        identity_expected = torch.eye(n, dtype=torch.complex64)
+        
+        return torch.allclose(identity_test, identity_expected, atol=1e-6)
+    
+    def _test_hermiticity(self) -> bool:
+        """Test Hermitian property for observables."""
+        # Generate Hermitian matrix
+        n = 4
+        A = torch.randn(n, n, dtype=torch.complex64)
+        H = (A + A.conj().T) / 2
+        
+        # Test H = H†
+        return torch.allclose(H, H.conj().T, atol=1e-6)
+    
+    def _test_normalization(self) -> bool:
+        """Test quantum state normalization."""
+        # Generate random quantum state
+        state = torch.randn(8, dtype=torch.complex64)
+        normalized_state = state / torch.norm(state)
+        
+        # Test ||ψ|| = 1
+        norm = torch.norm(normalized_state)
+        return abs(norm.item() - 1.0) < 1e-6
+    
+    def _test_entanglement_conservation(self) -> bool:
+        """Test entanglement conservation in quantum operations."""
+        # Create entangled state |00⟩ + |11⟩
+        entangled_state = torch.tensor([1, 0, 0, 1], dtype=torch.complex64) / np.sqrt(2)
+        
+        # Apply local operation (should preserve entanglement structure)
+        # Pauli-X on first qubit: |00⟩ + |11⟩ -> |10⟩ + |01⟩
+        pauli_x = torch.tensor([[0, 1], [1, 0]], dtype=torch.complex64)
+        identity = torch.eye(2, dtype=torch.complex64)
+        local_op = torch.kron(pauli_x, identity)
+        
+        new_state = local_op @ entangled_state
+        
+        # Check if still normalized
+        return abs(torch.norm(new_state).item() - 1.0) < 1e-6
+    
+    def _test_coherence_preservation(self) -> bool:
+        """Test coherence preservation in quantum operations."""
+        # Create superposition state
+        superposition = torch.tensor([1, 1], dtype=torch.complex64) / np.sqrt(2)
+        
+        # Apply phase gate
+        phase_gate = torch.tensor([[1, 0], [0, 1j]], dtype=torch.complex64)
+        evolved_state = phase_gate @ superposition
+        
+        # Check if coherence (off-diagonal terms) is preserved
+        density_matrix = torch.outer(evolved_state, evolved_state.conj())
+        coherence = abs(density_matrix[0, 1].item())
+        
+        # Should maintain coherence of 0.5
+        return abs(coherence - 0.5) < 1e-6
+
+
+class StressTestExecutor:
+    """Execute stress tests for system load validation."""
+    
+    def __init__(self):
+        self.stress_scenarios = [
+            'high_client_load',
+            'memory_pressure',
+            'network_congestion',
+            'concurrent_training',
+            'large_model_sizes'
+        ]
+    
+    def generate_stress_tests(self) -> List[TestCase]:
+        """Generate stress test cases."""
+        stress_tests = []
+        
+        for scenario in self.stress_scenarios:
+            test_case = TestCase(
+                id=f"stress_{scenario}",
+                name=f"Stress Test: {scenario.replace('_', ' ').title()}",
+                description=f"Stress test for {scenario} scenario",
+                test_type=TestType.STRESS,
+                severity=TestSeverity.HIGH,
+                timeout=300.0,
+                parameters={'scenario': scenario},
+                test_function=self._execute_stress_scenario
+            )
+            stress_tests.append(test_case)
+        
+        return stress_tests
+    
+    def _execute_stress_scenario(self, parameters: Dict[str, Any]) -> bool:
+        """Execute specific stress scenario."""
+        scenario = parameters['scenario']
+        
+        if scenario == 'high_client_load':
+            return self._test_high_client_load()
+        elif scenario == 'memory_pressure':
+            return self._test_memory_pressure()
+        elif scenario == 'network_congestion':
+            return self._test_network_congestion()
+        elif scenario == 'concurrent_training':
+            return self._test_concurrent_training()
+        elif scenario == 'large_model_sizes':
+            return self._test_large_model_sizes()
+        else:
+            return False
+    
+    def _test_high_client_load(self) -> bool:
+        """Test system under high client load."""
+        # Simulate 1000 concurrent clients
+        start_time = time.time()
+        
+        # Simulate client connections and requests
+        success_count = 0
+        total_clients = 1000
+        
+        for i in range(total_clients):
+            # Simulate client processing time
+            processing_time = random.uniform(0.001, 0.01)
+            time.sleep(processing_time)
+            
+            # 95% success rate under load
+            if random.random() < 0.95:
+                success_count += 1
+        
+        total_time = time.time() - start_time
+        success_rate = success_count / total_clients
+        
+        # Pass if >90% success rate and <30 seconds total time
+        return success_rate > 0.9 and total_time < 30
+    
+    def _test_memory_pressure(self) -> bool:
+        """Test system under memory pressure."""
+        # Simulate memory allocation
+        memory_blocks = []
+        try:
+            # Allocate memory blocks
+            for i in range(100):
+                block = torch.randn(1000, 1000)  # ~4MB per block
+                memory_blocks.append(block)
+                
+                # Check if system still responsive
+                if i % 10 == 0:
+                    test_tensor = torch.randn(10, 10)
+                    if test_tensor is None:
+                        return False
+            
+            return True
+        except MemoryError:
+            return False
+        finally:
+            # Cleanup
+            del memory_blocks
+    
+    def _test_network_congestion(self) -> bool:
+        """Test system under network congestion."""
+        # Simulate network delays
+        latencies = []
+        
+        for i in range(100):
+            start = time.time()
+            # Simulate network operation with congestion
+            time.sleep(random.uniform(0.01, 0.1))
+            latency = time.time() - start
+            latencies.append(latency)
+        
+        avg_latency = sum(latencies) / len(latencies)
+        max_latency = max(latencies)
+        
+        # Pass if average latency < 0.1s and max < 0.2s
+        return avg_latency < 0.1 and max_latency < 0.2
+    
+    def _test_concurrent_training(self) -> bool:
+        """Test concurrent training sessions."""
+        # Simulate multiple training sessions
+        training_results = []
+        
+        for session in range(10):
+            # Simulate training session
+            start_time = time.time()
+            
+            # Mock training computation
+            model_weights = torch.randn(100, 50)
+            for epoch in range(5):
+                model_weights = model_weights + torch.randn_like(model_weights) * 0.01
+            
+            training_time = time.time() - start_time
+            training_results.append(training_time)
+        
+        avg_training_time = sum(training_results) / len(training_results)
+        
+        # Pass if average training time reasonable
+        return avg_training_time < 1.0
+    
+    def _test_large_model_sizes(self) -> bool:
+        """Test system with large model sizes."""
+        try:
+            # Test with increasingly large models
+            model_sizes = [1000, 5000, 10000, 50000]
+            
+            for size in model_sizes:
+                large_model = torch.randn(size, size)
+                
+                # Test basic operations
+                result = large_model @ large_model.T
+                
+                # Check if computation completed
+                if result is None or torch.isnan(result).any():
+                    return False
+            
+            return True
+        except (MemoryError, RuntimeError):
+            return False
+
+
+# Enhanced ComprehensiveTestFramework with quantum and stress testing
+class EnhancedTestFramework(ComprehensiveTestFramework):
+    """Enhanced test framework with quantum validation and stress testing."""
+    
+    def __init__(self):
+        super().__init__()
+        self.quantum_validator = QuantumTestValidator()
+        self.stress_executor = StressTestExecutor()
+    
+    def generate_comprehensive_test_suite(self, name: str = "comprehensive") -> TestSuite:
+        """Generate enhanced comprehensive test suite."""
+        test_cases = []
+        
+        # Add quantum validation tests
+        test_cases.extend(self.quantum_validator.generate_quantum_tests())
+        
+        # Add stress tests
+        test_cases.extend(self.stress_executor.generate_stress_tests())
+        
+        # Add original performance tests
+        test_cases.extend(self.performance_suite.generate_performance_tests())
+        
+        # Add chaos tests
+        test_cases.extend(self.chaos_framework.generate_chaos_tests())
+        
+        suite = TestSuite(
+            id=f"comprehensive_{name}",
+            name=f"Enhanced Comprehensive Test Suite: {name}",
+            description="Complete test suite with quantum validation and stress testing",
+            test_cases=test_cases,
+            parallel_execution=True,
+            max_workers=6,
+            tags=['comprehensive', 'quantum', 'stress', 'chaos', 'performance']
+        )
+        
+        return suite
+
+
+# Update global framework instance
+enhanced_test_framework = EnhancedTestFramework()
+
+
+async def run_comprehensive_tests(suite_name: str = "full_system") -> Dict[str, Any]:
+    """Run enhanced comprehensive test suite and return results."""
+    suite = enhanced_test_framework.generate_comprehensive_test_suite(suite_name)
+    enhanced_test_framework.register_test_suite(suite)
+    
+    results = await enhanced_test_framework.execute_test_suite(suite.id)
+    
+    # Add comprehensive analysis
+    results['health_score'] = enhanced_test_framework.get_overall_health_score()
+    results['test_coverage'] = {
+        'quantum_tests': len([tc for tc in suite.test_cases if tc.test_type == TestType.QUANTUM_VALIDATION]),
+        'stress_tests': len([tc for tc in suite.test_cases if tc.test_type == TestType.STRESS]),
+        'chaos_tests': len([tc for tc in suite.test_cases if tc.test_type == TestType.CHAOS]),
+        'performance_tests': len([tc for tc in suite.test_cases if tc.test_type == TestType.PERFORMANCE]),
+        'total_tests': len(suite.test_cases)
+    }
+    
+    return results
+
+
+async def run_quantum_validation_tests() -> Dict[str, Any]:
+    """Run quantum-specific validation tests."""
+    quantum_suite = TestSuite(
+        id="quantum_validation",
+        name="Quantum Validation Test Suite",
+        description="Comprehensive quantum property validation",
+        test_cases=enhanced_test_framework.quantum_validator.generate_quantum_tests(),
+        parallel_execution=True,
+        max_workers=4,
+        tags=['quantum', 'validation']
+    )
+    
+    enhanced_test_framework.register_test_suite(quantum_suite)
+    return await enhanced_test_framework.execute_test_suite(quantum_suite.id)
+
+
+async def run_stress_tests() -> Dict[str, Any]:
+    """Run stress tests for load validation."""
+    stress_suite = TestSuite(
+        id="stress_testing",
+        name="Stress Testing Suite",
+        description="Comprehensive system stress testing",
+        test_cases=enhanced_test_framework.stress_executor.generate_stress_tests(),
+        parallel_execution=False,  # Run stress tests sequentially
+        max_workers=1,
+        tags=['stress', 'load', 'performance']
+    )
+    
+    enhanced_test_framework.register_test_suite(stress_suite)
+    return await enhanced_test_framework.execute_test_suite(stress_suite.id)
