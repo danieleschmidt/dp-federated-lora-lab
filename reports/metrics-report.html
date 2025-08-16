@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics Report - dp-federated-lora-lab</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .metric-card { background: #ecf0f1; padding: 20px; border-radius: 6px; text-align: center; }
+        .metric-value { font-size: 2em; font-weight: bold; color: #2c3e50; }
+        .metric-label { color: #7f8c8d; margin-top: 5px; }
+        .status-healthy { color: #27ae60; }
+        .status-warning { color: #f39c12; }
+        .status-critical { color: #e74c3c; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #3498db; color: white; }
+        .recommendations { background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 20px; margin: 20px 0; }
+        .rec-high { border-left: 4px solid #e74c3c; }
+        .rec-medium { border-left: 4px solid #f39c12; }
+        .rec-low { border-left: 4px solid #27ae60; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Metrics Report</h1>
+        <p><strong>Generated:</strong> 2025-08-16T00:21:38.756597+00:00</p>
+        <p><strong>Project:</strong> dp-federated-lora-lab</p>
+        
+        <h2>📈 Summary</h2>
+        <div class="summary">
+            <div class="metric-card">
+                <div class="metric-value">31</div>
+                <div class="metric-label">Total Metrics</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value status-healthy">26</div>
+                <div class="metric-label">Healthy</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value status-warning">3</div>
+                <div class="metric-label">Warning</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value status-critical">2</div>
+                <div class="metric-label">Critical</div>
+            </div>
+        </div>
+
+        <h2>Code Quality</h2>
+        <p>Code quality and maintainability metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Lines Of Code</strong></td>
+                <td>0</td>
+                <td>10000</td>
+                <td>count</td>
+                <td>📈 increasing</td>
+                <td class="status-critical">Critical</td>
+            </tr>
+
+            <tr>
+                <td><strong>Test Coverage</strong></td>
+                <td>85.0</td>
+                <td>90.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Cyclomatic Complexity</strong></td>
+                <td>8.5</td>
+                <td>10.0</td>
+                <td>average</td>
+                <td>➡️ stable</td>
+                <td class="status-warning">Warning</td>
+            </tr>
+
+            <tr>
+                <td><strong>Technical Debt Ratio</strong></td>
+                <td>0.12</td>
+                <td>0.08</td>
+                <td>ratio</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Maintainability Index</strong></td>
+                <td>78.2</td>
+                <td>80.0</td>
+                <td>index</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>Security</h2>
+        <p>Security posture and vulnerability metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Vulnerability Count</strong></td>
+                <td>0</td>
+                <td>None</td>
+                <td>count</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Dependency Security Score</strong></td>
+                <td>92.5</td>
+                <td>95.0</td>
+                <td>percentage</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Secrets Detection</strong></td>
+                <td>0</td>
+                <td>None</td>
+                <td>count</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Security Hotspots</strong></td>
+                <td>8</td>
+                <td>5</td>
+                <td>count</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>Privacy</h2>
+        <p>Differential privacy specific metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Privacy Budget Efficiency</strong></td>
+                <td>0.85</td>
+                <td>0.9</td>
+                <td>ratio</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Noise Calibration Accuracy</strong></td>
+                <td>0.95</td>
+                <td>0.98</td>
+                <td>accuracy</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Privacy Accounting Precision</strong></td>
+                <td>0.99</td>
+                <td>0.995</td>
+                <td>precision</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Dp Test Coverage</strong></td>
+                <td>78.0</td>
+                <td>85.0</td>
+                <td>percentage</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>Federated Learning</h2>
+        <p>Federated learning performance metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Convergence Efficiency</strong></td>
+                <td>0.82</td>
+                <td>0.88</td>
+                <td>ratio</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Client Participation Rate</strong></td>
+                <td>75.0</td>
+                <td>80.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Communication Efficiency</strong></td>
+                <td>0.91</td>
+                <td>0.93</td>
+                <td>ratio</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Byzantine Robustness</strong></td>
+                <td>0.88</td>
+                <td>0.9</td>
+                <td>accuracy</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>Development</h2>
+        <p>Development process and productivity metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Build Success Rate</strong></td>
+                <td>94.2</td>
+                <td>96.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Deployment Frequency</strong></td>
+                <td>2.5</td>
+                <td>3.0</td>
+                <td>per_week</td>
+                <td>📈 increasing</td>
+                <td class="status-warning">Warning</td>
+            </tr>
+
+            <tr>
+                <td><strong>Lead Time</strong></td>
+                <td>3.2</td>
+                <td>2.5</td>
+                <td>days</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Mean Time To Recovery</strong></td>
+                <td>45</td>
+                <td>30</td>
+                <td>minutes</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Change Failure Rate</strong></td>
+                <td>8.5</td>
+                <td>5.0</td>
+                <td>percentage</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>Repository Health</h2>
+        <p>Repository health and maintenance metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Issue Resolution Time</strong></td>
+                <td>4.2</td>
+                <td>3.0</td>
+                <td>days</td>
+                <td>📉 decreasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Pr Merge Time</strong></td>
+                <td>1.8</td>
+                <td>1.5</td>
+                <td>days</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Documentation Coverage</strong></td>
+                <td>72.0</td>
+                <td>80.0</td>
+                <td>percentage</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Dependency Freshness</strong></td>
+                <td>88.5</td>
+                <td>92.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Contributor Diversity</strong></td>
+                <td>5</td>
+                <td>8</td>
+                <td>count</td>
+                <td>📈 increasing</td>
+                <td class="status-critical">Critical</td>
+            </tr>
+        </table>
+
+        <h2>Performance</h2>
+        <p>Application performance metrics</p>
+        <table>
+            <tr>
+                <th>Metric</th>
+                <th>Current</th>
+                <th>Target</th>
+                <th>Unit</th>
+                <th>Trend</th>
+                <th>Status</th>
+            </tr>
+
+            <tr>
+                <td><strong>Training Throughput</strong></td>
+                <td>1250</td>
+                <td>1500</td>
+                <td>samples_per_second</td>
+                <td>📈 increasing</td>
+                <td class="status-warning">Warning</td>
+            </tr>
+
+            <tr>
+                <td><strong>Memory Efficiency</strong></td>
+                <td>82.0</td>
+                <td>85.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Gpu Utilization</strong></td>
+                <td>87.5</td>
+                <td>90.0</td>
+                <td>percentage</td>
+                <td>➡️ stable</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+
+            <tr>
+                <td><strong>Model Accuracy</strong></td>
+                <td>0.847</td>
+                <td>0.86</td>
+                <td>accuracy</td>
+                <td>📈 increasing</td>
+                <td class="status-healthy">Healthy</td>
+            </tr>
+        </table>
+
+        <h2>💡 Recommendations</h2>
+        <div class="recommendations">
+
+            <div class="rec-high" style="margin-bottom: 15px; padding: 10px;">
+                <h4>Address Critical Metrics</h4>
+                <p>There are 2 critical metrics that need immediate attention.</p>
+                <strong>Action:</strong> Review and improve critical metrics to meet targets
+            </div>
+
+            <div class="rec-high" style="margin-bottom: 15px; padding: 10px;">
+                <h4>Improve Code Quality</h4>
+                <p>1/5 metrics are critical in code_quality</p>
+                <strong>Action:</strong> Focus on code_quality improvements
+            </div>
+
+            <div class="rec-high" style="margin-bottom: 15px; padding: 10px;">
+                <h4>Improve Repository Health</h4>
+                <p>1/5 metrics are critical in repository_health</p>
+                <strong>Action:</strong> Focus on repository_health improvements
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

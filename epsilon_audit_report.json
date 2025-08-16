@@ -1,9 +1,9 @@
 {
-  "timestamp": 1754450245.2274249,
+  "timestamp": 1755303656.0468276,
   "total_audits": 4,
   "passed_audits": 3,
   "audit_success_rate": 75.0,
-  "duration_seconds": 0.00013113021850585938,
+  "duration_seconds": 0.0001666545867919922,
   "audit_details": {
     "federated_scenario": {
       "success": false,

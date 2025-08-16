@@ -1,12 +1,12 @@
 {
-  "timestamp": 1754669623.9758127,
+  "timestamp": 1755303648.362072,
   "summary": {
     "total_tests": 7,
     "passed_tests": 7,
     "failed_tests": 0,
     "success_rate_percent": 100.0,
-    "total_duration_seconds": 1.2456395626068115,
-    "average_test_duration": 0.1779485089438302
+    "total_duration_seconds": 1.5850801467895508,
+    "average_test_duration": 0.22644002096993582
   },
   "categories": {
     "unit": {
@@ -35,7 +35,7 @@
       "category": "unit",
       "test_name": "package_imports",
       "success": true,
-      "duration_seconds": 0.18360114097595215,
+      "duration_seconds": 0.15588641166687012,
       "error_message": null,
       "coverage_percent": null
     },
@@ -43,7 +43,7 @@
       "category": "unit",
       "test_name": "configuration_loading",
       "success": true,
-      "duration_seconds": 0.1985933780670166,
+      "duration_seconds": 0.15195488929748535,
       "error_message": null,
       "coverage_percent": null
     },
@@ -51,7 +51,7 @@
       "category": "unit",
       "test_name": "privacy_calculations",
       "success": true,
-      "duration_seconds": 0.022852420806884766,
+      "duration_seconds": 0.020580768585205078,
       "error_message": null,
       "coverage_percent": null
     },
@@ -59,7 +59,7 @@
       "category": "security",
       "test_name": "security_features",
       "success": true,
-      "duration_seconds": 0.15609264373779297,
+      "duration_seconds": 0.6615803241729736,
       "error_message": null,
       "coverage_percent": null
     },
@@ -67,7 +67,7 @@
       "category": "integration",
       "test_name": "health_checks",
       "success": true,
-      "duration_seconds": 0.27124977111816406,
+      "duration_seconds": 0.21613478660583496,
       "error_message": null,
       "coverage_percent": null
     },
@@ -75,7 +75,7 @@
       "category": "integration",
       "test_name": "privacy_validation",
       "success": true,
-      "duration_seconds": 0.19355177879333496,
+      "duration_seconds": 0.1665346622467041,
       "error_message": null,
       "coverage_percent": null
     },
@@ -83,7 +83,7 @@
       "category": "performance",
       "test_name": "performance_benchmarks",
       "success": true,
-      "duration_seconds": 0.21969842910766602,
+      "duration_seconds": 0.21240830421447754,
       "error_message": null,
       "coverage_percent": null
     }
