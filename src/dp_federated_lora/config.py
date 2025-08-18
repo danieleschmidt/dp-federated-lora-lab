@@ -13,6 +13,7 @@ from enum import Enum
 class AggregationMethod(Enum):
     """Supported aggregation methods."""
     FEDAVG = "fedavg"
+    LORA_FEDAVG = "lora_fedavg"
     SECURE_WEIGHTED = "secure_weighted"
     KRUM = "krum"
     TRIMMED_MEAN = "trimmed_mean"

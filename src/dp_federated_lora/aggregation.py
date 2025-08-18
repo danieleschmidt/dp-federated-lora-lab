@@ -132,6 +132,222 @@ class FedAvgAggregator(BaseAggregator):
         return aggregated
 
 
+class LoRAAggregator(BaseAggregator):
+    """
+    LoRA-specific aggregator with enhanced parameter handling.
+    
+    Provides specialized aggregation for Low-Rank Adaptation parameters
+    including rank-aware aggregation and parameter validation.
+    """
+    
+    def __init__(self, config: SecurityConfig, validate_lora: bool = True):
+        """
+        Initialize LoRA aggregator.
+        
+        Args:
+            config: Security configuration
+            validate_lora: Whether to validate LoRA parameter consistency
+        """
+        super().__init__(config)
+        self.validate_lora = validate_lora
+        self._parameter_stats = {}
+        
+    def aggregate(
+        self,
+        client_updates: Dict[str, Dict[str, torch.Tensor]],
+        client_weights: Optional[Dict[str, float]] = None
+    ) -> Dict[str, torch.Tensor]:
+        """
+        Perform LoRA-aware federated averaging.
+        
+        Args:
+            client_updates: Client LoRA parameter updates
+            client_weights: Client weights (sample counts)
+            
+        Returns:
+            Aggregated LoRA parameters with validation
+        """
+        if not client_updates:
+            raise ValueError("No client updates provided")
+        
+        # Validate LoRA parameters if enabled
+        if self.validate_lora:
+            self._validate_lora_consistency(client_updates)
+        
+        # Use uniform weights if not provided
+        if client_weights is None:
+            client_weights = {client_id: 1.0 for client_id in client_updates.keys()}
+        
+        # Normalize weights
+        total_weight = sum(client_weights.values())
+        normalized_weights = {
+            client_id: weight / total_weight
+            for client_id, weight in client_weights.items()
+        }
+        
+        # Separate LoRA A and B matrices for specialized aggregation
+        lora_a_params = {}
+        lora_b_params = {}
+        other_params = {}
+        
+        first_client = next(iter(client_updates.values()))
+        for param_name in first_client.keys():
+            if "lora_A" in param_name:
+                lora_a_params[param_name] = []
+            elif "lora_B" in param_name:
+                lora_b_params[param_name] = []
+            else:
+                other_params[param_name] = []
+        
+        # Collect parameters by type
+        for client_id, updates in client_updates.items():
+            weight = normalized_weights[client_id]
+            for param_name, param_tensor in updates.items():
+                if "lora_A" in param_name:
+                    lora_a_params[param_name].append((weight, param_tensor))
+                elif "lora_B" in param_name:
+                    lora_b_params[param_name].append((weight, param_tensor))
+                else:
+                    other_params[param_name].append((weight, param_tensor))
+        
+        # Aggregate parameters
+        aggregated = {}
+        
+        # Aggregate LoRA A matrices (down-projection)
+        for param_name, weighted_params in lora_a_params.items():
+            aggregated_param = self._aggregate_lora_matrices(weighted_params, "A")
+            aggregated[param_name] = aggregated_param
+        
+        # Aggregate LoRA B matrices (up-projection)  
+        for param_name, weighted_params in lora_b_params.items():
+            aggregated_param = self._aggregate_lora_matrices(weighted_params, "B")
+            aggregated[param_name] = aggregated_param
+        
+        # Aggregate other parameters normally
+        for param_name, weighted_params in other_params.items():
+            first_param = weighted_params[0][1]
+            aggregated_param = torch.zeros_like(first_param)
+            
+            for weight, param_tensor in weighted_params:
+                aggregated_param += weight * param_tensor
+                
+            aggregated[param_name] = aggregated_param
+        
+        # Update parameter statistics
+        self._update_parameter_stats(aggregated)
+        
+        self._record_aggregation(
+            round_num=len(self.aggregation_history) + 1,
+            num_clients=len(client_updates),
+            method="lora_fedavg",
+            metadata={
+                "lora_a_params": len(lora_a_params),
+                "lora_b_params": len(lora_b_params), 
+                "other_params": len(other_params),
+                "total_lora_parameters": sum(p.numel() for p in aggregated.values())
+            }
+        )
+        
+        return aggregated
+    
+    def _aggregate_lora_matrices(
+        self, 
+        weighted_params: List[Tuple[float, torch.Tensor]], 
+        matrix_type: str
+    ) -> torch.Tensor:
+        """
+        Aggregate LoRA matrices with type-specific handling.
+        
+        Args:
+            weighted_params: List of (weight, parameter) tuples
+            matrix_type: "A" or "B" to indicate matrix type
+            
+        Returns:
+            Aggregated LoRA matrix
+        """
+        first_param = weighted_params[0][1]
+        aggregated = torch.zeros_like(first_param)
+        
+        # Standard weighted averaging for LoRA matrices
+        for weight, param_tensor in weighted_params:
+            aggregated += weight * param_tensor
+        
+        # Optional: Apply matrix-specific post-processing
+        if matrix_type == "A" and hasattr(self.config, 'normalize_lora_a'):
+            if self.config.normalize_lora_a:
+                # Normalize LoRA A matrix to maintain scale
+                norm = torch.norm(aggregated, dim=-1, keepdim=True)
+                aggregated = aggregated / (norm + 1e-8)
+        
+        return aggregated
+    
+    def _validate_lora_consistency(self, client_updates: Dict[str, Dict[str, torch.Tensor]]) -> None:
+        """
+        Validate consistency of LoRA parameters across clients.
+        
+        Args:
+            client_updates: Client parameter updates to validate
+        """
+        if not client_updates:
+            return
+        
+        # Check parameter names consistency
+        first_client_params = set(next(iter(client_updates.values())).keys())
+        
+        for client_id, updates in client_updates.items():
+            client_params = set(updates.keys())
+            if client_params != first_client_params:
+                missing = first_client_params - client_params
+                extra = client_params - first_client_params
+                raise ValueError(
+                    f"LoRA parameter mismatch for client {client_id}. "
+                    f"Missing: {missing}, Extra: {extra}"
+                )
+        
+        # Validate LoRA A/B matrix pairs
+        lora_a_params = {name for name in first_client_params if "lora_A" in name}
+        lora_b_params = {name for name in first_client_params if "lora_B" in name}
+        
+        for a_param in lora_a_params:
+            expected_b_param = a_param.replace("lora_A", "lora_B")
+            if expected_b_param not in lora_b_params:
+                raise ValueError(f"Missing corresponding LoRA B matrix for {a_param}")
+        
+        # Validate parameter shapes across clients
+        for param_name in first_client_params:
+            first_shape = next(iter(client_updates.values()))[param_name].shape
+            
+            for client_id, updates in client_updates.items():
+                if updates[param_name].shape != first_shape:
+                    raise ValueError(
+                        f"Shape mismatch for parameter {param_name} in client {client_id}. "
+                        f"Expected {first_shape}, got {updates[param_name].shape}"
+                    )
+    
+    def _update_parameter_stats(self, aggregated_params: Dict[str, torch.Tensor]) -> None:
+        """Update statistics about aggregated parameters."""
+        stats = {
+            "total_parameters": sum(p.numel() for p in aggregated_params.values()),
+            "parameter_norms": {
+                name: param.norm().item() 
+                for name, param in aggregated_params.items()
+            },
+            "lora_ranks": {}
+        }
+        
+        # Calculate LoRA ranks
+        lora_a_params = {name: param for name, param in aggregated_params.items() if "lora_A" in name}
+        for name, param in lora_a_params.items():
+            if len(param.shape) >= 2:
+                stats["lora_ranks"][name.replace("lora_A", "")] = param.shape[0]
+        
+        self._parameter_stats = stats
+    
+    def get_parameter_statistics(self) -> Dict[str, Any]:
+        """Get current parameter statistics."""
+        return self._parameter_stats.copy()
+
+
 class SecureAggregator(BaseAggregator):
     """
     Secure aggregation using additive secret sharing.
@@ -507,6 +723,8 @@ def create_aggregator(config: SecurityConfig) -> BaseAggregator:
     """
     if config.aggregation_method == AggregationMethod.FEDAVG:
         return FedAvgAggregator(config)
+    elif config.aggregation_method == AggregationMethod.LORA_FEDAVG:
+        return LoRAAggregator(config, validate_lora=True)
     elif config.aggregation_method == AggregationMethod.SECURE_WEIGHTED:
         return SecureAggregator(config)
     elif config.aggregation_method == AggregationMethod.KRUM:
