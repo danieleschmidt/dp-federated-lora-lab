@@ -262,28 +262,116 @@ class DPLoRAClient:
     
     def receive_global_model(self, global_parameters: Dict[str, torch.Tensor]) -> None:
         """
-        Receive and load global model parameters.
+        Receive and properly merge global LoRA parameters into local model.
         
         Args:
-            global_parameters: Global model parameters from server
+            global_parameters: Global LoRA parameters from federated server
         """
         try:
-            # Load only LoRA parameters
-            lora_params = {}
-            for name, param in global_parameters.items():
-                if "lora_" in name:
-                    lora_params[name] = param
-            
-            # Update model with global parameters
-            model_state = self.model.state_dict()
-            model_state.update(lora_params)
-            self.model.load_state_dict(model_state, strict=False)
-            
-            logger.info(f"Client {self.client_id} received global model (round {self.current_round})")
+            self.merge_lora_weights(global_parameters)
+            logger.info(f"Client {self.client_id} successfully received and merged "
+                       f"{len(global_parameters)} global LoRA parameters (round {self.current_round})")
             
         except Exception as e:
             logger.error(f"Error loading global model for client {self.client_id}: {e}")
             raise
+    
+    def merge_lora_weights(self, global_lora_params: Dict[str, torch.Tensor]) -> None:
+        """
+        Properly merge global LoRA parameters into the local model.
+        
+        This method ensures proper LoRA parameter integration while maintaining
+        model stability and preventing gradient computation issues.
+        
+        Args:
+            global_lora_params: Global LoRA parameters to merge
+        """
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        # Filter and validate LoRA parameters
+        filtered_lora_params = {}
+        model_param_names = {name for name, _ in self.model.named_parameters()}
+        
+        for name, param in global_lora_params.items():
+            if any(lora_key in name for lora_key in [
+                "lora_A", "lora_B", 
+                "lora_embedding_A", "lora_embedding_B",
+                "lora_", "modules_to_save"
+            ]):
+                if name in model_param_names:
+                    # Ensure parameter is on correct device and has correct dtype
+                    device = next(self.model.parameters()).device
+                    dtype = next(self.model.parameters()).dtype
+                    filtered_lora_params[name] = param.to(device=device, dtype=dtype)
+                else:
+                    logger.warning(f"Skipping parameter {name} - not found in local model")
+        
+        if not filtered_lora_params:
+            logger.warning("No valid LoRA parameters found in global update")
+            return
+        
+        # Update model parameters with proper gradient handling
+        with torch.no_grad():
+            current_state = self.model.state_dict()
+            
+            # Update only LoRA parameters
+            for name, param in filtered_lora_params.items():
+                if name in current_state:
+                    current_state[name].copy_(param)
+                    logger.debug(f"Updated parameter {name} with shape {param.shape}")
+            
+            # Load updated state back to model
+            self.model.load_state_dict(current_state, strict=False)
+        
+        # Verify parameter update
+        updated_count = len(filtered_lora_params)
+        logger.info(f"Successfully merged {updated_count} LoRA parameters into local model")
+    
+    def get_parameter_divergence(self, global_params: Dict[str, torch.Tensor]) -> Dict[str, float]:
+        """
+        Calculate divergence between local and global LoRA parameters.
+        
+        Useful for monitoring model convergence and detecting anomalies.
+        
+        Args:
+            global_params: Global LoRA parameters for comparison
+            
+        Returns:
+            Dictionary of parameter-wise divergences
+        """
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        local_params = self.extract_lora_parameters()
+        divergences = {}
+        
+        for name in set(local_params.keys()) & set(global_params.keys()):
+            local_param = local_params[name]
+            global_param = global_params[name].to(local_param.device)
+            
+            # Calculate cosine similarity and L2 distance
+            if local_param.numel() > 0 and global_param.numel() > 0:
+                # Flatten parameters for comparison
+                local_flat = local_param.flatten()
+                global_flat = global_param.flatten()
+                
+                # Cosine similarity
+                cos_sim = torch.cosine_similarity(local_flat.unsqueeze(0), global_flat.unsqueeze(0))
+                
+                # L2 distance
+                l2_dist = torch.norm(local_flat - global_flat)
+                
+                # Relative L2 distance
+                rel_l2_dist = l2_dist / (torch.norm(local_flat) + 1e-8)
+                
+                divergences[name] = {
+                    "cosine_similarity": cos_sim.item(),
+                    "l2_distance": l2_dist.item(),
+                    "relative_l2_distance": rel_l2_dist.item()
+                }
+        
+        return divergences
     
     async def register_with_server(self) -> bool:
         """
@@ -596,17 +684,229 @@ class DPLoRAClient:
     
     def get_model_parameters(self) -> Dict[str, torch.Tensor]:
         """
-        Get current model parameters (LoRA only).
+        Get current model parameters (LoRA only) for federated aggregation.
         
         Returns:
-            Dictionary of LoRA parameters
+            Dictionary of LoRA parameters optimized for transmission
         """
-        lora_params = {}
-        for name, param in self.model.named_parameters():
-            if "lora_" in name and param.requires_grad:
-                lora_params[name] = param.clone().detach()
+        return self.extract_lora_parameters()
+    
+    def extract_lora_parameters(self) -> Dict[str, torch.Tensor]:
+        """
+        Extract only LoRA-specific parameters for federated aggregation.
         
-        return lora_params
+        This method isolates LoRA adapters (A and B matrices) from the full model
+        to ensure efficient transmission and proper aggregation in federated learning.
+        
+        Returns:
+            Dictionary containing only LoRA parameters {name: tensor}
+        """
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        lora_parameters = {}
+        
+        # Extract LoRA parameters with comprehensive pattern matching
+        for name, param in self.model.named_parameters():
+            if any(lora_key in name for lora_key in [
+                "lora_A", "lora_B", 
+                "lora_embedding_A", "lora_embedding_B",
+                "lora_", "modules_to_save"
+            ]) and param.requires_grad:
+                lora_parameters[name] = param.data.clone().detach()
+        
+        # Validate LoRA parameter extraction
+        if not lora_parameters:
+            logger.warning(f"No LoRA parameters found for client {self.client_id}. "
+                          f"Available parameters: {list(self.model.named_parameters())[:5]}...")
+        else:
+            total_lora_params = sum(p.numel() for p in lora_parameters.values())
+            logger.info(f"Extracted {len(lora_parameters)} LoRA parameter tensors "
+                       f"({total_lora_params:,} total parameters) from client {self.client_id}")
+        
+        return lora_parameters
+    
+    def get_lora_statistics(self) -> Dict[str, Any]:
+        """
+        Get statistics about current LoRA parameters for adaptive rank selection.
+        
+        Returns:
+            Statistics including parameter norms, gradients, and rank effectiveness
+        """
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        lora_params = self.extract_lora_parameters()
+        
+        stats = {
+            "num_lora_layers": len(lora_params),
+            "total_lora_parameters": sum(p.numel() for p in lora_params.values()),
+            "parameter_norms": {},
+            "gradient_norms": {},
+            "rank_effectiveness": {},
+        }
+        
+        # Calculate parameter norms and gradient information
+        for name, param in lora_params.items():
+            stats["parameter_norms"][name] = param.norm().item()
+            
+            if param.grad is not None:
+                stats["gradient_norms"][name] = param.grad.norm().item()
+            
+            # Estimate rank effectiveness for A/B matrix pairs
+            if "lora_A" in name:
+                base_name = name.replace("lora_A", "")
+                b_name = name.replace("lora_A", "lora_B")
+                
+                if b_name in lora_params:
+                    # Calculate effective rank using SVD
+                    try:
+                        A_matrix = param.cpu()
+                        B_matrix = lora_params[b_name].cpu()
+                        
+                        # Compute singular values of the LoRA product
+                        lora_product = torch.matmul(B_matrix, A_matrix)
+                        U, S, V = torch.svd(lora_product)
+                        
+                        # Calculate effective rank (number of significant singular values)
+                        threshold = 0.01 * S[0] if len(S) > 0 else 0
+                        effective_rank = (S > threshold).sum().item()
+                        
+                        stats["rank_effectiveness"][base_name] = {
+                            "configured_rank": A_matrix.shape[0],
+                            "effective_rank": effective_rank,
+                            "rank_utilization": effective_rank / A_matrix.shape[0] if A_matrix.shape[0] > 0 else 0,
+                            "largest_singular_value": S[0].item() if len(S) > 0 else 0,
+                        }
+                    except Exception as e:
+                        logger.warning(f"Could not compute rank effectiveness for {base_name}: {e}")
+        
+        return stats
+    
+    def adaptive_rank_selection(self, target_rank: Optional[int] = None) -> int:
+        """
+        Perform adaptive LoRA rank selection based on client data characteristics and model performance.
+        
+        Args:
+            target_rank: Target rank to evaluate (if None, finds optimal rank)
+            
+        Returns:
+            Optimal LoRA rank for this client
+        """
+        if self.model is None:
+            raise ValueError("Model not initialized")
+        
+        current_stats = self.get_lora_statistics()
+        
+        # Get current rank from model configuration
+        current_rank = self.config.lora.r
+        
+        # If target rank is specified, evaluate it directly
+        if target_rank is not None:
+            logger.info(f"Evaluating target rank {target_rank} for client {self.client_id}")
+            return self._evaluate_rank_performance(target_rank, current_stats)
+        
+        # Adaptive rank selection based on data characteristics
+        data_size = len(self.local_dataset) if self.local_dataset else 0
+        
+        # Heuristics for rank selection
+        if data_size < 100:
+            # Small dataset: use lower rank to prevent overfitting
+            optimal_rank = min(8, current_rank)
+        elif data_size < 1000:
+            # Medium dataset: moderate rank
+            optimal_rank = min(16, max(8, current_rank))
+        else:
+            # Large dataset: can support higher ranks
+            optimal_rank = min(64, max(16, current_rank))
+        
+        # Adjust based on rank effectiveness if available
+        if current_stats.get("rank_effectiveness"):
+            avg_utilization = np.mean([
+                info["rank_utilization"] 
+                for info in current_stats["rank_effectiveness"].values()
+            ])
+            
+            if avg_utilization < 0.5:
+                # Low utilization: reduce rank
+                optimal_rank = max(4, int(current_rank * 0.75))
+            elif avg_utilization > 0.9:
+                # High utilization: might benefit from higher rank
+                optimal_rank = min(64, int(current_rank * 1.25))
+        
+        # Ensure rank is within valid bounds
+        optimal_rank = max(1, min(64, optimal_rank))
+        
+        logger.info(f"Adaptive rank selection for client {self.client_id}: "
+                   f"current={current_rank}, optimal={optimal_rank}, data_size={data_size}")
+        
+        return optimal_rank
+    
+    def _evaluate_rank_performance(self, target_rank: int, current_stats: Dict[str, Any]) -> int:
+        """
+        Evaluate performance of a specific rank configuration.
+        
+        Args:
+            target_rank: Rank to evaluate
+            current_stats: Current LoRA statistics
+            
+        Returns:
+            Evaluated rank (may adjust based on constraints)
+        """
+        # Consider computational constraints
+        total_params = current_stats.get("total_lora_parameters", 0)
+        
+        # Estimate parameters for target rank
+        current_rank = self.config.lora.r
+        if current_rank > 0:
+            param_ratio = target_rank / current_rank
+            estimated_params = int(total_params * param_ratio)
+            
+            # Check memory constraints (rough estimate)
+            if estimated_params > 10_000_000:  # 10M parameters
+                logger.warning(f"Target rank {target_rank} may require too many parameters ({estimated_params:,})")
+                return min(target_rank, 32)  # Cap at 32
+        
+        return target_rank
+    
+    def update_lora_rank(self, new_rank: int) -> None:
+        """
+        Update LoRA rank and reinitialize model with new configuration.
+        
+        Args:
+            new_rank: New LoRA rank to use
+        """
+        if new_rank == self.config.lora.r:
+            logger.info(f"LoRA rank already at {new_rank}, no update needed")
+            return
+        
+        logger.info(f"Updating LoRA rank from {self.config.lora.r} to {new_rank}")
+        
+        # Store current training state
+        was_training = self.model.training if self.model else False
+        
+        # Update configuration
+        old_rank = self.config.lora.r
+        self.config.lora.r = new_rank
+        
+        try:
+            # Reinitialize model with new rank
+            self._initialize_model()
+            self._setup_privacy()
+            
+            # Restore training mode
+            if was_training and self.model:
+                self.model.train()
+            
+            logger.info(f"Successfully updated LoRA rank from {old_rank} to {new_rank}")
+            
+        except Exception as e:
+            # Rollback on error
+            logger.error(f"Error updating LoRA rank: {e}. Rolling back to rank {old_rank}")
+            self.config.lora.r = old_rank
+            self._initialize_model()
+            self._setup_privacy()
+            raise
     
     def evaluate_model(self, test_data: Optional[Dataset] = None) -> Dict[str, float]:
         """
