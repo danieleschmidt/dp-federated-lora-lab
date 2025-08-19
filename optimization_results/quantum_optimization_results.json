@@ -1,0 +1,500 @@
+{
+  "training_summary": {
+    "total_rounds": 8,
+    "optimization_level": "quantum",
+    "avg_response_time": 0.9867027759552002,
+    "avg_throughput": 235.89977042555577,
+    "avg_aggregation_time": 0.03569650650024414
+  },
+  "training_history": [
+    {
+      "round": 1,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.03949284553527832,
+      "round_completion_time": 1.9447524547576904,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.192754",
+        "cpu_usage": 0.7739453832230891,
+        "memory_usage": 0.6080170841666759,
+        "network_throughput": 0.14351470671446784,
+        "storage_io": 0.5181839795635761,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.03949284553527832,
+        "round_completion_time": 1.9447524547576904,
+        "throughput_per_second": 5.1420426160336
+      },
+      "scaling_decisions": [],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 0.0,
+        "cache_hits": 0,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 10,
+        "queue_size": 10,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 2,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.037816524505615234,
+      "round_completion_time": 0.03950834274291992,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.232606",
+        "cpu_usage": 0.8047675161996779,
+        "memory_usage": 0.4848123370589485,
+        "network_throughput": 0.6983213463950625,
+        "storage_io": 0.4006610730627317,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.037816524505615234,
+        "round_completion_time": 0.03950834274291992,
+        "throughput_per_second": 253.11109770080262
+      },
+      "scaling_decisions": [
+        {
+          "decision_type": "SCALE_UP",
+          "target_resource": "cpu",
+          "action": "Increase cpu capacity by 50%",
+          "expected_improvement": 0.3,
+          "confidence": 0.8,
+          "timestamp": "2025-08-19T22:27:14.193131"
+        }
+      ],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 47.61904761904761,
+        "cache_hits": 10,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 20,
+        "queue_size": 20,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 3,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.03557276725769043,
+      "round_completion_time": 0.03739523887634277,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.270312",
+        "cpu_usage": 0.3498380004185938,
+        "memory_usage": 0.583337891075091,
+        "network_throughput": 0.4924167861539397,
+        "storage_io": 0.41375484528668466,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.03557276725769043,
+        "round_completion_time": 0.03739523887634277,
+        "throughput_per_second": 267.41372165231087
+      },
+      "scaling_decisions": [],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 64.51612903225806,
+        "cache_hits": 20,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 30,
+        "queue_size": 30,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 4,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.03554892539978027,
+      "round_completion_time": 0.03789258003234863,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.308526",
+        "cpu_usage": 0.5927276687615881,
+        "memory_usage": 0.6555301229049193,
+        "network_throughput": 0.48741523893801886,
+        "storage_io": 0.5735343275838606,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.03554892539978027,
+        "round_completion_time": 0.03789258003234863,
+        "throughput_per_second": 263.9039091944404
+      },
+      "scaling_decisions": [],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 73.17073170731707,
+        "cache_hits": 30,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 40,
+        "queue_size": 40,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 5,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.03573012351989746,
+      "round_completion_time": 0.03809332847595215,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.346898",
+        "cpu_usage": 0.6685548681209219,
+        "memory_usage": 0.6044430249207828,
+        "network_throughput": 0.651701846543284,
+        "storage_io": 0.5102139503546714,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.03573012351989746,
+        "round_completion_time": 0.03809332847595215,
+        "throughput_per_second": 262.5131591300266
+      },
+      "scaling_decisions": [
+        {
+          "decision_type": "SCALE_UP",
+          "target_resource": "network",
+          "action": "Increase network capacity by 50%",
+          "expected_improvement": 0.3,
+          "confidence": 0.8,
+          "timestamp": "2025-08-19T22:27:14.308855"
+        }
+      ],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 78.43137254901961,
+        "cache_hits": 40,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 50,
+        "queue_size": 50,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 6,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.034078359603881836,
+      "round_completion_time": 0.03655600547790527,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.383998",
+        "cpu_usage": 0.7562681558159554,
+        "memory_usage": 0.5714430138166937,
+        "network_throughput": 0.2492029556748431,
+        "storage_io": 0.42040721826239286,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.034078359603881836,
+        "round_completion_time": 0.03655600547790527,
+        "throughput_per_second": 273.5528641400406
+      },
+      "scaling_decisions": [],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 81.9672131147541,
+        "cache_hits": 50,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 60,
+        "queue_size": 60,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 7,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.033370256423950195,
+      "round_completion_time": 0.03587627410888672,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.420354",
+        "cpu_usage": 0.801570757325593,
+        "memory_usage": 0.3881158146723637,
+        "network_throughput": 0.316953754815202,
+        "storage_io": 0.4788821301074009,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.033370256423950195,
+        "round_completion_time": 0.03587627410888672,
+        "throughput_per_second": 278.73574523512053
+      },
+      "scaling_decisions": [
+        {
+          "decision_type": "SCALE_UP",
+          "target_resource": "cpu",
+          "action": "Increase cpu capacity by 50%",
+          "expected_improvement": 0.3,
+          "confidence": 0.8,
+          "timestamp": "2025-08-19T22:27:14.384554"
+        },
+        {
+          "decision_type": "SCALE_DOWN",
+          "target_resource": "memory",
+          "action": "Decrease memory capacity by 25%",
+          "expected_improvement": 0.15,
+          "confidence": 0.7,
+          "timestamp": "2025-08-19T22:27:14.384572"
+        }
+      ],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 84.50704225352112,
+        "cache_hits": 60,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 70,
+        "queue_size": 70,
+        "max_workers": 20
+      }
+    },
+    {
+      "round": 8,
+      "selected_clients": 10,
+      "successful_clients": 10,
+      "avg_loss": 0.8592710279594884,
+      "aggregation_time": 0.033962249755859375,
+      "round_completion_time": 0.03535747528076172,
+      "performance_metrics": {
+        "timestamp": "2025-08-19T22:27:14.456025",
+        "cpu_usage": 0.5225115525011752,
+        "memory_usage": 0.3991859465789621,
+        "network_throughput": 0.28882938086160265,
+        "storage_io": 0.46390800072748023,
+        "client_response_time": 0.9867027759552002,
+        "aggregation_time": 0.033962249755859375,
+        "round_completion_time": 0.03535747528076172,
+        "throughput_per_second": 282.82562373567094
+      },
+      "scaling_decisions": [
+        {
+          "decision_type": "SCALE_DOWN",
+          "target_resource": "memory",
+          "action": "Decrease memory capacity by 25%",
+          "expected_improvement": 0.15,
+          "confidence": 0.7,
+          "timestamp": "2025-08-19T22:27:14.420720"
+        }
+      ],
+      "cache_stats": {
+        "cache_size": 11,
+        "max_size": 2000,
+        "hit_rate": 86.41975308641975,
+        "cache_hits": 70,
+        "cache_misses": 11,
+        "utilization": 0.5499999999999999
+      },
+      "task_stats": {
+        "active_tasks": 0,
+        "completed_tasks": 80,
+        "queue_size": 80,
+        "max_workers": 20
+      }
+    }
+  ],
+  "performance_metrics": [
+    {
+      "timestamp": "2025-08-19T22:27:14.192754",
+      "cpu_usage": 0.7739453832230891,
+      "memory_usage": 0.6080170841666759,
+      "network_throughput": 0.14351470671446784,
+      "storage_io": 0.5181839795635761,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.03949284553527832,
+      "round_completion_time": 1.9447524547576904,
+      "throughput_per_second": 5.1420426160336
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.232606",
+      "cpu_usage": 0.8047675161996779,
+      "memory_usage": 0.4848123370589485,
+      "network_throughput": 0.6983213463950625,
+      "storage_io": 0.4006610730627317,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.037816524505615234,
+      "round_completion_time": 0.03950834274291992,
+      "throughput_per_second": 253.11109770080262
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.270312",
+      "cpu_usage": 0.3498380004185938,
+      "memory_usage": 0.583337891075091,
+      "network_throughput": 0.4924167861539397,
+      "storage_io": 0.41375484528668466,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.03557276725769043,
+      "round_completion_time": 0.03739523887634277,
+      "throughput_per_second": 267.41372165231087
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.308526",
+      "cpu_usage": 0.5927276687615881,
+      "memory_usage": 0.6555301229049193,
+      "network_throughput": 0.48741523893801886,
+      "storage_io": 0.5735343275838606,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.03554892539978027,
+      "round_completion_time": 0.03789258003234863,
+      "throughput_per_second": 263.9039091944404
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.346898",
+      "cpu_usage": 0.6685548681209219,
+      "memory_usage": 0.6044430249207828,
+      "network_throughput": 0.651701846543284,
+      "storage_io": 0.5102139503546714,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.03573012351989746,
+      "round_completion_time": 0.03809332847595215,
+      "throughput_per_second": 262.5131591300266
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.383998",
+      "cpu_usage": 0.7562681558159554,
+      "memory_usage": 0.5714430138166937,
+      "network_throughput": 0.2492029556748431,
+      "storage_io": 0.42040721826239286,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.034078359603881836,
+      "round_completion_time": 0.03655600547790527,
+      "throughput_per_second": 273.5528641400406
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.420354",
+      "cpu_usage": 0.801570757325593,
+      "memory_usage": 0.3881158146723637,
+      "network_throughput": 0.316953754815202,
+      "storage_io": 0.4788821301074009,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.033370256423950195,
+      "round_completion_time": 0.03587627410888672,
+      "throughput_per_second": 278.73574523512053
+    },
+    {
+      "timestamp": "2025-08-19T22:27:14.456025",
+      "cpu_usage": 0.5225115525011752,
+      "memory_usage": 0.3991859465789621,
+      "network_throughput": 0.28882938086160265,
+      "storage_io": 0.46390800072748023,
+      "client_response_time": 0.9867027759552002,
+      "aggregation_time": 0.033962249755859375,
+      "round_completion_time": 0.03535747528076172,
+      "throughput_per_second": 282.82562373567094
+    }
+  ],
+  "resource_optimization": {
+    "scaling_decisions": 5,
+    "current_resources": {
+      "cpu": 9.0,
+      "memory": 4.5,
+      "network": 1500.0
+    }
+  },
+  "cache_performance": {
+    "cache_size": 11,
+    "max_size": 2000,
+    "hit_rate": 86.41975308641975,
+    "cache_hits": 70,
+    "cache_misses": 11,
+    "utilization": 0.5499999999999999
+  },
+  "quantum_optimization": {
+    "client_quantum_states": {
+      "edge_device_1": 0.4008771275238322,
+      "edge_device_2": 0.4618156728810564,
+      "cloud_client_1": 0.6591218789669575,
+      "cloud_client_2": 0.4364949488148089,
+      "mobile_client_1": 0.791378417900778,
+      "mobile_client_2": 0.4339548479171656,
+      "server_client_1": 0.3618287659790176,
+      "iot_device_1": 0.8057053980359535,
+      "workstation_1": 0.6372881695913377,
+      "datacenter_1": 0.47356210507102287
+    },
+    "selection_strategy": "quantum_annealing"
+  },
+  "client_performance": {
+    "edge_device_1": {
+      "total_contributions": 8,
+      "avg_response_time": 1.5740902423858643,
+      "error_rate": 0.0
+    },
+    "edge_device_2": {
+      "total_contributions": 8,
+      "avg_response_time": 1.1879796981811523,
+      "error_rate": 0.0
+    },
+    "cloud_client_1": {
+      "total_contributions": 8,
+      "avg_response_time": 0.47272777557373047,
+      "error_rate": 0.0
+    },
+    "cloud_client_2": {
+      "total_contributions": 8,
+      "avg_response_time": 1.3334128856658936,
+      "error_rate": 0.0
+    },
+    "mobile_client_1": {
+      "total_contributions": 8,
+      "avg_response_time": 0.20802021026611328,
+      "error_rate": 0.0
+    },
+    "mobile_client_2": {
+      "total_contributions": 8,
+      "avg_response_time": 1.349076509475708,
+      "error_rate": 0.0
+    },
+    "server_client_1": {
+      "total_contributions": 8,
+      "avg_response_time": 1.9022743701934814,
+      "error_rate": 0.0
+    },
+    "iot_device_1": {
+      "total_contributions": 8,
+      "avg_response_time": 0.18494844436645508,
+      "error_rate": 0.0
+    },
+    "workstation_1": {
+      "total_contributions": 8,
+      "avg_response_time": 0.5280025005340576,
+      "error_rate": 0.0
+    },
+    "datacenter_1": {
+      "total_contributions": 8,
+      "avg_response_time": 1.126495122909546,
+      "error_rate": 0.0
+    }
+  }
+}

@@ -4,16 +4,16 @@ services:
   dp-fed-lora-server:
     build: .
     image: dp-federated-lora:latest
-    container_name: dp-fed-lora-production
+    container_name: dp-fed-lora-staging
     ports:
       - "8443:8443"
     environment:
-      - ENVIRONMENT=production
+      - ENVIRONMENT=staging
       - SSL_ENABLED=true
     restart: unless-stopped
     deploy:
-      replicas: 5
+      replicas: 2
       resources:
         limits:
-          cpus: '8'
-          memory: 16G
+          cpus: '4'
+          memory: 8G

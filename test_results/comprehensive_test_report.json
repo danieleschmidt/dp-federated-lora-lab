@@ -1,0 +1,177 @@
+{
+  "test_summary": {
+    "total_tests": 7,
+    "passed_tests": 7,
+    "failed_tests": 0,
+    "error_tests": 0,
+    "success_rate": 100.0,
+    "total_execution_time": 0.7049920558929443
+  },
+  "test_suites": [
+    {
+      "suite_name": "Core Functionality",
+      "total_tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "execution_time": 0.025854110717773438,
+      "tests": [
+        {
+          "test_name": "Basic LoRA Functionality",
+          "status": "passed",
+          "severity": "critical",
+          "execution_time": 0.02541375160217285,
+          "error_message": null,
+          "test_data": {
+            "lora_params_initialized": true,
+            "parameter_shapes_valid": true,
+            "matrix_multiplication_successful": true,
+            "sample_result_magnitude": 2.940581823468012
+          },
+          "timestamp": "2025-08-19T22:24:23.989822"
+        },
+        {
+          "test_name": "Federated Averaging",
+          "status": "passed",
+          "severity": "critical",
+          "execution_time": 0.00044035911560058594,
+          "error_message": null,
+          "test_data": {
+            "averaging_successful": true,
+            "expected_result": 1.0,
+            "actual_result": 1.0,
+            "result_accuracy": true,
+            "num_clients_aggregated": 3
+          },
+          "timestamp": "2025-08-19T22:24:23.990557"
+        }
+      ]
+    },
+    {
+      "suite_name": "Security and Privacy",
+      "total_tests": 3,
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "execution_time": 0.08546304702758789,
+      "tests": [
+        {
+          "test_name": "Privacy Budget Management",
+          "status": "passed",
+          "severity": "high",
+          "execution_time": 0.00395965576171875,
+          "error_message": null,
+          "test_data": {
+            "allocations_successful": true,
+            "consumptions_successful": true,
+            "total_epsilon": 10.0,
+            "spent_epsilon": 1.5,
+            "remaining_epsilon": 8.5,
+            "budget_utilization": 15.0
+          },
+          "timestamp": "2025-08-19T22:24:23.994676"
+        },
+        {
+          "test_name": "Byzantine Detection",
+          "status": "passed",
+          "severity": "high",
+          "execution_time": 0.08046412467956543,
+          "error_message": null,
+          "test_data": {
+            "normal_client_false_positives": 0,
+            "byzantine_client_detected": 1,
+            "detection_sensitivity": 33.33333333333333,
+            "false_positive_rate": 0.0,
+            "total_alerts": 1
+          },
+          "timestamp": "2025-08-19T22:24:24.075374"
+        },
+        {
+          "test_name": "Security Guarantees",
+          "status": "passed",
+          "severity": "high",
+          "execution_time": 0.001039266586303711,
+          "error_message": null,
+          "test_data": {
+            "noise_scale_calculated": 4.844805262605389,
+            "noise_distribution_valid": true,
+            "privacy_budget_tracking": true,
+            "secure_aggregation_functional": true,
+            "differential_privacy_enabled": true
+          },
+          "timestamp": "2025-08-19T22:24:24.076629"
+        }
+      ]
+    },
+    {
+      "suite_name": "System Resilience",
+      "total_tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "execution_time": 0.17054295539855957,
+      "tests": [
+        {
+          "test_name": "System Resilience",
+          "status": "passed",
+          "severity": "medium",
+          "execution_time": 0.17054295539855957,
+          "error_message": null,
+          "test_data": {
+            "clients_registered": 3,
+            "training_completed": true,
+            "byzantine_detection_active": true,
+            "privacy_budget_managed": true,
+            "health_monitoring_active": true,
+            "circuit_breaker_functional": true
+          },
+          "timestamp": "2025-08-19T22:24:24.247380"
+        }
+      ]
+    },
+    {
+      "suite_name": "Performance",
+      "total_tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "execution_time": 0.42313194274902344,
+      "tests": [
+        {
+          "test_name": "Performance Benchmarks",
+          "status": "passed",
+          "severity": "medium",
+          "execution_time": 0.42313194274902344,
+          "error_message": null,
+          "test_data": {
+            "performance_results": [
+              {
+                "num_clients": 5,
+                "total_time": 0.057532548904418945,
+                "aggregation_time": 0.011315584182739258,
+                "throughput": 86.90732629118682
+              },
+              {
+                "num_clients": 10,
+                "total_time": 0.11724185943603516,
+                "aggregation_time": 0.022333621978759766,
+                "throughput": 85.2937683528962
+              },
+              {
+                "num_clients": 20,
+                "total_time": 0.2425374984741211,
+                "aggregation_time": 0.03887200355529785,
+                "throughput": 82.4614755484254
+              }
+            ],
+            "scalability_tested": true,
+            "max_throughput": 86.90732629118682,
+            "avg_aggregation_time": 0.024173736572265625
+          },
+          "timestamp": "2025-08-19T22:24:24.670902"
+        }
+      ]
+    }
+  ],
+  "timestamp": "2025-08-19T22:24:24.671321"
+}

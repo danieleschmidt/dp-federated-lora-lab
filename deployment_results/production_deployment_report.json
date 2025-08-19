@@ -1,0 +1,82 @@
+{
+  "deployment_summary": {
+    "total_deployments": 3,
+    "successful_deployments": 3,
+    "failed_deployments": 0,
+    "success_rate": 100.0,
+    "avg_deployment_time": 4.317998329798381
+  },
+  "active_deployments": {
+    "development": {
+      "deployment_id": "deploy_development_1755642747",
+      "environment": "development",
+      "status": "completed",
+      "deployed_version": "v1.2.0",
+      "health_check_passed": true
+    },
+    "staging": {
+      "deployment_id": "deploy_staging_1755642753",
+      "environment": "staging",
+      "status": "completed",
+      "deployed_version": "v1.2.0",
+      "health_check_passed": true
+    },
+    "production": {
+      "deployment_id": "deploy_production_1755642760",
+      "environment": "production",
+      "status": "completed",
+      "deployed_version": "v1.2.0",
+      "health_check_passed": true
+    }
+  },
+  "deployment_history": [
+    {
+      "deployment_id": "deploy_development_1755642747",
+      "environment": "development",
+      "status": "completed",
+      "start_time": "2025-08-19T22:32:27.307840",
+      "end_time": "2025-08-19T22:32:30.312380",
+      "duration_seconds": 3.3123931884765625,
+      "deployed_version": "v1.2.0",
+      "infrastructure_created": [
+        "deployment/terraform_development.tf",
+        "deployment/k8s_development_deployment.yaml",
+        "deployment/docker-compose.development.yml"
+      ],
+      "health_check_passed": true,
+      "error_message": null
+    },
+    {
+      "deployment_id": "deploy_staging_1755642753",
+      "environment": "staging",
+      "status": "completed",
+      "start_time": "2025-08-19T22:32:33.313000",
+      "end_time": "2025-08-19T22:32:37.317443",
+      "duration_seconds": 4.3174567222595215,
+      "deployed_version": "v1.2.0",
+      "infrastructure_created": [
+        "deployment/terraform_staging.tf",
+        "deployment/k8s_staging_deployment.yaml",
+        "deployment/docker-compose.staging.yml"
+      ],
+      "health_check_passed": true,
+      "error_message": null
+    },
+    {
+      "deployment_id": "deploy_production_1755642760",
+      "environment": "production",
+      "status": "completed",
+      "start_time": "2025-08-19T22:32:40.318634",
+      "end_time": "2025-08-19T22:32:45.324123",
+      "duration_seconds": 5.324145078659058,
+      "deployed_version": "v1.2.0",
+      "infrastructure_created": [
+        "deployment/terraform_production.tf",
+        "deployment/k8s_production_deployment.yaml",
+        "deployment/docker-compose.production.yml"
+      ],
+      "health_check_passed": true,
+      "error_message": null
+    }
+  ]
+}

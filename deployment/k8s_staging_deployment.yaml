@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-fed-lora-server
+  namespace: dp-fed-lora-staging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dp-fed-lora-server
+  template:
+    metadata:
+      labels:
+        app: dp-fed-lora-server
+    spec:
+      containers:
+      - name: dp-fed-lora-server
+        image: dp-federated-lora:latest
+        ports:
+        - containerPort: 8443
+        env:
+        - name: ENVIRONMENT
+          value: "staging"
+        - name: SSL_ENABLED
+          value: "true"
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4"
