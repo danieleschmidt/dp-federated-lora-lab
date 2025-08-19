@@ -1,0 +1,161 @@
+{
+  "training_history": [
+    {
+      "round": 1,
+      "avg_loss": 1.1560336004548109,
+      "participating_clients": 5,
+      "privacy_budget_status": {
+        "total_epsilon": 10.0,
+        "spent_epsilon": 1.0,
+        "remaining_epsilon": 9.0,
+        "budget_utilization": 10.0,
+        "rounds_completed": 5,
+        "avg_cost_per_round": 0.2
+      },
+      "health_metrics": {
+        "timestamp": "2025-08-19T22:22:47.405231",
+        "total_clients": 5,
+        "active_clients": 5,
+        "byzantine_clients": 0,
+        "avg_response_time": 1.5593770906555289,
+        "privacy_budget_remaining": 9.0,
+        "system_load": 0.49384512742681586,
+        "error_rate": 0.0
+      },
+      "byzantine_alerts": 0
+    },
+    {
+      "round": 2,
+      "avg_loss": 1.5777752061566341,
+      "participating_clients": 5,
+      "privacy_budget_status": {
+        "total_epsilon": 10.0,
+        "spent_epsilon": 1.9999999999999998,
+        "remaining_epsilon": 8.0,
+        "budget_utilization": 20.0,
+        "rounds_completed": 10,
+        "avg_cost_per_round": 0.2
+      },
+      "health_metrics": {
+        "timestamp": "2025-08-19T22:22:47.505253",
+        "total_clients": 5,
+        "active_clients": 5,
+        "byzantine_clients": 0,
+        "avg_response_time": 1.115749600464797,
+        "privacy_budget_remaining": 8.0,
+        "system_load": 0.10521987519084228,
+        "error_rate": 0.0
+      },
+      "byzantine_alerts": 0
+    },
+    {
+      "round": 3,
+      "avg_loss": 1.4490994853093224,
+      "participating_clients": 5,
+      "privacy_budget_status": {
+        "total_epsilon": 10.0,
+        "spent_epsilon": 3.0000000000000004,
+        "remaining_epsilon": 7.0,
+        "budget_utilization": 30.000000000000004,
+        "rounds_completed": 15,
+        "avg_cost_per_round": 0.2
+      },
+      "health_metrics": {
+        "timestamp": "2025-08-19T22:22:47.601341",
+        "total_clients": 5,
+        "active_clients": 5,
+        "byzantine_clients": 0,
+        "avg_response_time": 1.479230469960655,
+        "privacy_budget_remaining": 7.0,
+        "system_load": 0.31611549614320006,
+        "error_rate": 0.0
+      },
+      "byzantine_alerts": 0
+    },
+    {
+      "round": 4,
+      "avg_loss": 1.1824031940631636,
+      "participating_clients": 5,
+      "privacy_budget_status": {
+        "total_epsilon": 10.0,
+        "spent_epsilon": 4.000000000000001,
+        "remaining_epsilon": 5.999999999999999,
+        "budget_utilization": 40.00000000000001,
+        "rounds_completed": 20,
+        "avg_cost_per_round": 0.2
+      },
+      "health_metrics": {
+        "timestamp": "2025-08-19T22:22:47.700468",
+        "total_clients": 5,
+        "active_clients": 5,
+        "byzantine_clients": 0,
+        "avg_response_time": 0.7750491657469387,
+        "privacy_budget_remaining": 5.999999999999999,
+        "system_load": 0.6107170163372997,
+        "error_rate": 0.0
+      },
+      "byzantine_alerts": 0
+    },
+    {
+      "round": 5,
+      "avg_loss": 1.2175817522724504,
+      "participating_clients": 5,
+      "privacy_budget_status": {
+        "total_epsilon": 10.0,
+        "spent_epsilon": 5.000000000000002,
+        "remaining_epsilon": 4.999999999999998,
+        "budget_utilization": 50.00000000000002,
+        "rounds_completed": 25,
+        "avg_cost_per_round": 0.2
+      },
+      "health_metrics": {
+        "timestamp": "2025-08-19T22:22:47.798152",
+        "total_clients": 5,
+        "active_clients": 5,
+        "byzantine_clients": 0,
+        "avg_response_time": 1.0524831415336022,
+        "privacy_budget_remaining": 4.999999999999998,
+        "system_load": 0.14634497278214412,
+        "error_rate": 0.0
+      },
+      "byzantine_alerts": 0
+    }
+  ],
+  "privacy_budget_status": {
+    "total_epsilon": 10.0,
+    "spent_epsilon": 5.000000000000002,
+    "remaining_epsilon": 4.999999999999998,
+    "budget_utilization": 50.00000000000002,
+    "rounds_completed": 25,
+    "avg_cost_per_round": 0.2
+  },
+  "byzantine_alerts": [],
+  "health_alerts": [],
+  "client_status": {
+    "hospital_1": {
+      "status": "healthy",
+      "error_count": 0
+    },
+    "hospital_2": {
+      "status": "healthy",
+      "error_count": 0
+    },
+    "research_lab": {
+      "status": "healthy",
+      "error_count": 0
+    },
+    "clinic_1": {
+      "status": "healthy",
+      "error_count": 0
+    },
+    "byzantine_client": {
+      "status": "healthy",
+      "error_count": 0
+    }
+  },
+  "system_resilience_metrics": {
+    "circuit_breaker_triggered": false,
+    "total_byzantine_detected": 0,
+    "self_healing_events": 0
+  }
+}

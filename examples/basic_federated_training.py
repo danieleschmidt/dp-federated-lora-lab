@@ -20,11 +20,13 @@ def main():
     
     try:
         # Import DP-Federated LoRA components
+        import sys
+        sys.path.append('/root/repo/src')
+        
         from dp_federated_lora import (
             FederatedServer,
             DPLoRAClient, 
-            create_default_config,
-            create_mock_client
+            create_default_config
         )
         
         print("🚀 Starting DP-Federated LoRA Training Example")
