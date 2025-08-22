@@ -1,0 +1,232 @@
+{
+  "report_id": "dce62b5490",
+  "timestamp": "2025-08-22T02:42:54.653809+00:00",
+  "failure_events": [
+    {
+      "event_id": "abc54a25",
+      "failure_type": "network_timeout",
+      "severity": "high",
+      "timestamp": "2025-08-22T02:42:54.653568+00:00",
+      "affected_component": "federated_server",
+      "error_details": {
+        "timeout_duration": 5000,
+        "retry_attempts": 3
+      },
+      "recovery_strategy": "retry_with_backoff",
+      "recovery_success": true,
+      "recovery_time_ms": 2399
+    },
+    {
+      "event_id": "38ec530b",
+      "failure_type": "client_dropout",
+      "severity": "medium",
+      "timestamp": "2025-08-22T02:42:54.653597+00:00",
+      "affected_component": "client_connection",
+      "error_details": {
+        "clients_dropped": 5,
+        "dropout_rate": 0.15
+      },
+      "recovery_strategy": "graceful_degradation",
+      "recovery_success": false,
+      "recovery_time_ms": 5114
+    },
+    {
+      "event_id": "1e3ba4f5",
+      "failure_type": "byzantine_attack",
+      "severity": "critical",
+      "timestamp": "2025-08-22T02:42:54.653616+00:00",
+      "affected_component": "client_validation",
+      "error_details": {
+        "malicious_clients": 3,
+        "attack_type": "model_poisoning"
+      },
+      "recovery_strategy": "isolate_and_exclude",
+      "recovery_success": true,
+      "recovery_time_ms": 6925
+    },
+    {
+      "event_id": "31ebfdab",
+      "failure_type": "memory_overflow",
+      "severity": "high",
+      "timestamp": "2025-08-22T02:42:54.653631+00:00",
+      "affected_component": "model_aggregation",
+      "error_details": {
+        "memory_usage_mb": 8192,
+        "threshold_mb": 6144
+      },
+      "recovery_strategy": "failover_to_backup",
+      "recovery_success": true,
+      "recovery_time_ms": 3398
+    },
+    {
+      "event_id": "52a0afad",
+      "failure_type": "privacy_breach",
+      "severity": "critical",
+      "timestamp": "2025-08-22T02:42:54.653647+00:00",
+      "affected_component": "privacy_engine",
+      "error_details": {
+        "epsilon_violation": true,
+        "breach_severity": "high"
+      },
+      "recovery_strategy": "emergency_shutdown",
+      "recovery_success": true,
+      "recovery_time_ms": 11606
+    },
+    {
+      "event_id": "eaaf5242",
+      "failure_type": "model_divergence",
+      "severity": "medium",
+      "timestamp": "2025-08-22T02:42:54.653661+00:00",
+      "affected_component": "convergence_monitor",
+      "error_details": {
+        "divergence_threshold": 0.1,
+        "affected_rounds": 3
+      },
+      "recovery_strategy": "quantum_coherence_recovery",
+      "recovery_success": true,
+      "recovery_time_ms": 4827
+    },
+    {
+      "event_id": "30193c01",
+      "failure_type": "hardware_failure",
+      "severity": "high",
+      "timestamp": "2025-08-22T02:42:54.653674+00:00",
+      "affected_component": "gpu_compute",
+      "error_details": {
+        "failed_gpus": 2,
+        "total_gpus": 8
+      },
+      "recovery_strategy": "failover_to_backup",
+      "recovery_success": true,
+      "recovery_time_ms": 10106
+    },
+    {
+      "event_id": "2605deeb",
+      "failure_type": "security_violation",
+      "severity": "critical",
+      "timestamp": "2025-08-22T02:42:54.653689+00:00",
+      "affected_component": "authentication",
+      "error_details": {
+        "unauthorized_access": true,
+        "security_level": "breach"
+      },
+      "recovery_strategy": "emergency_shutdown",
+      "recovery_success": false,
+      "recovery_time_ms": 24946
+    }
+  ],
+  "circuit_breakers": [
+    {
+      "circuit_id": "federated_server",
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 2,
+      "last_failure_time": "",
+      "threshold": 5,
+      "timeout_ms": 30000
+    },
+    {
+      "circuit_id": "client_aggregation",
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 1,
+      "last_failure_time": "2025-08-22T02:42:54.653597+00:00",
+      "threshold": 3,
+      "timeout_ms": 15000
+    },
+    {
+      "circuit_id": "privacy_engine",
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 1,
+      "last_failure_time": "",
+      "threshold": 2,
+      "timeout_ms": 60000
+    },
+    {
+      "circuit_id": "model_updates",
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 2,
+      "last_failure_time": "",
+      "threshold": 4,
+      "timeout_ms": 20000
+    },
+    {
+      "circuit_id": "secure_communication",
+      "state": "closed",
+      "failure_count": 1,
+      "success_count": 0,
+      "last_failure_time": "2025-08-22T02:42:54.653689+00:00",
+      "threshold": 3,
+      "timeout_ms": 25000
+    },
+    {
+      "circuit_id": "quantum_optimizer",
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 0,
+      "last_failure_time": "",
+      "threshold": 4,
+      "timeout_ms": 40000
+    }
+  ],
+  "resilience_metrics": {
+    "total_failures": 8,
+    "successful_recoveries": 6,
+    "recovery_success_rate": 0.75,
+    "mean_recovery_time_ms": 6543.5,
+    "byzantine_attacks_detected": 1,
+    "byzantine_attacks_mitigated": 1,
+    "circuit_breaker_activations": 0,
+    "auto_healing_events": 6,
+    "system_availability": 93.7375,
+    "fault_tolerance_score": 8.812125
+  },
+  "auto_healing_performance": {
+    "overall_effectiveness": 75.0,
+    "average_recovery_time_ms": 8665.125,
+    "strategy_performance": {
+      "retry_with_backoff": {
+        "success_rate": 1.0,
+        "average_recovery_time_ms": 2399.0,
+        "effectiveness_score": 4.168403501458942
+      },
+      "failover_to_backup": {
+        "success_rate": 1.0,
+        "average_recovery_time_ms": 6752.0,
+        "effectiveness_score": 1.481042654028436
+      },
+      "isolate_and_exclude": {
+        "success_rate": 1.0,
+        "average_recovery_time_ms": 6925.0,
+        "effectiveness_score": 1.444043321299639
+      },
+      "quantum_coherence_recovery": {
+        "success_rate": 1.0,
+        "average_recovery_time_ms": 4827.0,
+        "effectiveness_score": 2.0716801325875287
+      },
+      "graceful_degradation": {
+        "success_rate": 0.0,
+        "average_recovery_time_ms": 5114.0,
+        "effectiveness_score": 0.0
+      },
+      "emergency_shutdown": {
+        "success_rate": 0.5,
+        "average_recovery_time_ms": 18276.0,
+        "effectiveness_score": 0.27358284088421975
+      }
+    },
+    "auto_healing_score": 43.27692906911326
+  },
+  "byzantine_defense_effectiveness": 79.225,
+  "overall_resilience_score": 82.28631250000001,
+  "recommendations": [
+    "\ud83d\udd27 Improve recovery success rate by implementing more robust fallback mechanisms",
+    "\u23f1\ufe0f Optimize recovery procedures to reduce mean recovery time below 5 seconds",
+    "\ud83d\udcc8 Implement additional redundancy to improve system availability above 99%",
+    "\ud83e\udd16 Enhance auto-healing algorithms with quantum-inspired recovery strategies",
+    "\u2705 Excellent fault tolerance performance - maintain current resilience practices"
+  ]
+}
