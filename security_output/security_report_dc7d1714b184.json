@@ -1,0 +1,302 @@
+{
+  "report_id": "dc7d1714b184",
+  "timestamp": "2025-08-22T02:44:36.700627+00:00",
+  "security_incidents": [
+    {
+      "incident_id": "3cfad1b5b82997f0",
+      "event_type": "unauthorized_access",
+      "threat_level": "high",
+      "timestamp": "2025-08-22T02:44:36.700457+00:00",
+      "source_ip": "192.168.1.100",
+      "client_id": "unknown_client",
+      "attack_vector": "brute_force_attack",
+      "details": {
+        "login_attempts": 50,
+        "duration_seconds": 300
+      },
+      "response_action": "temporary_block",
+      "mitigation_success": true,
+      "response_time_ms": 1070
+    },
+    {
+      "incident_id": "b2900380d533ee01",
+      "event_type": "malicious_client",
+      "threat_level": "critical",
+      "timestamp": "2025-08-22T02:44:36.700477+00:00",
+      "source_ip": "10.0.0.45",
+      "client_id": "hospital_client_002",
+      "attack_vector": "model_poisoning",
+      "details": {
+        "poisoned_updates": 3,
+        "attack_magnitude": 0.8
+      },
+      "response_action": "emergency_shutdown",
+      "mitigation_success": true,
+      "response_time_ms": 445
+    },
+    {
+      "incident_id": "fe71f534f3af3042",
+      "event_type": "data_exfiltration_attempt",
+      "threat_level": "high",
+      "timestamp": "2025-08-22T02:44:36.700495+00:00",
+      "source_ip": "172.16.0.25",
+      "client_id": "research_client_001",
+      "attack_vector": "gradient_inversion",
+      "details": {
+        "data_reconstruction_attempt": true,
+        "privacy_violation_score": 0.7
+      },
+      "response_action": "isolate_client",
+      "mitigation_success": true,
+      "response_time_ms": 1030
+    },
+    {
+      "incident_id": "9faf2cbd374954e1",
+      "event_type": "privacy_violation",
+      "threat_level": "medium",
+      "timestamp": "2025-08-22T02:44:36.700510+00:00",
+      "source_ip": "10.0.0.78",
+      "client_id": "edge_client_003",
+      "attack_vector": "epsilon_budget_violation",
+      "details": {
+        "epsilon_exceeded": 2.5,
+        "delta_violated": true
+      },
+      "response_action": "rate_limit",
+      "mitigation_success": true,
+      "response_time_ms": 2060
+    },
+    {
+      "incident_id": "f28d436d221e41f9",
+      "event_type": "injection_attack",
+      "threat_level": "high",
+      "timestamp": "2025-08-22T02:44:36.700524+00:00",
+      "source_ip": "203.0.113.15",
+      "client_id": "validator_client_001",
+      "attack_vector": "sql_injection",
+      "details": {
+        "payload_detected": true,
+        "attack_vector": "client_metadata"
+      },
+      "response_action": "forensic_capture",
+      "mitigation_success": true,
+      "response_time_ms": 1170
+    },
+    {
+      "incident_id": "3f3e199707be5f33",
+      "event_type": "authentication_failure",
+      "threat_level": "medium",
+      "timestamp": "2025-08-22T02:44:36.700544+00:00",
+      "source_ip": "198.51.100.30",
+      "client_id": "admin_client_001",
+      "attack_vector": "credential_compromise",
+      "details": {
+        "invalid_certificates": 5,
+        "suspicious_timing": true
+      },
+      "response_action": "rate_limit",
+      "mitigation_success": true,
+      "response_time_ms": 2160
+    },
+    {
+      "incident_id": "f7b95740fc58342f",
+      "event_type": "encryption_compromise",
+      "threat_level": "critical",
+      "timestamp": "2025-08-22T02:44:36.700553+00:00",
+      "source_ip": "192.0.2.50",
+      "client_id": "hospital_client_001",
+      "attack_vector": "key_exposure",
+      "details": {
+        "compromised_keys": 2,
+        "potential_data_exposure": true
+      },
+      "response_action": "emergency_shutdown",
+      "mitigation_success": true,
+      "response_time_ms": 480
+    },
+    {
+      "incident_id": "d09d5ec16502b202",
+      "event_type": "compliance_violation",
+      "threat_level": "high",
+      "timestamp": "2025-08-22T02:44:36.700573+00:00",
+      "source_ip": "10.0.0.120",
+      "client_id": "research_client_002",
+      "attack_vector": "gdpr_violation",
+      "details": {
+        "unauthorized_data_access": true,
+        "missing_consent": true
+      },
+      "response_action": "forensic_capture",
+      "mitigation_success": true,
+      "response_time_ms": 1080
+    }
+  ],
+  "authentication_profiles": [
+    {
+      "client_id": "hospital_client_001",
+      "public_key_hash": "c70f20fde330eadcacd164f601292f9f",
+      "certificate_fingerprint": "ca6aa76c17a9d07fcff6c5653e9d1df1",
+      "privacy_clearance_level": 3,
+      "authorized_operations": [
+        "model_training",
+        "data_sharing",
+        "privacy_reporting"
+      ],
+      "expiry_timestamp": "2026-02-18T02:44:36.700328+00:00"
+    },
+    {
+      "client_id": "research_client_002",
+      "public_key_hash": "cf616b28ae0dff31227d03d9f0245f97",
+      "certificate_fingerprint": "4e94e463d660e2c5512d3bb6320683d6",
+      "privacy_clearance_level": 2,
+      "authorized_operations": [
+        "model_training",
+        "benchmarking"
+      ],
+      "expiry_timestamp": "2026-02-18T02:44:36.700360+00:00"
+    },
+    {
+      "client_id": "edge_client_003",
+      "public_key_hash": "cc8f13ee9305d3e28412c430e261a668",
+      "certificate_fingerprint": "af99d58f30994d9b52b0dc6fed2a8e7b",
+      "privacy_clearance_level": 1,
+      "authorized_operations": [
+        "model_inference"
+      ],
+      "expiry_timestamp": "2026-02-18T02:44:36.700375+00:00"
+    },
+    {
+      "client_id": "admin_client_004",
+      "public_key_hash": "23714511525fa97743113aef89598bd8",
+      "certificate_fingerprint": "ecb3e6ee7ebc49f78346e09dd6f5e5e6",
+      "privacy_clearance_level": 4,
+      "authorized_operations": [
+        "system_admin",
+        "security_config",
+        "audit_access"
+      ],
+      "expiry_timestamp": "2026-02-18T02:44:36.700387+00:00"
+    },
+    {
+      "client_id": "validator_client_005",
+      "public_key_hash": "263f953c2551fed80bc4035eb47aadb8",
+      "certificate_fingerprint": "5e572d6c4414e53d11f3e5dccf4e946d",
+      "privacy_clearance_level": 3,
+      "authorized_operations": [
+        "model_validation",
+        "privacy_auditing"
+      ],
+      "expiry_timestamp": "2026-02-18T02:44:36.700403+00:00"
+    }
+  ],
+  "encryption_profiles": [
+    {
+      "profile_id": "quantum_aes_256",
+      "encryption_algorithm": "AES-256-GCM",
+      "key_size_bits": 256,
+      "quantum_resistant": true,
+      "forward_secrecy": true,
+      "privacy_enhancement": "quantum_noise_injection"
+    },
+    {
+      "profile_id": "post_quantum_kyber",
+      "encryption_algorithm": "Kyber-1024",
+      "key_size_bits": 1024,
+      "quantum_resistant": true,
+      "forward_secrecy": true,
+      "privacy_enhancement": "lattice_based_privacy"
+    },
+    {
+      "profile_id": "federated_homomorphic",
+      "encryption_algorithm": "CKKS-HE",
+      "key_size_bits": 2048,
+      "quantum_resistant": true,
+      "forward_secrecy": false,
+      "privacy_enhancement": "homomorphic_computation"
+    },
+    {
+      "profile_id": "quantum_key_distribution",
+      "encryption_algorithm": "QKD-Enhanced-AES",
+      "key_size_bits": 256,
+      "quantum_resistant": true,
+      "forward_secrecy": true,
+      "privacy_enhancement": "quantum_key_exchange"
+    }
+  ],
+  "security_metrics": {
+    "total_incidents": 8,
+    "threats_detected": 8,
+    "threats_mitigated": 8,
+    "false_positive_rate": 0.05,
+    "mean_response_time_ms": 1186.875,
+    "authentication_success_rate": 99.9,
+    "encryption_strength_score": 95.8,
+    "compliance_score": 98.5,
+    "zero_trust_effectiveness": 100.0,
+    "overall_security_posture": 98.915
+  },
+  "threat_intelligence": {
+    "attack_trends": {
+      "model_poisoning_attempts": 23,
+      "privacy_inference_attacks": 15,
+      "credential_stuffing": 8,
+      "gradient_inversion": 12
+    },
+    "geographic_threat_distribution": {
+      "high_risk_regions": [
+        "Unknown/TOR",
+        "Compromised Networks"
+      ],
+      "medium_risk_regions": [
+        "Public Cloud",
+        "Mobile Networks"
+      ],
+      "low_risk_regions": [
+        "Corporate Networks",
+        "Research Institutions"
+      ]
+    },
+    "attack_sophistication": {
+      "automated_attacks": 0.65,
+      "human_directed": 0.25,
+      "ai_powered": 0.1
+    },
+    "threat_actors": {
+      "script_kiddies": 0.4,
+      "cybercriminals": 0.35,
+      "nation_state": 0.15,
+      "insider_threats": 0.1
+    }
+  },
+  "compliance_status": {
+    "iso_27001": true,
+    "nist_cybersecurity_framework": true,
+    "gdpr_technical_safeguards": true,
+    "hipaa_security_rule": true,
+    "ccpa_data_protection": true,
+    "pdpa_security_requirements": true,
+    "zero_trust_architecture": true,
+    "quantum_cryptography_readiness": true,
+    "federated_learning_security": true,
+    "differential_privacy_compliance": true
+  },
+  "security_recommendations": [
+    "\ud83d\udd0d Address vulnerabilities in: input_validation, session_management, network_security",
+    "\ud83d\udea8 Implement additional safeguards for critical threat prevention",
+    "\ud83d\udd12 Upgrade to quantum-resistant encryption algorithms",
+    "\u2705 Excellent security posture - maintain current security practices"
+  ],
+  "penetration_test_results": {
+    "authentication_bypass": 95.2,
+    "encryption_strength": 98.7,
+    "input_validation": 92.4,
+    "session_management": 94.6,
+    "access_control": 96.8,
+    "data_protection": 97.3,
+    "network_security": 93.1,
+    "application_logic": 91.8,
+    "privacy_preservation": 98.1,
+    "quantum_resistance": 89.5
+  },
+  "security_score": 98.09
+}

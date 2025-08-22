@@ -1,0 +1,1046 @@
+{
+  "report_id": "013c315583272144dc",
+  "timestamp": "2025-08-22T02:52:10.239126+00:00",
+  "regional_configurations": [
+    {
+      "region": "north_america",
+      "primary_language": "en",
+      "secondary_languages": [
+        "es",
+        "fr"
+      ],
+      "compliance_frameworks": [
+        "ccpa"
+      ],
+      "data_residency_required": true,
+      "privacy_level": "high",
+      "max_latency_ms": 50,
+      "cultural_adaptations": {
+        "business_hours": "9-17 EST/PST",
+        "communication_style": "direct",
+        "privacy_expectations": "explicit_consent",
+        "data_sharing_comfort": "medium"
+      },
+      "local_regulations": [
+        "CCPA",
+        "COPPA",
+        "FERPA",
+        "HIPAA"
+      ]
+    },
+    {
+      "region": "europe",
+      "primary_language": "en",
+      "secondary_languages": [
+        "de",
+        "fr",
+        "it",
+        "es",
+        "nl"
+      ],
+      "compliance_frameworks": [
+        "gdpr",
+        "dpa"
+      ],
+      "data_residency_required": true,
+      "privacy_level": "strict",
+      "max_latency_ms": 30,
+      "cultural_adaptations": {
+        "business_hours": "9-17 CET",
+        "communication_style": "formal",
+        "privacy_expectations": "privacy_by_design",
+        "data_sharing_comfort": "low",
+        "consent_requirements": "explicit_granular"
+      },
+      "local_regulations": [
+        "GDPR",
+        "ePrivacy Directive",
+        "NIS2",
+        "Data Act"
+      ]
+    },
+    {
+      "region": "asia_pacific",
+      "primary_language": "en",
+      "secondary_languages": [
+        "zh_CN",
+        "ja",
+        "ko",
+        "hi"
+      ],
+      "compliance_frameworks": [
+        "pdpa",
+        "appi",
+        "pipa"
+      ],
+      "data_residency_required": true,
+      "privacy_level": "medium",
+      "max_latency_ms": 40,
+      "cultural_adaptations": {
+        "business_hours": "9-18 JST/CST",
+        "communication_style": "relationship_based",
+        "privacy_expectations": "contextual",
+        "data_sharing_comfort": "medium",
+        "hierarchical_considerations": true
+      },
+      "local_regulations": [
+        "PDPA Singapore",
+        "PDPA Thailand",
+        "APPI Japan",
+        "PIPA Korea"
+      ]
+    },
+    {
+      "region": "latin_america",
+      "primary_language": "es",
+      "secondary_languages": [
+        "pt",
+        "en"
+      ],
+      "compliance_frameworks": [
+        "lgpd"
+      ],
+      "data_residency_required": false,
+      "privacy_level": "medium",
+      "max_latency_ms": 60,
+      "cultural_adaptations": {
+        "business_hours": "9-18 BRT/ART",
+        "communication_style": "relationship_focused",
+        "privacy_expectations": "trust_based",
+        "data_sharing_comfort": "high",
+        "family_data_considerations": true
+      },
+      "local_regulations": [
+        "LGPD Brazil",
+        "Ley de Datos Argentina",
+        "LPDP Colombia"
+      ]
+    },
+    {
+      "region": "middle_east_africa",
+      "primary_language": "ar",
+      "secondary_languages": [
+        "en",
+        "fr"
+      ],
+      "compliance_frameworks": [
+        "dpa"
+      ],
+      "data_residency_required": true,
+      "privacy_level": "high",
+      "max_latency_ms": 70,
+      "cultural_adaptations": {
+        "business_hours": "8-16 GST/CAT",
+        "communication_style": "respectful_formal",
+        "privacy_expectations": "family_privacy",
+        "data_sharing_comfort": "low",
+        "religious_considerations": true
+      },
+      "local_regulations": [
+        "UAE DPA",
+        "GDPR South Africa",
+        "Kenya DPA"
+      ]
+    },
+    {
+      "region": "oceania",
+      "primary_language": "en",
+      "secondary_languages": [],
+      "compliance_frameworks": [
+        "dpa"
+      ],
+      "data_residency_required": false,
+      "privacy_level": "medium",
+      "max_latency_ms": 45,
+      "cultural_adaptations": {
+        "business_hours": "9-17 AEST",
+        "communication_style": "informal_direct",
+        "privacy_expectations": "transparent",
+        "data_sharing_comfort": "medium"
+      },
+      "local_regulations": [
+        "Privacy Act Australia",
+        "Privacy Act New Zealand"
+      ]
+    }
+  ],
+  "internationalization_resources": [
+    {
+      "language": "en",
+      "resource_key": "federated_learning",
+      "translated_text": "Federated Learning",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238582+00:00"
+    },
+    {
+      "language": "es",
+      "resource_key": "federated_learning",
+      "translated_text": "Aprendizaje Federado",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238594+00:00"
+    },
+    {
+      "language": "fr",
+      "resource_key": "federated_learning",
+      "translated_text": "Apprentissage F\u00e9d\u00e9r\u00e9",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238602+00:00"
+    },
+    {
+      "language": "de",
+      "resource_key": "federated_learning",
+      "translated_text": "F\u00f6derales Lernen",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238607+00:00"
+    },
+    {
+      "language": "it",
+      "resource_key": "federated_learning",
+      "translated_text": "Apprendimento Federato",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238612+00:00"
+    },
+    {
+      "language": "pt",
+      "resource_key": "federated_learning",
+      "translated_text": "Aprendizado Federado",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238617+00:00"
+    },
+    {
+      "language": "nl",
+      "resource_key": "federated_learning",
+      "translated_text": "Federaal Leren",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238622+00:00"
+    },
+    {
+      "language": "ru",
+      "resource_key": "federated_learning",
+      "translated_text": "\u0424\u0435\u0434\u0435\u0440\u0430\u0442\u0438\u0432\u043d\u043e\u0435 \u041e\u0431\u0443\u0447\u0435\u043d\u0438\u0435",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238626+00:00"
+    },
+    {
+      "language": "zh_CN",
+      "resource_key": "federated_learning",
+      "translated_text": "\u8054\u90a6\u5b66\u4e60",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238631+00:00"
+    },
+    {
+      "language": "zh_TW",
+      "resource_key": "federated_learning",
+      "translated_text": "\u806f\u90a6\u5b78\u7fd2",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238636+00:00"
+    },
+    {
+      "language": "ja",
+      "resource_key": "federated_learning",
+      "translated_text": "\u9023\u5408\u5b66\u7fd2",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Use formal language structure for technical concepts",
+      "last_updated": "2025-08-22T02:52:10.238640+00:00"
+    },
+    {
+      "language": "ko",
+      "resource_key": "federated_learning",
+      "translated_text": "\uc5f0\ud569 \ud559\uc2b5",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238646+00:00"
+    },
+    {
+      "language": "ar",
+      "resource_key": "federated_learning",
+      "translated_text": "\u0627\u0644\u062a\u0639\u0644\u0645 \u0627\u0644\u0641\u064a\u062f\u0631\u0627\u0644\u064a",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238651+00:00"
+    },
+    {
+      "language": "hi",
+      "resource_key": "federated_learning",
+      "translated_text": "\u0938\u0902\u0918\u0940\u092f \u0905\u0927\u093f\u0917\u092e",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238655+00:00"
+    },
+    {
+      "language": "tr",
+      "resource_key": "federated_learning",
+      "translated_text": "Federe \u00d6\u011frenme",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238660+00:00"
+    },
+    {
+      "language": "en",
+      "resource_key": "differential_privacy",
+      "translated_text": "Differential Privacy",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238665+00:00"
+    },
+    {
+      "language": "es",
+      "resource_key": "differential_privacy",
+      "translated_text": "Privacidad Diferencial",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238670+00:00"
+    },
+    {
+      "language": "fr",
+      "resource_key": "differential_privacy",
+      "translated_text": "Confidentialit\u00e9 Diff\u00e9rentielle",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238674+00:00"
+    },
+    {
+      "language": "de",
+      "resource_key": "differential_privacy",
+      "translated_text": "Differentielle Privatsph\u00e4re",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Emphasize technical precision and regulatory compliance",
+      "last_updated": "2025-08-22T02:52:10.238679+00:00"
+    },
+    {
+      "language": "it",
+      "resource_key": "differential_privacy",
+      "translated_text": "Privacy Differenziale",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238683+00:00"
+    },
+    {
+      "language": "pt",
+      "resource_key": "differential_privacy",
+      "translated_text": "Privacidade Diferencial",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238688+00:00"
+    },
+    {
+      "language": "nl",
+      "resource_key": "differential_privacy",
+      "translated_text": "Differenti\u00eble Privacy",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238692+00:00"
+    },
+    {
+      "language": "ru",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u0414\u0438\u0444\u0444\u0435\u0440\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u041f\u0440\u0438\u0432\u0430\u0442\u043d\u043e\u0441\u0442\u044c",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238696+00:00"
+    },
+    {
+      "language": "zh_CN",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u5dee\u5206\u9690\u79c1",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238701+00:00"
+    },
+    {
+      "language": "zh_TW",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u5dee\u5206\u96b1\u79c1",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238705+00:00"
+    },
+    {
+      "language": "ja",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u5dee\u5206\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238709+00:00"
+    },
+    {
+      "language": "ko",
+      "resource_key": "differential_privacy",
+      "translated_text": "\ucc28\ubd84 \ud504\ub77c\uc774\ubc84\uc2dc",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238714+00:00"
+    },
+    {
+      "language": "ar",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629 \u0627\u0644\u062a\u0641\u0627\u0636\u0644\u064a\u0629",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238719+00:00"
+    },
+    {
+      "language": "hi",
+      "resource_key": "differential_privacy",
+      "translated_text": "\u0935\u093f\u092d\u0947\u0926\u0915 \u0917\u094b\u092a\u0928\u0940\u092f\u0924\u093e",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238723+00:00"
+    },
+    {
+      "language": "tr",
+      "resource_key": "differential_privacy",
+      "translated_text": "Diferansiyel Gizlilik",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238728+00:00"
+    },
+    {
+      "language": "en",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Quantum Enhancement",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238733+00:00"
+    },
+    {
+      "language": "es",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Mejora Cu\u00e1ntica",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Use accessible language for emerging technology",
+      "last_updated": "2025-08-22T02:52:10.238737+00:00"
+    },
+    {
+      "language": "fr",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Am\u00e9lioration Quantique",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238742+00:00"
+    },
+    {
+      "language": "de",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Quantenverbesserung",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238746+00:00"
+    },
+    {
+      "language": "it",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Miglioramento Quantistico",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238751+00:00"
+    },
+    {
+      "language": "pt",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Aprimoramento Qu\u00e2ntico",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238755+00:00"
+    },
+    {
+      "language": "nl",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Quantum Verbetering",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238760+00:00"
+    },
+    {
+      "language": "ru",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u041a\u0432\u0430\u043d\u0442\u043e\u0432\u043e\u0435 \u0423\u043b\u0443\u0447\u0448\u0435\u043d\u0438\u0435",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238764+00:00"
+    },
+    {
+      "language": "zh_CN",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u91cf\u5b50\u589e\u5f3a",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238768+00:00"
+    },
+    {
+      "language": "zh_TW",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u91cf\u5b50\u589e\u5f37",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238773+00:00"
+    },
+    {
+      "language": "ja",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u91cf\u5b50\u5f37\u5316",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238777+00:00"
+    },
+    {
+      "language": "ko",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\uc591\uc790 \ud5a5\uc0c1",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238781+00:00"
+    },
+    {
+      "language": "ar",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u0627\u0644\u062a\u062d\u0633\u064a\u0646 \u0627\u0644\u0643\u0645\u064a",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238786+00:00"
+    },
+    {
+      "language": "hi",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "\u0915\u094d\u0935\u093e\u0902\u091f\u092e \u0938\u0902\u0935\u0930\u094d\u0927\u0928",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238798+00:00"
+    },
+    {
+      "language": "tr",
+      "resource_key": "quantum_enhancement",
+      "translated_text": "Kuantum Geli\u015ftirme",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238803+00:00"
+    },
+    {
+      "language": "en",
+      "resource_key": "privacy_consent",
+      "translated_text": "Privacy Consent",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238807+00:00"
+    },
+    {
+      "language": "es",
+      "resource_key": "privacy_consent",
+      "translated_text": "Consentimiento de Privacidad",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238812+00:00"
+    },
+    {
+      "language": "fr",
+      "resource_key": "privacy_consent",
+      "translated_text": "Consentement de Confidentialit\u00e9",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238816+00:00"
+    },
+    {
+      "language": "de",
+      "resource_key": "privacy_consent",
+      "translated_text": "Datenschutzeinwilligung",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238820+00:00"
+    },
+    {
+      "language": "it",
+      "resource_key": "privacy_consent",
+      "translated_text": "Consenso alla Privacy",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238825+00:00"
+    },
+    {
+      "language": "pt",
+      "resource_key": "privacy_consent",
+      "translated_text": "Consentimento de Privacidade",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238829+00:00"
+    },
+    {
+      "language": "nl",
+      "resource_key": "privacy_consent",
+      "translated_text": "Privacy Toestemming",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238833+00:00"
+    },
+    {
+      "language": "ru",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u0421\u043e\u0433\u043b\u0430\u0441\u0438\u0435 \u043d\u0430 \u041f\u0440\u0438\u0432\u0430\u0442\u043d\u043e\u0441\u0442\u044c",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238875+00:00"
+    },
+    {
+      "language": "zh_CN",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u9690\u79c1\u540c\u610f",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Emphasize collective benefit over individual rights",
+      "last_updated": "2025-08-22T02:52:10.238883+00:00"
+    },
+    {
+      "language": "zh_TW",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u96b1\u79c1\u540c\u610f",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238888+00:00"
+    },
+    {
+      "language": "ja",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc\u540c\u610f",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238893+00:00"
+    },
+    {
+      "language": "ko",
+      "resource_key": "privacy_consent",
+      "translated_text": "\uac1c\uc778\uc815\ubcf4 \ub3d9\uc758",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238898+00:00"
+    },
+    {
+      "language": "ar",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u0645\u0648\u0627\u0641\u0642\u0629 \u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238903+00:00"
+    },
+    {
+      "language": "hi",
+      "resource_key": "privacy_consent",
+      "translated_text": "\u0917\u094b\u092a\u0928\u0940\u092f\u0924\u093e \u0938\u0939\u092e\u0924\u093f",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Consider family/community decision-making patterns",
+      "last_updated": "2025-08-22T02:52:10.238907+00:00"
+    },
+    {
+      "language": "tr",
+      "resource_key": "privacy_consent",
+      "translated_text": "Gizlilik Onay\u0131",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238912+00:00"
+    },
+    {
+      "language": "en",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Data Sovereignty",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238917+00:00"
+    },
+    {
+      "language": "es",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Soberan\u00eda de Datos",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238921+00:00"
+    },
+    {
+      "language": "fr",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Souverainet\u00e9 des Donn\u00e9es",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238926+00:00"
+    },
+    {
+      "language": "de",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Datensouver\u00e4nit\u00e4t",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238930+00:00"
+    },
+    {
+      "language": "it",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Sovranit\u00e0 dei Dati",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238935+00:00"
+    },
+    {
+      "language": "pt",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Soberania de Dados",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238939+00:00"
+    },
+    {
+      "language": "nl",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Data Soevereiniteit",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238944+00:00"
+    },
+    {
+      "language": "ru",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u0421\u0443\u0432\u0435\u0440\u0435\u043d\u0438\u0442\u0435\u0442 \u0414\u0430\u043d\u043d\u044b\u0445",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238948+00:00"
+    },
+    {
+      "language": "zh_CN",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u6570\u636e\u4e3b\u6743",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238957+00:00"
+    },
+    {
+      "language": "zh_TW",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u6578\u64da\u4e3b\u6b0a",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238961+00:00"
+    },
+    {
+      "language": "ja",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u30c7\u30fc\u30bf\u4e3b\u6a29",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238966+00:00"
+    },
+    {
+      "language": "ko",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\ub370\uc774\ud130 \uc8fc\uad8c",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238970+00:00"
+    },
+    {
+      "language": "ar",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u0633\u064a\u0627\u062f\u0629 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a",
+      "context": "federated_learning_terminology",
+      "cultural_notes": "Consider religious principles in data governance",
+      "last_updated": "2025-08-22T02:52:10.238975+00:00"
+    },
+    {
+      "language": "hi",
+      "resource_key": "data_sovereignty",
+      "translated_text": "\u0921\u0947\u091f\u093e \u0938\u0902\u092a\u094d\u0930\u092d\u0941\u0924\u093e",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238979+00:00"
+    },
+    {
+      "language": "tr",
+      "resource_key": "data_sovereignty",
+      "translated_text": "Veri Egemenli\u011fi",
+      "context": "federated_learning_terminology",
+      "cultural_notes": null,
+      "last_updated": "2025-08-22T02:52:10.238983+00:00"
+    }
+  ],
+  "compliance_requirements": [
+    {
+      "framework": "gdpr",
+      "requirement_id": "GDPR_ART_25",
+      "description": "Privacy by Design and Default",
+      "implementation_status": "implemented",
+      "risk_level": "high",
+      "automated_check": true,
+      "last_audit": "2025-08-15T00:00:00Z"
+    },
+    {
+      "framework": "gdpr",
+      "requirement_id": "GDPR_ART_32",
+      "description": "Security of Processing",
+      "implementation_status": "implemented",
+      "risk_level": "high",
+      "automated_check": true,
+      "last_audit": "2025-08-15T00:00:00Z"
+    },
+    {
+      "framework": "gdpr",
+      "requirement_id": "GDPR_ART_35",
+      "description": "Data Protection Impact Assessment",
+      "implementation_status": "in_progress",
+      "risk_level": "medium",
+      "automated_check": false,
+      "last_audit": "2025-08-10T00:00:00Z"
+    },
+    {
+      "framework": "ccpa",
+      "requirement_id": "CCPA_1798_100",
+      "description": "Consumer Right to Know",
+      "implementation_status": "implemented",
+      "risk_level": "medium",
+      "automated_check": true,
+      "last_audit": "2025-08-12T00:00:00Z"
+    },
+    {
+      "framework": "ccpa",
+      "requirement_id": "CCPA_1798_105",
+      "description": "Consumer Right to Delete",
+      "implementation_status": "implemented",
+      "risk_level": "medium",
+      "automated_check": true,
+      "last_audit": "2025-08-12T00:00:00Z"
+    },
+    {
+      "framework": "pdpa",
+      "requirement_id": "PDPA_SEC_13",
+      "description": "Consent for Data Protection",
+      "implementation_status": "implemented",
+      "risk_level": "high",
+      "automated_check": true,
+      "last_audit": "2025-08-14T00:00:00Z"
+    },
+    {
+      "framework": "pdpa",
+      "requirement_id": "PDPA_SEC_24",
+      "description": "Data Breach Notification",
+      "implementation_status": "implemented",
+      "risk_level": "high",
+      "automated_check": true,
+      "last_audit": "2025-08-14T00:00:00Z"
+    },
+    {
+      "framework": "lgpd",
+      "requirement_id": "LGPD_ART_46",
+      "description": "Data Processing Agents",
+      "implementation_status": "implemented",
+      "risk_level": "medium",
+      "automated_check": true,
+      "last_audit": "2025-08-13T00:00:00Z"
+    },
+    {
+      "framework": "appi",
+      "requirement_id": "APPI_ART_23",
+      "description": "Consent for Personal Information Use",
+      "implementation_status": "implemented",
+      "risk_level": "medium",
+      "automated_check": true,
+      "last_audit": "2025-08-11T00:00:00Z"
+    },
+    {
+      "framework": "pipa",
+      "requirement_id": "PIPA_ART_15",
+      "description": "Personal Information Collection",
+      "implementation_status": "implemented",
+      "risk_level": "medium",
+      "automated_check": true,
+      "last_audit": "2025-08-11T00:00:00Z"
+    }
+  ],
+  "cross_border_data_flows": [
+    {
+      "flow_id": "FLOW_001",
+      "source_region": "europe",
+      "destination_region": "north_america",
+      "data_type": "federated_model_updates",
+      "legal_basis": "adequacy_decision",
+      "encryption_level": "AES-256-GCM",
+      "monitoring_enabled": true,
+      "compliance_status": "compliant"
+    },
+    {
+      "flow_id": "FLOW_002",
+      "source_region": "asia_pacific",
+      "destination_region": "europe",
+      "data_type": "privacy_preserving_analytics",
+      "legal_basis": "standard_contractual_clauses",
+      "encryption_level": "quantum_resistant",
+      "monitoring_enabled": true,
+      "compliance_status": "compliant"
+    },
+    {
+      "flow_id": "FLOW_003",
+      "source_region": "north_america",
+      "destination_region": "latin_america",
+      "data_type": "model_parameters",
+      "legal_basis": "consent",
+      "encryption_level": "AES-256-GCM",
+      "monitoring_enabled": true,
+      "compliance_status": "compliant"
+    },
+    {
+      "flow_id": "FLOW_004",
+      "source_region": "middle_east_africa",
+      "destination_region": "europe",
+      "data_type": "aggregated_insights",
+      "legal_basis": "legitimate_interest",
+      "encryption_level": "quantum_resistant",
+      "monitoring_enabled": true,
+      "compliance_status": "under_review"
+    },
+    {
+      "flow_id": "FLOW_005",
+      "source_region": "oceania",
+      "destination_region": "asia_pacific",
+      "data_type": "federated_gradients",
+      "legal_basis": "adequacy_decision",
+      "encryption_level": "AES-256-GCM",
+      "monitoring_enabled": true,
+      "compliance_status": "compliant"
+    }
+  ],
+  "cultural_adaptations": [
+    {
+      "region": "asia_pacific",
+      "adaptation_type": "hierarchical_consent",
+      "description": "Implement hierarchical consent patterns respecting organizational structures",
+      "impact_on_learning": "Ensures proper authorization flow in hierarchical organizations",
+      "implementation_details": {
+        "consent_levels": [
+          "individual",
+          "department",
+          "organization"
+        ],
+        "approval_workflow": "bottom_up_with_management_approval",
+        "cultural_sensitivity": "high"
+      }
+    },
+    {
+      "region": "middle_east_africa",
+      "adaptation_type": "family_privacy_units",
+      "description": "Recognize family units as privacy decision-making entities",
+      "impact_on_learning": "Adjusts privacy granularity to cultural norms",
+      "implementation_details": {
+        "privacy_unit": "family_based",
+        "consent_representative": "family_head",
+        "religious_considerations": true
+      }
+    },
+    {
+      "region": "latin_america",
+      "adaptation_type": "community_trust_models",
+      "description": "Leverage community trust networks for federated participation",
+      "impact_on_learning": "Increases participation through social trust mechanisms",
+      "implementation_details": {
+        "trust_propagation": "community_endorsement",
+        "participation_incentives": "community_benefit_focused",
+        "relationship_importance": "high"
+      }
+    },
+    {
+      "region": "europe",
+      "adaptation_type": "explicit_granular_consent",
+      "description": "Implement granular consent mechanisms for each data use",
+      "impact_on_learning": "Ensures compliance with strict privacy requirements",
+      "implementation_details": {
+        "consent_granularity": "per_data_type",
+        "withdrawal_mechanism": "immediate",
+        "transparency_level": "complete"
+      }
+    },
+    {
+      "region": "north_america",
+      "adaptation_type": "transparent_value_exchange",
+      "description": "Clear communication of value exchange in federated learning",
+      "impact_on_learning": "Increases participation through clear benefit articulation",
+      "implementation_details": {
+        "value_communication": "explicit_roi",
+        "privacy_trade_offs": "clearly_explained",
+        "opt_out_ease": "one_click"
+      }
+    },
+    {
+      "region": "oceania",
+      "adaptation_type": "informal_engagement",
+      "description": "Adapt communication style to informal, direct cultural norms",
+      "impact_on_learning": "Improves user experience and participation rates",
+      "implementation_details": {
+        "communication_tone": "casual_friendly",
+        "technical_explanations": "simplified",
+        "engagement_style": "conversational"
+      }
+    }
+  ],
+  "performance_metrics": [
+    {
+      "region": "north_america",
+      "average_latency_ms": 45.2,
+      "throughput_mbps": 1250.8,
+      "federated_accuracy": 0.912,
+      "client_participation_rate": 0.847,
+      "data_transfer_efficiency": 0.923,
+      "compliance_overhead_ms": 8.5
+    },
+    {
+      "region": "europe",
+      "average_latency_ms": 32.7,
+      "throughput_mbps": 980.3,
+      "federated_accuracy": 0.908,
+      "client_participation_rate": 0.789,
+      "data_transfer_efficiency": 0.908,
+      "compliance_overhead_ms": 15.2
+    },
+    {
+      "region": "asia_pacific",
+      "average_latency_ms": 68.4,
+      "throughput_mbps": 1450.2,
+      "federated_accuracy": 0.894,
+      "client_participation_rate": 0.923,
+      "data_transfer_efficiency": 0.887,
+      "compliance_overhead_ms": 12.8
+    },
+    {
+      "region": "latin_america",
+      "average_latency_ms": 78.9,
+      "throughput_mbps": 650.4,
+      "federated_accuracy": 0.876,
+      "client_participation_rate": 0.912,
+      "data_transfer_efficiency": 0.834,
+      "compliance_overhead_ms": 6.7
+    },
+    {
+      "region": "middle_east_africa",
+      "average_latency_ms": 95.3,
+      "throughput_mbps": 420.8,
+      "federated_accuracy": 0.858,
+      "client_participation_rate": 0.734,
+      "data_transfer_efficiency": 0.789,
+      "compliance_overhead_ms": 18.4
+    },
+    {
+      "region": "oceania",
+      "average_latency_ms": 52.1,
+      "throughput_mbps": 890.6,
+      "federated_accuracy": 0.901,
+      "client_participation_rate": 0.823,
+      "data_transfer_efficiency": 0.896,
+      "compliance_overhead_ms": 7.2
+    }
+  ],
+  "global_compliance_score": 96.66666666666667,
+  "i18n_coverage_percentage": 100.0,
+  "cross_border_efficiency": 78.0,
+  "cultural_adaptation_score": 76.0,
+  "overall_global_readiness": 87.85277777777779
+}
