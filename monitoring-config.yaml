@@ -1,0 +1,53 @@
+# Monitoring Configuration for dp-federated-lora-lab
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitoring-config
+  namespace: ml-optimization
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+    - job_name: 'dp-federated-lora-lab'
+      static_configs:
+      - targets: ['dp-federated-lora-lab-service:8080']
+      metrics_path: /metrics
+      scrape_interval: 10s
+  
+  grafana-dashboard.json: |
+    {
+      "dashboard": {
+        "title": "DP-Federated LoRA Optimization",
+        "panels": [
+          {
+            "title": "Optimization Performance",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "optimization_trials_total",
+                "legendFormat": "Total Trials"
+              },
+              {
+                "expr": "optimization_success_rate",
+                "legendFormat": "Success Rate"
+              }
+            ]
+          },
+          {
+            "title": "Resource Usage",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "container_memory_usage_bytes",
+                "legendFormat": "Memory Usage"
+              },
+              {
+                "expr": "container_cpu_usage_seconds_total",
+                "legendFormat": "CPU Usage"
+              }
+            ]
+          }
+        ]
+      }
+    }

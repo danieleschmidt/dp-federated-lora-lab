@@ -1,0 +1,316 @@
+{
+  "timestamp": "2025-08-23T18:30:49.368592",
+  "deployment_config": {
+    "environment": "production",
+    "version": "1.0.0",
+    "docker_image": "dp-federated-lora-lab",
+    "namespace": "ml-optimization",
+    "resource_limits": {
+      "memory": "16Gi",
+      "cpu": "8",
+      "gpu": "1"
+    },
+    "security_level": "high",
+    "monitoring_enabled": true
+  },
+  "deployment_result": {
+    "deployment_ready": false,
+    "security_score": 65.74074074074075,
+    "performance_score": 100.0,
+    "reliability_score": 100.0,
+    "overall_score": 88.58024691358025,
+    "security_checks": [
+      {
+        "check_name": "file_permissions",
+        "passed": true,
+        "severity": "info",
+        "details": "All file permissions are properly configured",
+        "recommendation": ""
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_enhanced_research_engine.py:61",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_enhanced_research_engine.py:195",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_enhanced_research_engine.py:196",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_enhanced_research_engine.py:586",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_hybrid_optimizer.py:518",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_hybrid_optimizer.py:1042",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_hyperscale_optimization_engine.py:551",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_hyperscale_optimization_engine.py:1065",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_hyperscale_optimization_engine.py:1068",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:70",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:133",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:405",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:572",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:894",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:899",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:1100",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:1102",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:1110",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:1112",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_privacy_amplification.py:1124",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_benchmarks.py:48",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_validation.py:52",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_validation.py:933",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_validation.py:1175",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_validation.py:1177",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/quantum_research_validation.py:1211",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/novel_lora_hyperparameter_optimizer.py:239",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/novel_lora_hyperparameter_optimizer.py:372",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/novel_lora_hyperparameter_optimizer.py:858",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/novel_lora_hyperparameter_optimizer.py:860",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/robust_lora_optimization_system.py:31",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/robust_lora_optimization_system.py:643",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/robust_lora_optimization_system.py:671",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/scalable_lora_optimization_engine.py:36",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/scalable_lora_optimization_engine.py:235",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/scalable_lora_optimization_engine.py:392",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "secrets_detection",
+        "passed": false,
+        "severity": "high",
+        "details": "Potential secret found in src/dp_federated_lora/scalable_lora_optimization_engine.py:594",
+        "recommendation": "Remove hardcoded secrets and use environment variables"
+      },
+      {
+        "check_name": "dependency_security",
+        "passed": true,
+        "severity": "info",
+        "details": "No known vulnerable dependencies detected",
+        "recommendation": ""
+      },
+      {
+        "check_name": "input_validation",
+        "passed": true,
+        "severity": "info",
+        "details": "Good input validation coverage: 96.9%",
+        "recommendation": ""
+      }
+    ],
+    "deployment_artifacts": [
+      "Dockerfile.production",
+      "k8s-deployment-production.yaml",
+      "monitoring-config.yaml",
+      "security-config.yaml"
+    ],
+    "recommendations": []
+  },
+  "environment_info": {
+    "python_version": "3.12.3 (main, Jun 18 2025, 17:59:45) [GCC 13.3.0]",
+    "platform": "linux"
+  }
+}

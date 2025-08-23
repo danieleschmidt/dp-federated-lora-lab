@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dp-federated-lora-lab-deployment
+  namespace: ml-optimization
+  labels:
+    app: dp-federated-lora-lab
+    version: 1.0.0
+    environment: production
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dp-federated-lora-lab
+  template:
+    metadata:
+      labels:
+        app: dp-federated-lora-lab
+        version: 1.0.0
+    spec:
+      containers:
+      - name: dp-federated-lora-lab
+        image: dp-federated-lora-lab:1.0.0
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "8Gi"
+            cpu: "4"
+          limits:
+            memory: 16Gi
+            cpu: 8
+        env:
+        - name: ENVIRONMENT
+          value: production
+        - name: VERSION
+          value: 1.0.0
+        - name: PYTHONPATH
+          value: "/app/src"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dp-federated-lora-lab-service
+  namespace: ml-optimization
+spec:
+  selector:
+    app: dp-federated-lora-lab
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
