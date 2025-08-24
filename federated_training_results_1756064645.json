@@ -1,0 +1,122 @@
+{
+  "model_name": "BioBERT-LoRA-Healthcare",
+  "num_rounds": 8,
+  "num_clients": 6,
+  "final_accuracy": 0.89533114974488,
+  "final_loss": 2.6358403659191905,
+  "total_privacy_budget": 7.182234941827425,
+  "training_history": [
+    {
+      "round": 1,
+      "timestamp": 1756064632.5710254,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.8794515434005296,
+      "round_loss": 2.6558011856833676,
+      "total_privacy_spent": 0.8368796081224137,
+      "num_clients": 3
+    },
+    {
+      "round": 2,
+      "timestamp": 1756064634.3722556,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.939917197520482,
+      "round_loss": 2.7287959318824164,
+      "total_privacy_spent": 1.0177123841939513,
+      "num_clients": 3
+    },
+    {
+      "round": 3,
+      "timestamp": 1756064636.1736486,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.8445588362869851,
+      "round_loss": 2.96352813432745,
+      "total_privacy_spent": 0.7002302257033121,
+      "num_clients": 3
+    },
+    {
+      "round": 4,
+      "timestamp": 1756064637.9749844,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.8976895729861356,
+      "round_loss": 2.8345126373602247,
+      "total_privacy_spent": 0.9347132630374647,
+      "num_clients": 3
+    },
+    {
+      "round": 5,
+      "timestamp": 1756064639.776416,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.8684434697442328,
+      "round_loss": 3.1277198012575997,
+      "total_privacy_spent": 1.0140243984929467,
+      "num_clients": 3
+    },
+    {
+      "round": 6,
+      "timestamp": 1756064641.5787883,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.9083045277329154,
+      "round_loss": 3.0461105910928574,
+      "total_privacy_spent": 0.667425516366948,
+      "num_clients": 3
+    },
+    {
+      "round": 7,
+      "timestamp": 1756064643.380178,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.9223872146738284,
+      "round_loss": 3.189622201283012,
+      "total_privacy_spent": 1.0604281991474742,
+      "num_clients": 3
+    },
+    {
+      "round": 8,
+      "timestamp": 1756064645.1813889,
+      "global_parameters": {
+        "q_proj_lora_A": -0.0004848227195239489,
+        "q_proj_lora_B": 0.0022370229028833436,
+        "v_proj_lora_A": 0.0001745950304605547,
+        "v_proj_lora_B": 0.0021871382746264535
+      },
+      "round_accuracy": 0.89533114974488,
+      "round_loss": 2.6358403659191905,
+      "total_privacy_spent": 0.9508213467629149,
+      "num_clients": 3
+    }
+  ]
+}
