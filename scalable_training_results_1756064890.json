@@ -1,0 +1,122 @@
+{
+  "model_name": "ScalableBioLoRA",
+  "num_rounds": 6,
+  "num_clients": 6,
+  "final_accuracy": 0.935481301705612,
+  "final_loss": 2.7342260067113435,
+  "total_privacy_budget": 5.4,
+  "performance_stats": {
+    "uptime": 0.6077280044555664,
+    "counters": {
+      "successful_trainings": 18
+    },
+    "latency_stats": {
+      "parallel_latency": {
+        "avg": 0.1007903019587199,
+        "min": 0.10066747665405273,
+        "max": 0.10096526145935059,
+        "count": 6,
+        "p95": 0.10096526145935059
+      },
+      "aggregation_latency": {
+        "avg": 1.792112986246745e-05,
+        "min": 1.4543533325195312e-05,
+        "max": 2.3126602172851562e-05,
+        "count": 6,
+        "p95": 2.3126602172851562e-05
+      },
+      "training_latency": {
+        "avg": 0.1012188990910848,
+        "min": 0.10103464126586914,
+        "max": 0.1013944149017334,
+        "count": 6,
+        "p95": 0.1013944149017334
+      }
+    }
+  },
+  "resource_pool_stats": {
+    "active_workers": 8,
+    "pending_tasks": 0,
+    "completed_tasks": 0,
+    "performance": {
+      "uptime": 0.6082167625427246,
+      "counters": {},
+      "latency_stats": {}
+    }
+  },
+  "cache_stats": {
+    "size": 1,
+    "max_size": 2000,
+    "hit_count": 0,
+    "miss_count": 1,
+    "hit_rate": 0.0,
+    "ttl_seconds": 7200
+  },
+  "client_performance": {
+    "research_scalable_1": {
+      "accuracies": [
+        0.9477761487350106,
+        0.9506063787395931,
+        0.9447291581813766,
+        0.9512956388142584,
+        0.9497990845852933,
+        0.9608912384468927
+      ],
+      "training_times": [
+        0.29922849360757875,
+        0.41864966130885883,
+        0.43743588378912535,
+        0.4205121642229356,
+        0.22949942857633343,
+        0.39434797087824347
+      ],
+      "avg_accuracy": 0.9508496079170707
+    },
+    "university_scalable": {
+      "accuracies": [
+        0.8905553050061802,
+        0.9187732779837928,
+        0.9008216127746268,
+        0.920986514001906,
+        0.9219197512439458,
+        0.8896654160966458
+      ],
+      "training_times": [
+        0.20922615083321375,
+        0.2333215831834207,
+        0.4103135622737485,
+        0.3531536984084457,
+        0.16977598802151328,
+        0.10000541280646656
+      ],
+      "avg_accuracy": 0.907120312851183
+    },
+    "hospital_scalable_1": {
+      "accuracies": [
+        0.957008172693014,
+        0.9657394837113342,
+        0.98,
+        0.9631936336648541,
+        0.9636266985822265,
+        0.9558872505732973
+      ],
+      "training_times": [
+        0.14545813582516098,
+        0.30892466416654984,
+        0.11641752574970515,
+        0.3222977549573496,
+        0.2183212818101394,
+        0.23933570010895708
+      ],
+      "avg_accuracy": 0.9642425398707877
+    }
+  },
+  "optimization_features": [
+    "async_parallel_training",
+    "quantum_inspired_caching",
+    "auto_scaling_resource_pool",
+    "intelligent_client_selection",
+    "vectorized_aggregation",
+    "performance_monitoring"
+  ]
+}
