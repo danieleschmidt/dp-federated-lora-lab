@@ -1,0 +1,503 @@
+{
+  "timestamp": 1756306289.7169642,
+  "execution_id": "fe94e1d84f2c",
+  "security_hardening_version": "1.0.0",
+  "vulnerabilities_found": 218,
+  "vulnerabilities": [
+    {
+      "vuln_id": "HSS-0000",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 45,
+      "vulnerability_type": "SecurityThreatType.HARDCODED_SECRETS",
+      "severity": "CRITICAL",
+      "description": "Hardcoded password detected",
+      "impact_assessment": "Credential exposure could lead to unauthorized access",
+      "remediation_strategy": "Replace password with environment variable or secure vault",
+      "automated_fix_available": false,
+      "fix_confidence": 0.6,
+      "cve_references": [],
+      "mitigation_priority": 1,
+      "quantum_signature": "33c167e84f783dce",
+      "timestamp": 1756306290.086583
+    },
+    {
+      "vuln_id": "HSS-0001",
+      "file_path": "src/dp_federated_lora/comprehensive_monitoring_system.py",
+      "line_number": 1317,
+      "vulnerability_type": "SecurityThreatType.HARDCODED_SECRETS",
+      "severity": "CRITICAL",
+      "description": "Hardcoded password detected",
+      "impact_assessment": "Credential exposure could lead to unauthorized access",
+      "remediation_strategy": "Replace password with environment variable or secure vault",
+      "automated_fix_available": true,
+      "fix_confidence": 0.8,
+      "cve_references": [],
+      "mitigation_priority": 1,
+      "quantum_signature": "d789277e22b3dc94",
+      "timestamp": 1756306290.470438
+    },
+    {
+      "vuln_id": "HSS-1000",
+      "file_path": "autonomous_federated_demo.py",
+      "line_number": 57,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "807a9c044470cb54",
+      "timestamp": 1756306291.0970368
+    },
+    {
+      "vuln_id": "HSS-1001",
+      "file_path": "autonomous_federated_demo.py",
+      "line_number": 60,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "893b9e5a214e0338",
+      "timestamp": 1756306291.097149
+    },
+    {
+      "vuln_id": "HSS-1002",
+      "file_path": "comprehensive_quality_system.py",
+      "line_number": 273,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "3438ad10854c2eb5",
+      "timestamp": 1756306291.2674322
+    },
+    {
+      "vuln_id": "HSS-1003",
+      "file_path": "lora_functionality_test.py",
+      "line_number": 183,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "ddf5b6cb0cb66dcc",
+      "timestamp": 1756306291.355874
+    },
+    {
+      "vuln_id": "HSS-1004",
+      "file_path": "novel_algorithm_demonstrator.py",
+      "line_number": 767,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "7de64f486dd40a64",
+      "timestamp": 1756306291.3741486
+    },
+    {
+      "vuln_id": "HSS-1005",
+      "file_path": "novel_algorithm_demonstrator.py",
+      "line_number": 771,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "b799f4206ef04e39",
+      "timestamp": 1756306291.374281
+    },
+    {
+      "vuln_id": "HSS-1006",
+      "file_path": "privacy_validation_system.py",
+      "line_number": 290,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "602c4c6da3bffc8b",
+      "timestamp": 1756306291.3817377
+    },
+    {
+      "vuln_id": "HSS-1007",
+      "file_path": "privacy_validation_system.py",
+      "line_number": 435,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "f026838bbd0781a3",
+      "timestamp": 1756306291.384272
+    },
+    {
+      "vuln_id": "HSS-1008",
+      "file_path": "robust_federated_system.py",
+      "line_number": 444,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "f5b050b469f978a6",
+      "timestamp": 1756306291.539235
+    },
+    {
+      "vuln_id": "HSS-1009",
+      "file_path": "robust_federated_system.py",
+      "line_number": 450,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "61e72a0170cd335a",
+      "timestamp": 1756306291.5394306
+    },
+    {
+      "vuln_id": "HSS-1010",
+      "file_path": "scalable_federated_system.py",
+      "line_number": 461,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "3bc2e50a5f416441",
+      "timestamp": 1756306291.5507083
+    },
+    {
+      "vuln_id": "HSS-1011",
+      "file_path": "scalable_federated_system.py",
+      "line_number": 467,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "fca1ed8912661dc9",
+      "timestamp": 1756306291.5508616
+    },
+    {
+      "vuln_id": "HSS-1012",
+      "file_path": "enhanced_quantum_quality_orchestrator.py",
+      "line_number": 196,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "d4c4b2ffb7dafbbd",
+      "timestamp": 1756306291.5992572
+    },
+    {
+      "vuln_id": "HSS-1013",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 206,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "e5bc937351c7e92d",
+      "timestamp": 1756306291.6214855
+    },
+    {
+      "vuln_id": "HSS-1014",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 209,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential ldap injection vulnerability",
+      "impact_assessment": "Ldap Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for ldap_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "378d1e944ef62869",
+      "timestamp": 1756306291.6216917
+    },
+    {
+      "vuln_id": "HSS-1015",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 210,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential xpath injection vulnerability",
+      "impact_assessment": "Xpath Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for xpath_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "3d3d22dea7013042",
+      "timestamp": 1756306291.6217782
+    },
+    {
+      "vuln_id": "HSS-1016",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 735,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "311e5a31db6afdc9",
+      "timestamp": 1756306291.6309125
+    },
+    {
+      "vuln_id": "HSS-1017",
+      "file_path": "autonomous_security_hardening_system.py",
+      "line_number": 753,
+      "vulnerability_type": "SecurityThreatType.INJECTION_VULNERABILITY",
+      "severity": "HIGH",
+      "description": "Potential sql injection vulnerability",
+      "impact_assessment": "Sql Injection could lead to data breach or system compromise",
+      "remediation_strategy": "Implement parameterized queries and input validation for sql_injection",
+      "automated_fix_available": false,
+      "fix_confidence": 0.3,
+      "cve_references": [],
+      "mitigation_priority": 2,
+      "quantum_signature": "4c15c251217b85cf",
+      "timestamp": 1756306291.6312635
+    }
+  ],
+  "hardening_results": [
+    {
+      "hardening_type": "secrets_management",
+      "success": true,
+      "changes_made": [
+        "Created .env.template file",
+        "Created secure secrets manager"
+      ],
+      "files_modified": [
+        "/root/repo/.env.template",
+        "/root/repo/src/dp_federated_lora/secrets_manager.py"
+      ],
+      "security_improvement": 20.0,
+      "recommendations": [
+        "Replace all hardcoded secrets with environment variables",
+        "Use the SecureSecretsManager for all secret access",
+        "Implement secret rotation policies",
+        "Use external secret management service (AWS Secrets Manager, HashiCorp Vault)"
+      ],
+      "validation_tests": [
+        "Verify no hardcoded secrets remain in code",
+        "Test environment variable loading",
+        "Validate secret encryption/decryption"
+      ],
+      "execution_time": 0.0004584789276123047,
+      "timestamp": 1756306295.6183376
+    },
+    {
+      "hardening_type": "cryptographic_hardening",
+      "success": true,
+      "changes_made": [
+        "Created quantum-resistant cryptography module",
+        "Created security configuration"
+      ],
+      "files_modified": [
+        "/root/repo/src/dp_federated_lora/quantum_crypto.py",
+        "/root/repo/security-config.yaml"
+      ],
+      "security_improvement": 25.0,
+      "recommendations": [
+        "Replace all deprecated cryptographic algorithms",
+        "Use minimum 4096-bit RSA keys",
+        "Implement quantum-resistant algorithms",
+        "Use constant-time operations for sensitive comparisons"
+      ],
+      "validation_tests": [
+        "Verify no deprecated crypto algorithms in use",
+        "Test encryption/decryption operations",
+        "Validate key generation security"
+      ],
+      "execution_time": 0.0003039836883544922,
+      "timestamp": 1756306295.6186547
+    },
+    {
+      "hardening_type": "configuration_hardening",
+      "success": true,
+      "changes_made": [
+        "Hardened Docker Compose security"
+      ],
+      "files_modified": [
+        "/root/repo/docker-compose.yml"
+      ],
+      "security_improvement": 15.0,
+      "recommendations": [
+        "Run containers as non-root user",
+        "Enable security options in Docker",
+        "Implement proper file permissions",
+        "Add health checks to services"
+      ],
+      "validation_tests": [
+        "Verify non-root execution",
+        "Test container security policies",
+        "Validate health check endpoints"
+      ],
+      "execution_time": 0.0005056858062744141,
+      "timestamp": 1756306295.619172
+    },
+    {
+      "hardening_type": "input_validation",
+      "success": true,
+      "changes_made": [
+        "Created comprehensive input validation module"
+      ],
+      "files_modified": [
+        "/root/repo/src/dp_federated_lora/input_validator.py"
+      ],
+      "security_improvement": 20.0,
+      "recommendations": [
+        "Validate all user input against schema",
+        "Sanitize input to prevent XSS attacks",
+        "Implement rate limiting on API endpoints",
+        "Use parameterized queries for database operations"
+      ],
+      "validation_tests": [
+        "Test input validation with malicious payloads",
+        "Verify XSS protection",
+        "Test rate limiting functionality"
+      ],
+      "execution_time": 0.00018525123596191406,
+      "timestamp": 1756306295.61938
+    },
+    {
+      "hardening_type": "security_headers",
+      "success": true,
+      "changes_made": [
+        "Created security middleware and headers"
+      ],
+      "files_modified": [
+        "/root/repo/src/dp_federated_lora/security_middleware.py"
+      ],
+      "security_improvement": 15.0,
+      "recommendations": [
+        "Implement security middleware in all web endpoints",
+        "Add CSRF protection to state-changing operations",
+        "Monitor and log security events",
+        "Implement Content Security Policy"
+      ],
+      "validation_tests": [
+        "Verify security headers in HTTP responses",
+        "Test CSRF protection",
+        "Validate rate limiting functionality"
+      ],
+      "execution_time": 0.0001049041748046875,
+      "timestamp": 1756306295.619492
+    },
+    {
+      "hardening_type": "dependency_security",
+      "success": true,
+      "changes_made": [
+        "Created dependency security checker"
+      ],
+      "files_modified": [
+        "/root/repo/scripts/dependency_security_check.py"
+      ],
+      "security_improvement": 10.0,
+      "recommendations": [
+        "Run dependency security scans regularly",
+        "Update vulnerable dependencies immediately",
+        "Pin dependency versions to prevent supply chain attacks",
+        "Use automated dependency monitoring tools"
+      ],
+      "validation_tests": [
+        "Run dependency security scanner",
+        "Verify no known vulnerable packages",
+        "Test dependency update process"
+      ],
+      "execution_time": 0.00011467933654785156,
+      "timestamp": 1756306295.6196127
+    }
+  ],
+  "security_improvements": {
+    "total_improvement": 105.0,
+    "successful_hardenings": 6,
+    "files_modified": 8,
+    "security_score": 0
+  },
+  "vulnerability_summary": {
+    "critical": 2,
+    "high": 69,
+    "medium": 147,
+    "low": 0
+  },
+  "recommendations": [
+    "Address critical and high severity vulnerabilities immediately",
+    "Implement security monitoring and alerting",
+    "Regular security audits and penetration testing",
+    "Employee security awareness training",
+    "Implement zero-trust architecture principles"
+  ],
+  "next_steps": [
+    "Deploy security hardening changes to production",
+    "Set up continuous security monitoring",
+    "Schedule regular security assessments",
+    "Implement incident response procedures"
+  ]
+}

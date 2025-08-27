@@ -1,6 +1,6 @@
 {
-  "timestamp": 1755034487.5091946,
-  "overall_score": 84.94643001864009,
+  "timestamp": 1756305868.7187102,
+  "overall_score": 84.7831550963688,
   "pass_rate": 83.33333333333334,
   "gates_passed": 5,
   "total_gates": 6,
@@ -27,18 +27,18 @@
         "final_score": 100
       },
       "recommendations": [],
-      "execution_time": 0.00031828880310058594,
-      "timestamp": 1755034487.4838674
+      "execution_time": 0.0002532005310058594,
+      "timestamp": 1756305868.6848972
     },
     {
       "gate_name": "code_organization",
       "passed": true,
       "score": 100.0,
       "details": {
-        "python_files_count": 36,
+        "python_files_count": 70,
         "init_files_count": 1,
         "main_package_exists": true,
-        "main_package_modules": 36,
+        "main_package_modules": 70,
         "existing_key_modules": [
           "server.py",
           "client.py",
@@ -52,13 +52,13 @@
         "calculated_score": 100.0
       },
       "recommendations": [],
-      "execution_time": 0.0012733936309814453,
-      "timestamp": 1755034487.485178
+      "execution_time": 0.0016210079193115234,
+      "timestamp": 1756305868.6865532
     },
     {
       "gate_name": "documentation_quality",
       "passed": true,
-      "score": 80.34524677850717,
+      "score": 79.36559724487947,
       "details": {
         "readme_length": 15216,
         "readme_lines": 560,
@@ -86,23 +86,23 @@
         ],
         "files_with_docstrings": 20,
         "total_python_files_checked": 20,
-        "total_functions": 457,
-        "functions_with_docstrings": 334,
-        "docstring_coverage": 73.08533916849015,
-        "calculated_score": 80.34524677850717
+        "total_functions": 613,
+        "functions_with_docstrings": 433,
+        "docstring_coverage": 70.63621533442088,
+        "calculated_score": 79.36559724487947
       },
       "recommendations": [],
-      "execution_time": 0.011352062225341797,
-      "timestamp": 1755034487.4965625
+      "execution_time": 0.014883756637573242,
+      "timestamp": 1756305868.7014828
     },
     {
       "gate_name": "test_structure",
       "passed": true,
       "score": 115,
       "details": {
-        "test_files_count": 6,
-        "unit_test_files": 2,
-        "integration_test_files": 2,
+        "test_files_count": 13,
+        "unit_test_files": 3,
+        "integration_test_files": 3,
         "e2e_test_files": 1,
         "existing_test_categories": [
           "unit",
@@ -113,12 +113,12 @@
           "conftest.py",
           "__init__.py"
         ],
-        "total_test_functions": 88,
+        "total_test_functions": 229,
         "calculated_score": 115
       },
       "recommendations": [],
-      "execution_time": 0.0011715888977050781,
-      "timestamp": 1755034487.4978132
+      "execution_time": 0.0014829635620117188,
+      "timestamp": 1756305868.7030232
     },
     {
       "gate_name": "security_practices",
@@ -151,29 +151,28 @@
           },
           {
             "file": "src/dp_federated_lora/aggregation.py",
-            "line": 221,
+            "line": 437,
             "issue": "Potential hardcoded secret"
           },
           {
-            "file": "src/dp_federated_lora/client.py",
-            "line": 165,
-            "issue": "Potential hardcoded token"
+            "file": "src/dp_federated_lora/autonomous_evolution_engine.py",
+            "issue": "Potentially insecure import: pickle"
           },
           {
-            "file": "src/dp_federated_lora/comprehensive_monitoring.py",
-            "issue": "Potentially insecure import: pickle"
+            "file": "src/dp_federated_lora/autonomous_sdlc_orchestrator.py",
+            "issue": "Potentially insecure import: subprocess"
           }
         ],
         "calculated_score": 23.33333333333333
       },
       "recommendations": [
-        "Add security files: .github/workflows/security.yml, bandit.yaml",
+        "Add security files: bandit.yaml, .github/workflows/security.yml",
         "Improve .gitignore to include more sensitive file patterns",
         "Review and fix 7 potential security issues",
         "Add security scanning to CI/CD pipeline"
       ],
-      "execution_time": 0.010955810546875,
-      "timestamp": 1755034487.5088038
+      "execution_time": 0.015195131301879883,
+      "timestamp": 1756305868.718247
     },
     {
       "gate_name": "configuration_quality",
@@ -207,12 +206,12 @@
         "calculated_score": 91.0
       },
       "recommendations": [],
-      "execution_time": 0.00030541419982910156,
-      "timestamp": 1755034487.5091827
+      "execution_time": 0.0003173351287841797,
+      "timestamp": 1756305868.7186975
     }
   ],
   "top_recommendations": [
-    "Add security files: .github/workflows/security.yml, bandit.yaml",
+    "Add security files: bandit.yaml, .github/workflows/security.yml",
     "Improve .gitignore to include more sensitive file patterns",
     "Review and fix 7 potential security issues",
     "Add security scanning to CI/CD pipeline"

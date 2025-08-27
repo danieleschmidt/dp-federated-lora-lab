@@ -1,45 +1,31 @@
-# Security Configuration for dp-federated-lora-lab
-apiVersion: v1
-kind: NetworkPolicy
-metadata:
-  name: dp-federated-lora-lab-network-policy
-  namespace: ml-optimization
-spec:
-  podSelector:
-    matchLabels:
-      app: dp-federated-lora-lab
-  policyTypes:
-  - Ingress
-  - Egress
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: ml-optimization
-    ports:
-    - protocol: TCP
-      port: 8080
-  egress:
-  - {  }
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: dp-federated-lora-lab-secrets
-  namespace: ml-optimization
-type: Opaque
-data:
-  # Add your base64 encoded secrets here
-  # Example: api_key: <base64-encoded-api-key>
----
-apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
-metadata:
-  name: dp-federated-lora-lab-peer-auth
-  namespace: ml-optimization
-spec:
-  selector:
-    matchLabels:
-      app: dp-federated-lora-lab
-  mtls:
-    mode: STRICT
+# Security Configuration
+encryption:
+  algorithm: "AES-256-GCM"
+  key_size: 256
+  hash_algorithm: "SHA256"
+  pbkdf2_iterations: 100000
+
+quantum_resistance:
+  enabled: true
+  rsa_key_size: 4096
+  post_quantum_ready: true
+  
+authentication:
+  jwt_algorithm: "RS256"
+  session_timeout: 3600
+  max_login_attempts: 5
+  lockout_duration: 900
+
+headers:
+  strict_transport_security: "max-age=31536000; includeSubDomains"
+  content_security_policy: "default-src 'self'; script-src 'self' 'unsafe-inline'"
+  x_frame_options: "DENY"
+  x_content_type_options: "nosniff"
+  x_xss_protection: "1; mode=block"
+  referrer_policy: "strict-origin-when-cross-origin"
+
+monitoring:
+  security_events: true
+  failed_auth_logging: true
+  suspicious_activity_detection: true
+  rate_limiting: true

@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dp-federated-lora-config
+  namespace: dp-federated-lora-global
+data:
+  app.yaml: |
+    server:
+      host: 0.0.0.0
+      port: 8080
+      ssl_port: 8443
+      
+    federated_learning:
+      max_clients: 1000
+      rounds: 100
+      min_fit_clients: 10
+      min_evaluate_clients: 10
+      
+    privacy:
+      epsilon: 8.0
+      delta: 1e-5
+      noise_multiplier: 1.1
+      max_grad_norm: 1.0
+      
+    quantum_optimization:
+      enabled: true
+      client_selection_quantum: true
+      aggregation_quantum: true
+      
+    monitoring:
+      prometheus_enabled: true
+      metrics_port: 9090
+      health_check_interval: 10
+      
+    compliance:
+      gdpr_mode: true
+      data_retention_days: 90
+      encryption_at_rest: true
+      encryption_in_transit: true
+      
+    regional_settings:
+      us_east_1:
+        data_residency: false
+        compliance: ["SOC2", "CCPA"]
+      eu_west_1:
+        data_residency: true
+        compliance: ["GDPR", "ISO27001"]
+      ap_southeast_1:
+        data_residency: true
+        compliance: ["PDPA"]

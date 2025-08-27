@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dp-federated-lora-global
+  labels:
+    app.kubernetes.io/name: dp-federated-lora
+    app.kubernetes.io/version: "1.0.0"
+    app.kubernetes.io/component: global-deployment
+    compliance.terragon.ai/gdpr: "enabled"
+    compliance.terragon.ai/soc2: "enabled"
