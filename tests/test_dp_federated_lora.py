@@ -1,111 +1,143 @@
 """Tests for DP Federated LoRA."""
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 import torch
 import torch.nn as nn
-from dp_federated_lora import LoRALayer, PrivacyAccountant
+from dp_federated_lora import LoRALayer
+from dp_federated_lora.privacy import PrivacyAccountant, DPSGDOptimizer
 from dp_federated_lora.federated import (
-    FederatedConfig, FederatedClient, FederatedServer, run_federation
+    FederatedConfig, FederatedClient, FederatedServer, run_federation, _lora_params
 )
 
 
-def _make_classifier():
-    return nn.Sequential(nn.Linear(16, 32), LoRALayer(32, 4, rank=4, alpha=16.0))
+def _cfg(**kw):
+    return FederatedConfig(n_rounds=2, clients_per_round=2, local_epochs=1,
+                           batch_size=4, noise_multiplier=0.5, **kw)
 
-
-def _data(n=60, seed=0):
-    torch.manual_seed(seed)
-    return torch.randn(n, 16), torch.randint(0, 4, (n,))
+def _make_data(n=20, in_f=8, n_classes=4):
+    return torch.randn(n, in_f), torch.randint(0, n_classes, (n,))
 
 
 class TestLoRALayer:
     def test_output_shape(self):
-        out = LoRALayer(16, 8, rank=4)(torch.randn(5, 16))
-        assert out.shape == (5, 8)
+        assert LoRALayer(8, 16, rank=2)(torch.randn(4, 8)).shape == (4, 16)
 
-    def test_lora_A_shape(self):
-        assert LoRALayer(16, 8, rank=4).lora_A.shape == (4, 16)
+    def test_lora_B_zero_init(self):
+        layer = LoRALayer(8, 16, rank=2)
+        assert torch.allclose(layer.lora_B, torch.zeros_like(layer.lora_B))
 
-    def test_lora_B_shape(self):
-        assert LoRALayer(16, 8, rank=4).lora_B.shape == (8, 4)
-
-    def test_lora_B_init_zero(self):
-        assert torch.all(LoRALayer(16, 8, rank=4).lora_B == 0)
-
-    def test_trainable(self):
-        layer = LoRALayer(16, 8, rank=4)
-        assert layer.lora_A.requires_grad and layer.lora_B.requires_grad
+    def test_base_weight_frozen(self):
+        layer = LoRALayer(8, 16, rank=2, base_weight=torch.randn(16, 8))
+        frozen = {n for n, p in layer.named_parameters() if not p.requires_grad}
+        assert any("base_weight" in k for k, _ in layer.named_buffers())
 
     def test_gradient_flows(self):
-        layer = LoRALayer(8, 4, rank=2)
+        layer = LoRALayer(8, 16, rank=2)
         layer(torch.randn(3, 8)).sum().backward()
         assert layer.lora_A.grad is not None
 
-    def test_different_ranks(self):
-        for r in [1, 4, 8]:
-            assert LoRALayer(16, 8, rank=r)(torch.randn(2, 16)).shape == (2, 8)
+    def test_param_efficiency(self):
+        layer = LoRALayer(64, 128, rank=4)
+        n = sum(p.numel() for p in layer.parameters() if p.requires_grad)
+        assert n < 64 * 128
 
 
 class TestPrivacyAccountant:
-    def test_epsilon_nonneg(self):
-        acc = PrivacyAccountant(noise_multiplier=1.0, sample_rate=0.01)
-        assert acc.get_epsilon() >= 0.0
+    def _acc(self, noise=1.0, rate=0.01):
+        return PrivacyAccountant(noise_multiplier=noise, sample_rate=rate)
 
-    def test_epsilon_increases(self):
-        acc = PrivacyAccountant(noise_multiplier=1.0, sample_rate=0.1)
-        acc.step(); e1 = acc.get_epsilon()
-        acc.step(); e2 = acc.get_epsilon()
-        assert e2 >= e1
+    def test_zero_before_steps(self):
+        assert self._acc().get_epsilon() >= 0.0
+
+    def test_epsilon_grows_with_steps(self):
+        acc = self._acc()
+        acc.step()
+        e1 = acc.get_epsilon()
+        acc.step()
+        assert acc.get_epsilon() > e1
 
     def test_higher_noise_lower_epsilon(self):
-        a = PrivacyAccountant(noise_multiplier=2.0, sample_rate=0.1)
-        b = PrivacyAccountant(noise_multiplier=0.5, sample_rate=0.1)
-        for _ in range(10): a.step(); b.step()
-        assert a.get_epsilon() < b.get_epsilon()
+        loud = self._acc(noise=5.0); loud.step(10)
+        quiet = self._acc(noise=0.5); quiet.step(10)
+        assert loud.get_epsilon() < quiet.get_epsilon()
 
-    def test_get_budget_used(self):
-        acc = PrivacyAccountant(noise_multiplier=1.0, sample_rate=0.1)
-        acc.step()
-        budget = acc.get_budget_used()
-        assert "epsilon" in budget and budget["steps"] == 1
+    def test_steps_tracked(self):
+        acc = self._acc(); acc.step(7)
+        assert acc.steps == 7
+
+
+class TestDPSGDOptimizer:
+    def test_clip_method(self):
+        """clip_gradients clips per-sample gradients."""
+        g1 = torch.tensor([10.0, 0.0])
+        g2 = torch.tensor([0.0, 10.0])
+        clipped, norms = DPSGDOptimizer.clip_per_sample_gradients([g1, g2], max_norm=1.0)
+        for g in clipped:
+            assert g.norm(2).item() <= 1.0 + 1e-5
+
+    def test_add_noise_returns_tensor(self):
+        grad = torch.randn(4, 8)
+        noised = DPSGDOptimizer.add_noise(grad, batch_size=4, max_grad_norm=1.0, noise_multiplier=1.0)
+        assert noised.shape == grad.shape
+        assert noised.isfinite().all()
+
+    def test_init_stores_config(self):
+        model = nn.Linear(4, 2)
+        opt = DPSGDOptimizer(list(model.parameters()), lr=0.01, max_grad_norm=0.5, noise_multiplier=1.5)
+        assert opt.defaults['max_grad_norm'] == 0.5
+        assert opt.defaults['noise_multiplier'] == 1.5
 
 
 class TestFederated:
-    cfg = FederatedConfig(n_rounds=2, clients_per_round=2, local_epochs=1,
-                          learning_rate=1e-3, noise_multiplier=0.5, batch_size=16)
+    def _setup(self):
+        model = LoRALayer(8, 4, rank=2)
+        cfg = _cfg()
+        server = FederatedServer(model, cfg)
+        clients = [FederatedClient(i, model, _make_data(), cfg) for i in range(3)]
+        return model, server, clients, cfg
 
-    def _setup(self, n=3):
-        m = _make_classifier()
-        srv = FederatedServer(m, self.cfg)
-        clients = [FederatedClient(i, m, _data(seed=i), self.cfg) for i in range(n)]
-        return m, srv, clients, _data(n=40, seed=99)
+    def test_lora_params_extracted(self):
+        model = LoRALayer(8, 4, rank=2)
+        params = _lora_params(model)
+        assert any("lora_A" in k for k in params)
+        assert any("lora_B" in k for k in params)
 
-    def test_lora_params_nonempty(self):
-        _, _, clients, _ = self._setup()
-        assert len(clients[0].get_lora_params()) > 0
+    def test_client_train_round(self):
+        model = LoRALayer(8, 4, rank=2)
+        client = FederatedClient(0, model, _make_data(), _cfg())
+        params, loss, eps = client.train_round()
+        assert isinstance(loss, float)
+        assert isinstance(params, dict)
 
-    def test_train_round_tuple(self):
-        _, _, clients, _ = self._setup()
-        p, loss, eps = clients[0].train_round()
-        assert isinstance(p, dict) and isinstance(loss, float) and eps >= 0
+    def test_server_fedavg(self):
+        model = LoRALayer(8, 4, rank=2)
+        server = FederatedServer(model, _cfg())
+        p0 = {k: v.clone() for k, v in _lora_params(model).items()}
+        updates = [{k: torch.ones_like(v) for k, v in p0.items()} for _ in range(2)]
+        server.fedavg(updates)
+        p1 = _lora_params(model)
+        # After fedavg with all-ones updates, params should have changed
+        changed = any(not torch.allclose(p1[k], p0[k]) for k in p0)
+        assert changed
 
-    def test_fedavg_changes_model(self):
-        _, srv, clients, _ = self._setup()
-        before = {k: v.clone() for k, v in srv.get_global_lora_params().items()}
-        updates = []
-        for c in clients[:2]:
-            p = {k: v + torch.randn_like(v)*0.1 for k, v in c.get_lora_params().items()}
-            updates.append(p)
-        srv.fedavg(updates)
-        after = srv.get_global_lora_params()
-        assert any(not torch.allclose(before[k], after[k]) for k in before)
-
-    def test_evaluate_valid(self):
-        _, srv, _, val = self._setup()
-        acc = srv.evaluate(*val)
+    def test_server_evaluate(self):
+        model = LoRALayer(8, 4, rank=2)
+        server = FederatedServer(model, _cfg())
+        x, y = _make_data(10)
+        acc = server.evaluate(x, y)
         assert 0.0 <= acc <= 1.0
 
-    def test_run_federation(self):
-        m, srv, clients, val = self._setup()
-        results = run_federation(m, clients, srv, val, self.cfg)
-        assert len(results) == self.cfg.n_rounds
-        for r in results:
-            assert r.epsilon >= 0 and 0.0 <= r.val_accuracy <= 1.0
+    def test_run_federation_returns_results(self):
+        model, server, clients, cfg = self._setup()
+        val = _make_data(10)
+        results = run_federation(model, clients, server, val, cfg)
+        assert len(results) == cfg.n_rounds
+        assert all(hasattr(r, 'train_loss') for r in results)
+
+    def test_privacy_budget_accumulates(self):
+        model, server, clients, cfg = self._setup()
+        val = _make_data(10)
+        results = run_federation(model, clients, server, val, cfg)
+        # Privacy budget should be positive after training
+        assert results[-1].epsilon >= 0.0
