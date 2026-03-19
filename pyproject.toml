@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "dp-federated-lora"
+version = "0.1.0"
+description = "Differentially private federated learning with LoRA for privacy-preserving LLM fine-tuning"
+requires-python = ">=3.9"
+dependencies = ["torch"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
